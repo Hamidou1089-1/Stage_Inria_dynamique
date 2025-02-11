@@ -1,2 +1,2 @@
-So this a repository for my internship at Inria
+So this is a repository for my internship at Inria
 
