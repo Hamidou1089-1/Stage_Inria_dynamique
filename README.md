@@ -16,11 +16,8 @@ Ce projet de recherche vise à étudier la propagation des crises financières �
    - Les asymétries informationnelles
    - Les comportements de mimétisme
 
-## Objectifs de Recherche
-- Modéliser les interactions entre institutions financières
-- Analyser la propagation des chocs dans le système financier
-- Étudier l'impact des comportements mimétiques
-- Évaluer la résilience du système financier
+
+
 
 ## Structure du Repository
 ```
