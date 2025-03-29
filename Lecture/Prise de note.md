@@ -19,3 +19,8 @@ Compte rendu réunion :
 
 Résumer : L'avantage indéniable de la bibliothèque numpy sur les objets natif a Cpython. 
 Quelque méthode a priviliger comme : vectorisation, agregation des calculs, attention à la copie de matrices, il ya une surcharge de plein d'operations en python, savoir les utiliser. Broadcasting (juste de passer une liste a des operations, comme des fonctions ou les plus etc).
+
+
+
+# Indice d'etude en finance de marché
+Diffusion d'information dans un reseau. 
