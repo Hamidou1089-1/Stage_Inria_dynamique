@@ -1,4 +1,4 @@
-from model import NetworkGenerator
+from model import RandomNetwork, Network
 
 from model import Model
 import numpy as np
@@ -6,8 +6,9 @@ import numpy as np
 class EisenbergNoeModel(Model):
 
 
-    def __init__(self, network: NetworkGenerator):
-        self.network = network
+    def __init__(self, network: Network):
+        super().__init__(network)
+
 
     def apply_shock(self, shock_vector: np.array):
         self.network.net_worth = self.network.net_worth - shock_vector
@@ -38,7 +39,14 @@ class EisenbergNoeModel(Model):
         shock_measure = np.sum(shock_vector)/np.sum(self.network.vector_outside_asset)
 
         default_count = self.network.default_vector.count(True)/self.network.number_bank
-        return shock_measure, default_count
+
+        """
+        Vulnerabilities measure, just through the vector beta
+        """
+        vulnerabilities_measure = np.sum(self.network.vulnerabilities)
+
+        return shock_measure, default_count, vulnerabilities_measure
+
 
 
     def initialize(self, network):
@@ -48,6 +56,7 @@ class EisenbergNoeModel(Model):
         :return:
         """
         pass
+
 
 
 

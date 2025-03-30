@@ -4,7 +4,7 @@ class Bank:
 
     Dans le futur, on pourra peut être complexifié avec des formes d'obligation.
     """
-    def __init__(self, outside_asset, asset, outside_liabilities, liabilities ):
+    def __init__(self, outside_asset, asset, outside_liabilities, liabilities):
         self.outside_asset = outside_asset
         self.asset = asset
         self.outside_liabilities = outside_liabilities
@@ -42,7 +42,9 @@ class Bank:
     def is_default(self):
         return self.balance <= 0
 
+    def update_bank(self):
 
+        return
 
     def show(self):
         print(f" Asset : {self.asset}\n Outside Asset : {self.outside_asset}\n Liabilities : {self.liabilities}\n Outside Liabilities : {self.outside_liabilities}\n Net worth : {self.balance}")

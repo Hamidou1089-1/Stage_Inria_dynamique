@@ -1,13 +1,15 @@
 from abc import ABC, abstractmethod
-from model import NetworkGenerator
+from model import RandomNetwork, Network
 import numpy as np
 
 class Model(ABC):
     """Interface abstraite pour différents modèles de contagion financière"""
 
+    def __init__(self, network: Network):
+        self.network = network
 
     @abstractmethod
-    def initialize(self, network: NetworkGenerator):
+    def initialize(self, network: Network):
         """Initialise le modèle avec un réseau"""
         pass
 
