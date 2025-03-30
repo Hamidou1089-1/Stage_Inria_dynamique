@@ -25,11 +25,6 @@ class RandomNetwork(Network):
         """
         self.number_bank = number_bank
         self.probability_of_linking = probability_of_linking
-        self.matrix_obligation = np.zeros((self.number_bank, self.number_bank))
-        self.vector_outside_liabilities = np.array([0] * self.number_bank)
-        self.net_worth = np.array([0]*self.number_bank)
-        self.vector_outside_asset = np.array([0]*self.number_bank)
-        self.banks = np.empty(self.number_bank, dtype=object)
         self.generate()
         self.due_payements = self.matrix_obligation @ np.array([1]*self.number_bank) + self.vector_outside_liabilities
         self.matrix_relative_liabilities = np.zeros((self.number_bank, self.number_bank))
