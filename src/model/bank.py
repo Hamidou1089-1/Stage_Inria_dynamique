@@ -1,4 +1,7 @@
-class Bank:
+
+from observer import Observer
+
+class Bank(Observer):
     """
     La structure de donnée bank permet simplement de decrire une banque avec son bilan simplifié.
 
@@ -18,35 +21,92 @@ class Bank:
             self.balance = t
 
 
-    def can_modify_balance(self, kind_of_balance: str, quantity: float ):
+    def update_balance(self, kind_of_balance: str, quantity: float ):
         """
-        Avant d'emprunter, on vérifie qu'on est solvable
-        :return:
+        Permet à la banque de se mettre à jour, en cas de shock dans la simulation.
+        Économiquement, cela permet de rendre les banques dynamiques (ils peuvent modifier leur bilan)
+        :return: None
         """
         if kind_of_balance == 'asset':
-            if quantity <= 0:
-                raise ValueError('Quantity must be positive')
             self.balance += quantity
             self.outside_asset += quantity
-            return True
         elif kind_of_balance == 'liabilities':
             if quantity <= 0:
                 raise ValueError('Quantity must be positive')
-            m = self.balance - quantity
-            if m < 0:
-                return False
             self.balance -= quantity
             self.outside_liabilities += quantity
-            return True
+        self.is_default_bank = self.is_default()
+        return
 
     def is_default(self):
         return self.balance <= 0
 
-    def update_bank(self):
-
-        return
 
     def show(self):
         print(f" Asset : {self.asset}\n Outside Asset : {self.outside_asset}\n Liabilities : {self.liabilities}\n Outside Liabilities : {self.outside_liabilities}\n Net worth : {self.balance}")
+
+    def get_outside_liabilities(self):
+        return self.outside_liabilities
+    def get_liabilities(self):
+        return self.liabilities
+
+    def get_net_worth(self):
+        return self.balance
+
+    def get_outside_assets(self):
+        return self.outside_asset
+    def get_assets(self):
+        return self.asset
+
+    def get_state_balance(self):
+        """
+        Boolean, True if in default bank, False otherwise
+        :return:
+        """
+        return self.is_default()
+
+    def set_state_balance(self, state_balance):
+        self.balance = state_balance
+        return
+
+    def set_outside_liabilities(self, outside_liabilities):
+        self.outside_liabilities = outside_liabilities
+        return
+
+    def set_liabilities(self, liabilities):
+        self.liabilities = liabilities
+        return
+
+    def set_outside_asset(self, outside_asset):
+        self.outside_asset = outside_asset
+        return
+    def set_assets(self, assets):
+        self.asset = assets
+        return
+
+    def update(self, observable, event_type=None, **kwargs):
+        """
+        Réagit aux changements du réseau
+
+        Args:
+            observable: L'objet Network qui a changé
+            event_type: Type d'événement
+            **kwargs: Données supplémentaires
+        """
+        if event_type == "net_worth_change":
+            # La banque pourrait réagir au changement de valeur nette du réseau
+            pass
+
+        elif event_type == "default_change":
+            # La banque pourrait réagir aux changements de statut de défaut
+            # Par exemple, ajuster sa stratégie de risque
+            pass
+
+        elif event_type == "payment_cleared":
+            # La banque pourrait réagir aux paiements effectués
+            payment_vector = kwargs.get("payment_vector", None)
+            if payment_vector is not None:
+                # Ajuster le bilan en fonction des paiements
+                pass
 
 

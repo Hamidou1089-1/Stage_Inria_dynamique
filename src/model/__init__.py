@@ -1,5 +1,5 @@
 # Définir ce qui est exposé avec 'from model import *'
-__all__ = ['Bank', 'Network', 'Model', 'EisenbergNoeModel']
+__all__ = ['Bank', 'Network', 'Model', 'EisenbergNoeModel', 'RandomNetwork']
 
 # Importation pour simplifier l'accès
 from .bank import Bank

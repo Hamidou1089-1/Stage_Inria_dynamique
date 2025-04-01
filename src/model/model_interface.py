@@ -15,7 +15,7 @@ class Model(ABC):
 
     @abstractmethod
     def apply_shock(self, shock_type):
-        """Applique un choc exogène au système"""
+        """Applique un choc exogène au système, et met à jour le reseau, sinon ca devient trop long de touché a chaque élément en dehors de la methode"""
         pass
 
     @abstractmethod
@@ -27,3 +27,11 @@ class Model(ABC):
     def measure_systemic_impact(self, shock_vector: np.array):
         """Mesure l'impact systémique après la propagation"""
         pass
+
+    def get_network(self):
+        return self.network
+    def set_network(self, network: Network):
+        self.network = network
+        return
+
+

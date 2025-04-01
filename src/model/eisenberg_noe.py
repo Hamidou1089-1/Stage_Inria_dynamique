@@ -1,4 +1,4 @@
-from model import RandomNetwork, Network
+from model import Network
 
 from model import Model
 import numpy as np
@@ -11,7 +11,10 @@ class EisenbergNoeModel(Model):
 
 
     def apply_shock(self, shock_vector: np.array):
-        self.network.net_worth = self.network.net_worth - shock_vector
+        self.network.set_net_worth(self.network.net_worth - shock_vector)
+        default = [self.network.net_worth[k]<=0 for k in range(len(self.network.net_worth))]
+        self.network.set_default_vector(default)
+        return
 
 
     def compute_clearing_payments(self, max_iterations: int, shock_vector: np.array) -> np.array:
@@ -38,14 +41,15 @@ class EisenbergNoeModel(Model):
         """
         shock_measure = np.sum(shock_vector)/np.sum(self.network.vector_outside_asset)
 
-        default_count = self.network.default_vector.count(True)/self.network.number_bank
+        default_count_proportion = self.network.default_vector.count(True)/self.network.number_bank
 
         """
         Vulnerabilities measure, just through the vector beta
         """
-        vulnerabilities_measure = np.sum(self.network.vulnerabilities)
+        vulnerabilities_measure = np.max(self.network.vulnerabilities)
 
-        return shock_measure, default_count, vulnerabilities_measure
+        return shock_measure, default_count_proportion, vulnerabilities_measure
+
 
 
 

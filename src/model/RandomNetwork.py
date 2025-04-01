@@ -1,4 +1,4 @@
-from bank import Bank
+from model import Bank
 import numpy as np
 
 from model.network import Network
@@ -18,7 +18,7 @@ class RandomNetwork(Network):
 
     def __init__(self, number_bank: int, probability_of_linking=0.1):
         """
-        Le reseau de depart.
+        Le réseau de depart.
         :param number_bank: How many banks should be generated ?
         :param at_random: Do you want to generate at random ?
         :param probability_of_linking: If you want to generate at random, what should the probability of linking ?
@@ -59,7 +59,14 @@ class RandomNetwork(Network):
 
         self.due_payements = self.matrix_obligation @ np.array([1]*self.number_bank) + self.vector_outside_liabilities
 
-        self.vulnerabilities = (self.due_payements - self.vector_outside_liabilities)/self.vector_outside_liabilities
+        for k in range(n):
+            if self.due_payements[k] == 0:
+                self.vulnerabilities[k] = 0
+            else:
+                self.vulnerabilities[k] = (self.due_payements[k] - self.vector_outside_liabilities[k])/self.due_payements[k]
+
+        self.vulnerabilities = (self.vulnerabilities / np.sum(self.vulnerabilities)) if np.sum(self.vulnerabilities)!=0 else self.vulnerabilities
+
 
         for k in range(n):
             for j in range(n):
@@ -79,6 +86,5 @@ class RandomNetwork(Network):
             self.banks[i] = Bank(self.vector_outside_asset[i], on_me_doit[i], self.vector_outside_liabilities[i], je_dois[i])
             self.net_worth[i] = self.banks[i].balance
 
-        self.default_vector = [self.banks[i].is_default() for i in range(self.number_bank)]
-
         return
+

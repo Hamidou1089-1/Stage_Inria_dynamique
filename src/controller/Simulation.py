@@ -9,7 +9,7 @@ from model import Network
 
 class Simulation:
     """
-    Etant dans une architecture MVC, je dois maintenant rassembler les classes, et les instanciers afin de faire tourner les simulations.
+    Étant dans une architecture MVC, je dois maintenant rassembler les classes, et les instanciers afin de faire tourner les simulations.
 
     Objectif :
 
@@ -45,10 +45,18 @@ class Simulation:
         # So let's apply a shock I guess
         self.model.apply_shock(self.shock_vector)
 
-        return
+        vector_payments = self.model.compute_clearing_payments(100 ,self.shock_vector)
+        self.model.network.net_worth = self.model.network.net_worth - vector_payments
+        for k in range(len(self.shock_vector)):
+            self.model.network.banks[k].net_worth = self.model.network.net_worth[k] - vector_payments[k]
+        self.update()
+        shock_measure, default_count, vulnerabilities_measure = self.model.measure_systemic_impact(self.shock_vector)
+        return vector_payments, shock_measure, default_count, vulnerabilities_measure
+
 
     def update(self):
-        pass
+        self.model.network.update_default()
+        return
 
 
 
