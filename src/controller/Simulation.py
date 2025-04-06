@@ -48,7 +48,7 @@ class Simulation:
         vector_payments = self.model.compute_clearing_payments(100 ,self.shock_vector)
         self.model.network.net_worth = self.model.network.net_worth - vector_payments
         for k in range(len(self.shock_vector)):
-            self.model.network.banks[k].net_worth = self.model.network.net_worth[k] - vector_payments[k]
+            self.model.network.banks[k].set_net_worth( self.model.network.banks[k].get_net_worth() - vector_payments[k])
         self.update()
         shock_measure, default_count, vulnerabilities_measure = self.model.measure_systemic_impact(self.shock_vector)
         return vector_payments, shock_measure, default_count, vulnerabilities_measure

@@ -18,19 +18,21 @@ class EisenbergNoeModel(Model):
 
 
     def compute_clearing_payments(self, max_iterations: int, shock_vector: np.array) -> np.array:
-        """
-        On part du principe que cette methode n'est appéllé que lorsqu'une banque ou plusieurs banques, sont en default.
-        :return:  Clearing_payments
-        """
         vector_of_payments = self.network.due_payements
         while max_iterations > 0:
-            new_vector_of_payments = np.copy(vector_of_payments)
-            vector_of_payments = np.minimum(self.network.due_payements, np.maximum(self.network.matrix_relative_liabilities.T @ new_vector_of_payments - shock_vector + self.network.vector_outside_asset, 0))
+            # Calculer de nouveaux paiements basés sur les paiements actuels
+            new_vector_of_payments = np.minimum(self.network.due_payements, np.maximum(self.network.matrix_relative_liabilities.T @ vector_of_payments - shock_vector + self.network.vector_outside_asset,0))
 
-            if np.allclose(vector_of_payments, new_vector_of_payments, 0.001):
-                return vector_of_payments
+            # Vérifier si nous avons convergé
+            if np.allclose(new_vector_of_payments, vector_of_payments, 0.001):
+                return new_vector_of_payments
+
+            # Mettre à jour pour la prochaine itération
+            vector_of_payments = new_vector_of_payments
             max_iterations -= 1
 
+        # Si on n'a pas convergé, renvoyer la dernière approximation
+        return vector_of_payments
 
     def measure_systemic_impact(self, shock_vector: np.array):
         """

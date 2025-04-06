@@ -65,7 +65,7 @@ class Bank(Observer):
         """
         return self.is_default()
 
-    def set_state_balance(self, state_balance):
+    def set_net_worth(self, state_balance):
         self.balance = state_balance
         return
 

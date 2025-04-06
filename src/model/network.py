@@ -91,6 +91,7 @@ class Network(Observable, ABC):
     def set_vector_outside_assets(self, vector_outside_asset):
         self.vector_outside_asset = vector_outside_asset
         return
+
     def set_vector_outside_liabilities(self, vector_outside_liabilities):
         self.vector_outside_liabilities = vector_outside_liabilities
         return

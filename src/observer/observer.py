@@ -30,6 +30,8 @@ class Observable(ABC):
 class Observer(ABC):
     """Interface pour les objets qui observent des Observables"""
 
+
+
     @abstractmethod
     def update(self, observable, event_type=None, **kwargs):
         """
@@ -41,3 +43,11 @@ class Observer(ABC):
             **kwargs: Données supplémentaires sur l'événement
         """
         pass
+
+
+
+
+
+
+
+

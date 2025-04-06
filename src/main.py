@@ -1,114 +1,161 @@
-#----------------------------------------------------
-# Création de la fonction factory
-#----------------------------------------------------
+import copy
 import numpy as np
-from model import RandomNetwork, EisenbergNoeModel
+import matplotlib.pyplot as plt
+import pandas as pd
+from model import RandomNetwork
 from controller import Simulation
-from model.manual_network import ManualNetwork
-from view import Visualisation
 
-def create_simulation(simulation_type, network_params, shock_vector):
-    """
-    Crée une simulation complète en fonction du type spécifié
+# Fixer le générateur aléatoire
+np.random.seed(42)
 
-    Args:
-        simulation_type: Type de simulation ("Eisenberg", "SmallWorld", etc.)
-        network_params: Paramètres pour la création du réseau
-        shock_vector: Vecteur de choc initial
+# Créer un réseau plus contrôlé
+def create_controlled_network(num_banks, connection_prob):
+    """Crée un réseau où les banques ont des valeurs nettes plus homogènes"""
+    network = RandomNetwork(num_banks, connection_prob)
 
-    Returns:
-        Une simulation configurée
-    """
-    # Création du réseau approprié
-    if simulation_type == "Eisenberg":
-        network = RandomNetwork(
-            network_params.get('number_bank', 5),
-            network_params.get('probability_of_linking', 0.6)
-        )
-    elif simulation_type == "SmallWorld":
-        # À implémenter plus tard
-        raise NotImplementedError("SmallWorldNetwork pas encore implémenté")
-    elif simulation_type == "ManualType":
-        network = ManualNetwork(network_params["matrix_obligation"],network_params["vector_outside_asset"], network_params["asset"], network_params["vector_outside_liabilities"],
-                                network_params["liabilities"], network_params["matrix_relative_liabilities"])
-    else:
-        raise ValueError(f"Type de simulation inconnu: {simulation_type}")
+    # Normaliser les actifs extérieurs pour qu'ils soient plus homogènes
+    mean_asset = np.mean(network.vector_outside_asset)
+    network.vector_outside_asset = np.ones(num_banks) * mean_asset * (0.8 + 0.4 * np.random.random(num_banks))
 
-    # Création et configuration des banques
-    for i in range(network.number_bank):
-        # Ajouter chaque banque comme observateur du réseau
-        network.add_observer(network.banks[i])
+    # Recalculer les valeurs nettes
+    for i in range(num_banks):
+        on_me_doit = np.array([1]*num_banks).T @ network.matrix_obligation
+        je_dois = network.matrix_obligation @ np.array([1]*num_banks)
+        network.banks[i].set_outside_asset(network.vector_outside_asset[i])
+        network.banks[i].set_net_worth(network.vector_outside_asset[i] + on_me_doit[i] -
+                                       network.vector_outside_liabilities[i] - je_dois[i])
 
-    # Création du modèle
-    model = EisenbergNoeModel(network)
+    return network
 
-    # Création de la simulation
-    simulation = Simulation("Eisenberg", network, shock_vector)
+# Test avec chocs croissants sur le même réseau
+def test_shock_sensitivity(num_banks=50, connection_prob=0.3):
+    network = create_controlled_network(num_banks, connection_prob)
+    results = []
 
-    # Ajouter une visualisation (optionnel)
-    visualization = Visualisation()
-    network.add_observer(visualization)
+    # Créer une base de choc
+    base_shock = np.ones(num_banks) * np.mean(network.vector_outside_asset) * 0.5
 
-    return simulation, visualization
+    # Tester différentes intensités sur le même réseau
+    for intensity in np.linspace(0.0, 1.0, 20):
+        shock_vector = base_shock * intensity
+
+        # Faire une copie du réseau pour chaque test
+        test_network = copy.deepcopy(network)
+        simulation = Simulation("Eisenberg", test_network, shock_vector)
+        _, shock_measure, default_count, _ = simulation.simulate()
+
+        results.append({
+            'intensity': intensity,
+            'shock_measure': shock_measure,
+            'default_proportion': default_count
+        })
+
+    return pd.DataFrame(results)
+
+# Fonction modifiée pour travailler avec les résultats de test_shock_sensitivity
+def plot_sensitivity_results(results_df):
+    plt.figure(figsize=(10, 6))
+
+    # Tracer la relation entre l'intensité du choc et la proportion de défauts
+    plt.scatter(results_df['shock_measure'], results_df['default_proportion'])
+
+    # Ajouter une ligne de tendance
+    z = np.polyfit(results_df['shock_measure'], results_df['default_proportion'], 2)
+    p = np.poly1d(z)
+    x_range = np.linspace(min(results_df['shock_measure']),
+                          max(results_df['shock_measure']), 100)
+    plt.plot(x_range, p(x_range), 'r--')
+
+    plt.title('Relation entre la gravité du choc et la proportion de défauts')
+    plt.xlabel('Mesure du choc')
+    plt.ylabel('Proportion de banques en défaut')
+    plt.grid(True, alpha=0.3)
+
+    return plt.gcf()
+
+# Pour tester plusieurs configurations
+def run_multiple_tests():
+    # Configuration à tester
+    configs = [
+        {'num_banks': 100, 'connection_prob': 0.01},
+        {'num_banks': 100, 'connection_prob': 0.1},
+        {'num_banks': 100, 'connection_prob': 0.2},
+        {'num_banks': 100, 'connection_prob': 0.3},
+        {'num_banks': 100, 'connection_prob': 0.4},
+        {'num_banks': 100, 'connection_prob': 0.6},
+        {'num_banks': 100, 'connection_prob': 0.7},
+        {'num_banks': 100, 'connection_prob': 0.8},
+        {'num_banks': 100, 'connection_prob': 0.9},
+        {'num_banks': 1000, 'connection_prob': 0.01},
+        {'num_banks': 1000, 'connection_prob': 0.1},
+        {'num_banks': 1000, 'connection_prob': 0.2},
+        {'num_banks': 1000, 'connection_prob': 0.3},
+        {'num_banks': 1000, 'connection_prob': 0.4},
+        {'num_banks': 1000, 'connection_prob': 0.6},
+        {'num_banks': 1000, 'connection_prob': 0.7},
+        {'num_banks': 1000, 'connection_prob': 0.8},
+        {'num_banks': 1000, 'connection_prob': 0.9}
+    ]
+
+    all_results = []
+
+    for config in configs:
+        results = test_shock_sensitivity(**config)
+        results['bank_size'] = config['num_banks']
+        results['connection_prob'] = config['connection_prob']
+        all_results.append(results)
+
+    return pd.concat(all_results)
+
+# Exécuter plusieurs tests
+all_results = run_multiple_tests()
+
+# Créer un graphique avec une sous-figure pour chaque configuration
+def plot_multiple_tests(results_df):
+    unique_sizes = results_df['bank_size'].unique()
+    unique_probs = results_df['connection_prob'].unique()
+
+    fig, axes = plt.subplots(len(unique_sizes), len(unique_probs),
+                             figsize=(4*len(unique_probs), 4*len(unique_sizes)),
+                             sharex=True, sharey=True)
+
+    for i, size in enumerate(unique_sizes):
+        for j, prob in enumerate(unique_probs):
+            subset = results_df[(results_df['bank_size'] == size) &
+                                (results_df['connection_prob'] == prob)]
+
+            # Accéder au bon sous-graphique
+            if len(unique_sizes) > 1 and len(unique_probs) > 1:
+                ax = axes[i, j]
+            elif len(unique_sizes) > 1:
+                ax = axes[i]
+            elif len(unique_probs) > 1:
+                ax = axes[j]
+            else:
+                ax = axes
+
+            # Tracer les points
+            ax.scatter(subset['shock_measure'], subset['default_proportion'])
+
+            # Ajouter une ligne de tendance
+            if len(subset) > 1:
+                z = np.polyfit(subset['shock_measure'], subset['default_proportion'], 2)
+                p = np.poly1d(z)
+                x_range = np.linspace(min(subset['shock_measure']),
+                                      max(subset['shock_measure']), 100)
+                ax.plot(x_range, p(x_range), 'r--')
+
+            ax.set_title(f'Banques: {size}, Conn. prob: {prob}')
+            ax.set_xlabel('Gravité du choc')
+            ax.set_ylabel('Proportion de défauts')
+            ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    return fig
+
+# Visualiser tous les résultats
+fig = plot_multiple_tests(all_results)
+plt.savefig('multiple_tests.png', dpi=300)
+plt.show()
 
 
-#----------------------------------------------------
-# Exemple d'utilisation avec le main.py modifié
-#----------------------------------------------------
-if __name__ == "__main__":
-    # Paramètres du réseau
-    network_params = {
-        'number_bank': 5,
-        'probability_of_linking': 0.9
-    }
-
-    network_parameters_fixed = {
-        "matrix_obligation": np.array([
-        [0, 180, 0, 0],
-        [0, 0, 100, 0],
-        [100, 0, 0, 100],
-        [150, 0, 0, 0]
-    ])
-    ,
-        "matrix_relative_liabilities": np.array([
-        [0, 1/2, 0, 0],
-        [0, 0, 1/2, 0],
-        [2/5, 0, 0, 2/5],
-        [1/2, 0, 0, 0]
-    ]),
-        "vector_outside_asset": np.array([120, 30, 160, 204]),
-        "vector_outside_liabilities": np.array([180, 100, 50, 150]),
-        "asset": np.array([250, 180, 100, 100]),
-        "liabilities": np.array([180, 100, 200, 150])
-    }
-
-    # Vecteur de choc
-    shock_vector = np.array([0, 0, 120, 0])
-
-    # Création de la simulation et de la visualisation
-    simulation, visualization = create_simulation("ManualType", network_parameters_fixed, shock_vector)
-
-    # Afficher l'état initial
-    network = simulation.model.network
-    print("État initial:")
-    print("Matrice d'obligations:", network.get_matrix_obligation())
-    #print("Matrice de vulneralibité relative:", network.get_relative_vulnerabilities())
-    print("Valeur nette:", network.get_net_worth())
-    #print("Vulnérabilités:", network.get_vulnerabilities())
-    print("Vecteur de défaut:", network.get_default_vector())
-
-    # Exécuter la simulation
-    vector_payments, shock_measure, default_count, vulnerabilities_measure = simulation.simulate()
-
-    # Afficher l'état final
-    print("\nÉtat final:")
-    print("Valeur nette:", network.get_net_worth())
-    #print("Vulnérabilités:", network.get_vulnerabilities())
-    print("Vecteur de défaut:", network.get_default_vector())
-    print("Paiements:", vector_payments)
-    print("Mesure du choc:", shock_measure)
-    print("Nombre de défauts:", default_count)
-    #print("Mesure des vulnérabilités:", vulnerabilities_measure)
-
-    # Afficher l'historique
-    visualization.plot_history()
