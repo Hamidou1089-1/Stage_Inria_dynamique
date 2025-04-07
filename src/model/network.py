@@ -34,6 +34,7 @@ class Network(Observable, ABC):
         self.matrix_relative_liabilities = np.zeros((self.number_bank, self.number_bank))
         self.due_payements = np.array([0]*self.number_bank)
         self.default_vector = np.array([False]*self.number_bank)
+        self.sum_outside_asset = 0
 
 
     @abstractmethod
@@ -64,6 +65,16 @@ class Network(Observable, ABC):
         return self.default_vector
     def get_banks(self):
         return self.banks
+
+    def get_sum_outside_assets(self):
+        return self.sum_outside_asset
+
+    def set_sum_outside_assets(self, sum_outside_asset):
+        self.sum_outside_asset = sum_outside_asset
+        return
+
+    def compute_sum_outside_assets(self):
+        self.sum_outside_asset = np.sum(self.vector_outside_asset)
 
     def set_vulnerabilities(self, vulnerabilities):
         self.vulnerabilities = vulnerabilities

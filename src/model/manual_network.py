@@ -30,14 +30,6 @@ class ManualNetwork(Network):
 
         self.vulnerabilities = (self.vulnerabilities / np.sum(self.vulnerabilities)) if np.sum(self.vulnerabilities)!=0 else self.vulnerabilities
 
-
-        for k in range(n):
-            for j in range(n):
-                if self.due_payements[k] == 0:
-                    self.matrix_relative_liabilities[k][j] = 0
-                else:
-                    self.matrix_relative_liabilities[k][j] = self.matrix_obligation[k][j]/self.due_payements[k]
-
         for i in range(n):
             for j in range(n):
                 if self.matrix_relative_liabilities[j][i] == 0 or self.net_worth[i] == 0:

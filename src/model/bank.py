@@ -21,22 +21,18 @@ class Bank(Observer):
             self.balance = t
 
 
-    def update_balance(self, kind_of_balance: str, quantity: float ):
+    def update_balance(self):
         """
         Permet à la banque de se mettre à jour, en cas de shock dans la simulation.
         Économiquement, cela permet de rendre les banques dynamiques (ils peuvent modifier leur bilan)
         :return: None
         """
-        if kind_of_balance == 'asset':
-            self.balance += quantity
-            self.outside_asset += quantity
-        elif kind_of_balance == 'liabilities':
-            if quantity <= 0:
-                raise ValueError('Quantity must be positive')
-            self.balance -= quantity
-            self.outside_liabilities += quantity
+        self.balance = self.asset + self.outside_asset - (self.outside_liabilities + self.liabilities)
+
         self.is_default_bank = self.is_default()
         return
+
+
 
     def is_default(self):
         return self.balance <= 0

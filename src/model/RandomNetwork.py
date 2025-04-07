@@ -1,5 +1,7 @@
 from model import Bank
+
 import numpy as np
+import networkx as nx
 
 from model.network import Network
 
@@ -87,6 +89,8 @@ class RandomNetwork(Network):
             self.net_worth[i] = self.banks[i].balance
 
         return
+
+
 
 
 

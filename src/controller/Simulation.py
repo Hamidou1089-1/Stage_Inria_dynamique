@@ -43,13 +43,23 @@ class Simulation:
         :return:
         """
         # So let's apply a shock I guess
+        self.model.network.compute_sum_outside_assets()
         self.model.apply_shock(self.shock_vector)
-
-        vector_payments = self.model.compute_clearing_payments(100 ,self.shock_vector)
-        self.model.network.net_worth = self.model.network.net_worth - vector_payments
+        vector_payments = np.zeros_like(self.shock_vector)
+        #self.model.network.set_vector_outside_assets(self.model.network.get_vector_outside_assets() + self.shock_vector)
+        if np.any(self.model.network.default_vector == True):
+            vector_payments = self.model.compute_clearing_payments(100 ,self.shock_vector)
+        """ ligne fausse"""
+        self.model.network.set_vector_outside_assets(self.model.network.get_vector_outside_assets() - vector_payments)
+        temp_networth = np.array([0]*self.model.network.number_bank)
         for k in range(len(self.shock_vector)):
-            self.model.network.banks[k].set_net_worth( self.model.network.banks[k].get_net_worth() - vector_payments[k])
+            self.model.network.banks[k].set_outside_asset(self.model.network.get_vector_outside_assets()[k])
+            self.model.network.banks[k].update_balance()
+            temp_networth[k] = self.model.network.banks[k].get_net_worth()
         self.update()
+
+        self.model.network.set_net_worth(temp_networth)
+
         shock_measure, default_count, vulnerabilities_measure = self.model.measure_systemic_impact(self.shock_vector)
         return vector_payments, shock_measure, default_count, vulnerabilities_measure
 
