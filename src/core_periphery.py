@@ -21,23 +21,35 @@ def create_core_periphery_network(n_core, n_periphery, p_core=0.7, p_periphery=0
     G = nx.DiGraph()
     G.add_nodes_from(range(n_total))
 
-    ## Connecter les banques du core entre elles (réseau dense)
+    # Liens core-core (très denses)
     for i in range(n_core):
-        for j in range(n_core):
-            if i != j and np.random.random() < p_core:
-                # Direction déterminée par la taille relative des banques
-                G.add_edge(i, j, weight=np.random.normal(weight_scale*3, weight_scale))
+        for j in range(i+1, n_core):  # Éviter les auto-liens
+            if np.random.random() < p_core:  # p_core élevé (~0.7-0.9)
+                # La direction est aléatoire entre banques du core
+                if np.random.random() < 0.5:
+                    G.add_edge(i, j, weight=np.random.exponential(weight_scale*3))
+                else:
+                    G.add_edge(j, i, weight=np.random.exponential(weight_scale*3))
 
-    # Connecter la périphérie au core avec des directions significatives
+    # Liens core-périphérie (asymétriques)
+    for i in range(n_core, n_total):  # Banques périphériques
+        for j in range(n_core):       # Banques du core
+            # Core prête à périphérie (fréquent)
+            if np.random.random() < p_core/2:  # p_periphery modéré (~0.3-0.5)
+                G.add_edge(j, i, weight=np.random.exponential(weight_scale))
+
+            # Périphérie dépose chez core (moins fréquent)
+            if np.random.random() < p_periphery:  # Moins probable
+                G.add_edge(i, j, weight=np.random.exponential(weight_scale/2))
+
+    # Liens périphérie-périphérie (très rares)
     for i in range(n_core, n_total):
-        for j in range(n_core):
-            if np.random.random() < p_periphery:
-                # Les petites banques empruntent aux grandes (direction économique)
-                G.add_edge(i, j, weight=np.random.normal(weight_scale, weight_scale/2))
-            if np.random.random() < p_periphery/2:
-                # Les grandes banques prêtent parfois aux petites (moins fréquent)
-                G.add_edge(j, i, weight=np.random.normal(weight_scale/2, weight_scale/4))
-
+        for j in range(i+1, n_total):
+            if np.random.random() < p_periphery/4:  # Très faible probabilité
+                if np.random.random() < 0.5:
+                    G.add_edge(i, j, weight=np.random.lognormal(np.log(weight_scale), 0.3))
+                else:
+                    G.add_edge(j, i, weight=np.random.lognormal(np.log(weight_scale), 0.3))
     # Conversion en matrice d'obligation
     matrix_obligation = np.zeros((n_total, n_total))
     for i, j, data in G.edges(data=True):
