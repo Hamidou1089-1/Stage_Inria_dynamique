@@ -31,7 +31,7 @@ class Model(ABC):
     def get_network(self):
         return self.network
     def set_network(self, network: Network):
-        self.network = network
+        self.network = np.copy(network)
         return
 
 

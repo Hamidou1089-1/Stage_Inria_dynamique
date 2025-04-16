@@ -74,59 +74,51 @@ class Network(Observable, ABC):
         return
 
     def compute_sum_outside_assets(self):
-        self.sum_outside_asset = np.sum(self.vector_outside_asset)
+        self.sum_outside_asset = np.sum(self.get_vector_outside_assets())
+        return
 
     def set_vulnerabilities(self, vulnerabilities):
-        self.vulnerabilities = vulnerabilities
+        self.vulnerabilities = np.copy(vulnerabilities)
         return
     def set_relative_vulnerabilities(self, relative_vulnerabilities):
-        self.relative_vulnerabilities = relative_vulnerabilities
+        self.relative_vulnerabilities = np.copy(relative_vulnerabilities)
         return
     def set_matrix_obligation(self, matrix_obligation):
-        self.matrix_obligation = matrix_obligation
+        self.matrix_obligation = np.copy(matrix_obligation)
         return
     def set_matrix_relative_liabilities(self, matrix_relative_liabilities):
-        self.matrix_relative_liabilities = matrix_relative_liabilities
+        self.matrix_relative_liabilities = np.copy(matrix_relative_liabilities)
         return
     def set_due_payements(self, due_payements):
-        self.due_payements = due_payements
+        self.due_payements = np.copy(due_payements)
         return
     def set_default_vector(self, default_vector):
-        self.default_vector = default_vector
+        self.default_vector =np.copy(default_vector)
         return
 
     def set_banks(self, banks):
-        self.banks = banks
+        self.banks = np.copy(banks)
         return
 
     def set_vector_outside_assets(self, vector_outside_asset):
-        self.vector_outside_asset = vector_outside_asset
+        self.vector_outside_asset = np.copy(vector_outside_asset)
+        for k in range(len(vector_outside_asset)):
+            self.banks[k].set_outside_asset(vector_outside_asset[k])
         return
 
     def set_vector_outside_liabilities(self, vector_outside_liabilities):
-        self.vector_outside_liabilities = vector_outside_liabilities
+        self.vector_outside_liabilities = np.copy(vector_outside_liabilities)
         return
     def set_net_worth(self, net_worth):
-        old_net_worth = self.net_worth.copy()
-        self.net_worth = net_worth
+        self.net_worth = net_worth.copy()
 
-        # Notifier les observateurs si la valeur nette a changé
-        if not np.array_equal(old_net_worth, net_worth):
-            self.notify_observers(event_type="net_worth_change",
-                                  old_net_worth=old_net_worth,
-                                  new_net_worth=net_worth)
-        return
+
 
     def update_default(self):
-        old_default = self.default_vector.copy()
         self.default_vector = [self.banks[i].is_default() for i in range(self.number_bank)]
+        #print("How is default vector ? ", self.default_vector)
 
-        # Notifier les observateurs si le statut de défaut a changé
-        if not np.array_equal(old_default, self.default_vector):
-            self.notify_observers(event_type="default_change",
-                                  old_default=old_default,
-                                  new_default=self.default_vector)
-        return
+
 
 
 

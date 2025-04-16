@@ -45,18 +45,27 @@ class Simulation:
         # So let's apply a shock I guess
         self.model.network.compute_sum_outside_assets()
         self.model.apply_shock(self.shock_vector)
-        vector_payments = np.zeros_like(self.shock_vector)
-        #self.model.network.set_vector_outside_assets(self.model.network.get_vector_outside_assets() + self.shock_vector)
+        vector_payments = np.zeros((len(self.shock_vector),1))
+
         if np.any(self.model.network.default_vector == True):
             vector_payments = self.model.compute_clearing_payments(100 ,self.shock_vector)
-        """ ligne fausse"""
-        self.model.network.set_vector_outside_assets(self.model.network.get_vector_outside_assets() - vector_payments)
+
+            for k in range(len(vector_payments)):
+                for j in range(len(vector_payments)):
+                    self.model.network.matrix_obligation[k,j] = vector_payments[k]*self.model.network.matrix_relative_liabilities[k][j]
+
+        self.model.network.set_due_payements(np.sum(self.model.network.matrix_obligation, axis=1))
+
         temp_networth = np.array([0]*self.model.network.number_bank)
         for k in range(len(self.shock_vector)):
             self.model.network.banks[k].set_outside_asset(self.model.network.get_vector_outside_assets()[k])
+            self.model.network.banks[k].set_liabilities(self.model.network.get_due_payements()[k])
+            self.model.network.banks[k].set_assets(np.sum(self.model.network.get_matrix_obligation(), axis=0)[k])
             self.model.network.banks[k].update_balance()
             temp_networth[k] = self.model.network.banks[k].get_net_worth()
+
         self.update()
+
 
         self.model.network.set_net_worth(temp_networth)
 

@@ -28,7 +28,6 @@ class Bank(Observer):
         :return: None
         """
         self.balance = self.asset + self.outside_asset - (self.outside_liabilities + self.liabilities)
-
         self.is_default_bank = self.is_default()
         return
 
@@ -76,6 +75,7 @@ class Bank(Observer):
     def set_outside_asset(self, outside_asset):
         self.outside_asset = outside_asset
         return
+
     def set_assets(self, assets):
         self.asset = assets
         return
@@ -104,5 +104,8 @@ class Bank(Observer):
             if payment_vector is not None:
                 # Ajuster le bilan en fonction des paiements
                 pass
+
+
+
 
 

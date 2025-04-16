@@ -1,0 +1,19 @@
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\chaptermark{Introduction}
+
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[font=\sffamily]
+    \node[fill=purple!80, minimum height=2cm, minimum width=2cm                ] (birth) {\textbf{Birth}};
+    \node[fill=purple!60, minimum height=2cm, minimum width=2cm, right=of birth] (phd)   {\textbf{PhD}};
+    \node[fill=purple!40, minimum height=2cm, minimum width=2cm, right=of phd  ] (rsa)   {\textbf{RSA}};
+    \node[fill=purple!20, minimum height=2cm, minimum width=2cm, right=of rsa  ] (death) {\textbf{Death}};
+
+    \draw[ultra thick, -Latex] (birth) -- (phd);
+    \draw[ultra thick, -Latex] (phd)   -- (rsa);
+    \draw[ultra thick, -Latex] (rsa)   -- (death);
+  \end{tikzpicture}
+  \caption{My career plan}\label{fig:career_plan}
+\end{figure}

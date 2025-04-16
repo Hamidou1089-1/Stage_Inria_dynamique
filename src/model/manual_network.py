@@ -40,3 +40,5 @@ class ManualNetwork(Network):
         for i in range(n):
             self.banks[i] = Bank(self.vector_outside_asset[i], on_me_doit[i], self.vector_outside_liabilities[i], je_dois[i])
             self.net_worth[i] = self.banks[i].balance
+
+

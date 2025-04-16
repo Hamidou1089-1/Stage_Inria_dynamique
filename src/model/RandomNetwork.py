@@ -42,13 +42,17 @@ class RandomNetwork(Network):
         n = self.number_bank
         for i in range(n):
             if np.random.random() < self.probability_of_linking:
-                self.vector_outside_liabilities[i] = np.random.uniform(1,n**2)
+                #self.vector_outside_liabilities[i] = np.random.uniform(1,n**2)
+                self.vector_outside_liabilities[i] = np.random.uniform(1, n**2)
             for j in range(n):
                 if np.random.random() < self.probability_of_linking:
-                    if i == j:
+                    if i == j or self.matrix_obligation[j][i] > 0:
                         self.matrix_obligation[i][j] = 0
                         continue
-                    self.matrix_obligation[i][j] = np.random.binomial(n*100, 0.2)
+                    elif np.random.random() < 0.5:
+                        self.matrix_obligation[i][j] = np.random.uniform(1, n**2)
+                    else:
+                        self.matrix_obligation[j][i] = np.random.uniform(1, n**2)
 
         je_dois = self.matrix_obligation @ np.array([1]*n)
         on_me_doit =  np.array([1]*n).T @ self.matrix_obligation
@@ -57,7 +61,7 @@ class RandomNetwork(Network):
             if on_me_doit[i] < je_dois[i] + self.vector_outside_liabilities[i]:
                 self.vector_outside_asset[i] = abs(je_dois[i] + self.vector_outside_liabilities[i] - on_me_doit[i]) + np.random.uniform(1, n**2)
             else:
-                self.vector_outside_asset[i] = np.random.uniform(1, n**3)
+                self.vector_outside_asset[i] = np.random.uniform(1, n**2)
 
         self.due_payements = self.matrix_obligation @ np.array([1]*self.number_bank) + self.vector_outside_liabilities
 

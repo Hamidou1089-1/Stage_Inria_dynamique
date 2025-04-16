@@ -11,15 +11,20 @@ class EisenbergNoeModel(Model):
 
 
     def apply_shock(self, shock_vector: np.array):
+        """Ce comporte comme prevue"""
         if np.any(self.network.get_vector_outside_assets() - shock_vector < 0):
             raise Exception("Shock vector outside assets")
+
         self.network.set_vector_outside_assets(self.network.get_vector_outside_assets() - shock_vector)
 
         for k in range(len(shock_vector)):
             self.network.banks[k].update_balance()
-        default = [self.network.net_worth[k]<=0 for k in range(len(self.network.net_worth))]
+            self.network.net_worth[k] = self.network.banks[k].get_net_worth()
+        default = [self.network.banks[k].get_net_worth() <= 0 for k in range(len(self.network.net_worth))]
         self.network.set_default_vector(default)
         return
+
+
 
 
     def compute_clearing_payments(self, max_iterations: int, shock_vector: np.array) -> np.array:
@@ -40,6 +45,7 @@ class EisenbergNoeModel(Model):
             max_iterations -= 1
 
         # Si on n'a pas convergé, renvoyer la dernière approximation
+
         return vector_of_payments
 
     def measure_systemic_impact(self, shock_vector: np.array):
@@ -54,7 +60,7 @@ class EisenbergNoeModel(Model):
         default_count_proportion = self.network.default_vector.count(True)/self.network.number_bank
 
         """
-        Vulnerabilities measure, just through the vector beta
+        Vulnerabilities measure, just through the vector beta, false, i have to give the vector itself
         """
         vulnerabilities_measure = np.max(self.network.vulnerabilities)
 

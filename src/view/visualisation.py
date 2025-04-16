@@ -3,12 +3,20 @@ from abc import ABC
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from observer import Observer
+
+from controller import Simulation
 from model import Network
 
-class Visualisation(Observer):
+class Visualisation():
     """Visualise l'état du réseau financier"""
 
-    def update(self, observable, event_type=None, **kwargs):
+    def __init__(self, simulation: Simulation):
+        self.simulation = simulation
+
+
+    def visualize_default_shock(self):
         pass
+
+
+
 
