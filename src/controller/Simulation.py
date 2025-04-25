@@ -37,18 +37,19 @@ class Simulation:
             raise NotImplementedError
         self.shock_vector = shock_vector
 
+
     def simulate(self):
         """
         So here we are
         :return:
         """
         # So let's apply a shock I guess
-        self.model.network.compute_sum_outside_assets()
+        #self.model.network.compute_sum_outside_assets()
         self.model.apply_shock(self.shock_vector)
         vector_payments = np.zeros((len(self.shock_vector),1))
 
         if np.any(self.model.network.default_vector == True):
-            vector_payments = self.model.compute_clearing_payments(100 ,self.shock_vector)
+            vector_payments = self.model.compute_clearing_payments(len(self.shock_vector)*1000 ,self.shock_vector)
 
             for k in range(len(vector_payments)):
                 for j in range(len(vector_payments)):
@@ -63,14 +64,14 @@ class Simulation:
             self.model.network.banks[k].set_assets(np.sum(self.model.network.get_matrix_obligation(), axis=0)[k])
             self.model.network.banks[k].update_balance()
             temp_networth[k] = self.model.network.banks[k].get_net_worth()
-
+            #print("How is this temp_networth", temp_networth[k])
         self.update()
 
-
+        #print("I want to see how net worth end up: ", self.model.network.get_net_worth())
         self.model.network.set_net_worth(temp_networth)
 
-        shock_measure, default_count, vulnerabilities_measure = self.model.measure_systemic_impact(self.shock_vector)
-        return vector_payments, shock_measure, default_count, vulnerabilities_measure
+        shock_measure, default_count = self.model.measure_systemic_impact(self.shock_vector)
+        return vector_payments, shock_measure, default_count, self.model.network.get_vulnerabilities()
 
 
     def update(self):

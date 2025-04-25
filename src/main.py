@@ -29,50 +29,46 @@ b = np.array([ 0, 0, 0, 0])
 
 
 # Reseau core-periphery bizarre
-number_bank = 1000
+number_bank = 100
 n_core = int(number_bank /2)
 n_periphery = number_bank - n_core
 
 
 
 #network_manual = TrivialNetwork(5000)
+#core_periphery_network = create_core_periphery_network(n_core, n_periphery, p_core=0.7, p_periphery=0.3)
+network_random = RandomNetwork(100, 0.9)
 
 
 
-
-#core_periphery_network = create_core_periphery_network(n_core, n_periphery, p_core=0.85, p_periphery=0.3)
-
-#network_random = RandomNetwork(400, 0.5)
-
-
-
-network_manual = ManualNetwork(P, c, P@np.array([1]*4), b, P.T@np.array([1]*4), A)
+#network_manual = ManualNetwork(P, c, b)
 
 default_count_vector = []
 shock_measure_vector = []
 
 
-vector_outside_asset = np.copy(network_manual.get_vector_outside_assets())
-shock_vector = np.array([0]*4)
-
-liste = np.arange(0, 1, 10)
-
-for k in range(11):
-    shock_vector = k*vector_outside_asset/10
-    simulation_core_network = Simulation("Eisenberg", network_manual, shock_vector)
+#vector_outside_asset = np.copy(core_periphery_network.get_vector_outside_assets())
+vector_outside_asset = np.copy(network_random.get_vector_outside_assets())
+shock_vector = np.array([0]*100)
+#print("Matrix of obligation: ", network_random.matrix_obligation)
+#print("Vector of outside assets: ", core_periphery_network.vector_outside_asset)
+#print("Net worth: ", core_periphery_network.net_worth)
+#print("vector of outside liabilities: ", core_periphery_network.vector_outside_liabilities)
+for k in range(101):
+    shock_vector = k*vector_outside_asset/100
+    #simulation_core_network = Simulation("Eisenberg", network_manual, shock_vector)
     #simulation_core_network = Simulation("Eisenberg", core_periphery_network, shock_vector)
-    #simulation_core_network = Simulation("Eisenberg",network_random, shock_vector)
+    simulation_core_network = Simulation("Eisenberg",network_random, shock_vector)
 
 
 
-    _ , shock_measure, default_count, _ = simulation_core_network.simulate()
-    #print("How can i have the vector of clearing payment :", simulation_core_network.model.compute_clearing_payments(100,shock_vector))
+    _ , shock_measure, default_count, vulnerabilities = simulation_core_network.simulate()
 
 
 
-    network_manual.set_vector_outside_assets(vector_outside_asset)
+    #network_manual.set_vector_outside_assets(vector_outside_asset)
     #core_periphery_network.set_vector_outside_assets(vector_outside_asset)
-    #network_random.set_vector_outside_assets(vector_outside_asset)
+    network_random.set_vector_outside_assets(vector_outside_asset)
 
 
 
@@ -81,10 +77,10 @@ for k in range(11):
     shock_measure_vector.append(shock_measure)
     default_count_vector.append(default_count)
 
-
-print("shock measure vector: ",shock_measure_vector[-1])
-print("default count vector ",default_count_vector[-1])
-
+#print("shock measure vector: ",shock_measure_vector)
+#print("default count vector ",default_count_vector)
+#print("Vulnerabilities: ", vulnerabilities)
 
 plt.plot( shock_measure_vector, default_count_vector)
+plt.vlines(x=0.5, ymin=0, ymax=1, linestyles='dashed')
 plt.show()

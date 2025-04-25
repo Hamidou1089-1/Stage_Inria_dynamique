@@ -34,7 +34,7 @@ class Bank(Observer):
 
 
     def is_default(self):
-        return self.balance <= 0
+        return self.balance <= 1e-5
 
 
     def show(self):

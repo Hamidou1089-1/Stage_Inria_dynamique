@@ -2,6 +2,8 @@ from model import Bank
 
 import numpy as np
 import networkx as nx
+import scipy.stats as stats
+
 
 from model.network import Network
 
@@ -25,9 +27,9 @@ class RandomNetwork(Network):
         :param at_random: Do you want to generate at random ?
         :param probability_of_linking: If you want to generate at random, what should the probability of linking ?
         """
-        super().__init__(number_bank)
-        self.probability_of_linking = probability_of_linking
-        self.generate()
+        super().__init__(number_bank, probability_of_linking=probability_of_linking)
+
+
 
 
 
@@ -40,59 +42,36 @@ class RandomNetwork(Network):
         :return:
         """
         n = self.number_bank
+
+        self.vector_outside_liabilities = np.array([0]*n)
+        self.vector_outside_asset = np.array([0]*n)
+        self.matrix_obligation = np.zeros((n, n))
+
         for i in range(n):
             if np.random.random() < self.probability_of_linking:
-                #self.vector_outside_liabilities[i] = np.random.uniform(1,n**2)
-                self.vector_outside_liabilities[i] = np.random.uniform(1, n**2)
+                self.vector_outside_liabilities[i] = stats.gamma.rvs(a=1.99, scale=100)
             for j in range(n):
                 if np.random.random() < self.probability_of_linking:
                     if i == j or self.matrix_obligation[j][i] > 0:
                         self.matrix_obligation[i][j] = 0
                         continue
                     elif np.random.random() < 0.5:
-                        self.matrix_obligation[i][j] = np.random.uniform(1, n**2)
+                        self.matrix_obligation[i][j] = stats.gamma.rvs(a=1.99, scale=100)
                     else:
-                        self.matrix_obligation[j][i] = np.random.uniform(1, n**2)
+                        self.matrix_obligation[j][i] = stats.gamma.rvs(a=1.99, scale=100)
 
-        je_dois = self.matrix_obligation @ np.array([1]*n)
-        on_me_doit =  np.array([1]*n).T @ self.matrix_obligation
+
+
+        je_dois = np.sum(self.matrix_obligation, axis=1)
+        on_me_doit = np.sum(self.matrix_obligation , axis=0)
 
         for i in range(n):
             if on_me_doit[i] < je_dois[i] + self.vector_outside_liabilities[i]:
-                self.vector_outside_asset[i] = abs(je_dois[i] + self.vector_outside_liabilities[i] - on_me_doit[i]) + np.random.uniform(1, n**2)
+                self.vector_outside_asset[i] = abs(je_dois[i] + self.vector_outside_liabilities[i] - on_me_doit[i]) + stats.gamma.rvs(a=1.99, scale=100)
             else:
-                self.vector_outside_asset[i] = np.random.uniform(1, n**2)
-
-        self.due_payements = self.matrix_obligation @ np.array([1]*self.number_bank) + self.vector_outside_liabilities
-
-        for k in range(n):
-            if self.due_payements[k] == 0:
-                self.vulnerabilities[k] = 0
-            else:
-                self.vulnerabilities[k] = (self.due_payements[k] - self.vector_outside_liabilities[k])/self.due_payements[k]
-
-        self.vulnerabilities = (self.vulnerabilities / np.sum(self.vulnerabilities)) if np.sum(self.vulnerabilities)!=0 else self.vulnerabilities
+                self.vector_outside_asset[i] = stats.gamma.rvs(a=1.99, scale=100)
 
 
-        for k in range(n):
-            for j in range(n):
-                if self.due_payements[k] == 0:
-                    self.matrix_relative_liabilities[k][j] = 0
-                else:
-                    self.matrix_relative_liabilities[k][j] = self.matrix_obligation[k][j]/self.due_payements[k]
-
-        for i in range(n):
-            for j in range(n):
-                if self.matrix_relative_liabilities[j][i] == 0 or self.net_worth[i] == 0:
-                    self.relative_vulnerabilities[i][j] = 0
-                else:
-                    self.relative_vulnerabilities[i][j] = self.matrix_relative_liabilities[j][i]*(self.vector_outside_asset[j] - self.net_worth[j])/self.net_worth[i]
-
-        for i in range(n):
-            self.banks[i] = Bank(self.vector_outside_asset[i], on_me_doit[i], self.vector_outside_liabilities[i], je_dois[i])
-            self.net_worth[i] = self.banks[i].balance
-
-        return
 
 
 

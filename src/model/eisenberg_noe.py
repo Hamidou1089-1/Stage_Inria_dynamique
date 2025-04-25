@@ -20,7 +20,8 @@ class EisenbergNoeModel(Model):
         for k in range(len(shock_vector)):
             self.network.banks[k].update_balance()
             self.network.net_worth[k] = self.network.banks[k].get_net_worth()
-        default = [self.network.banks[k].get_net_worth() <= 0 for k in range(len(self.network.net_worth))]
+        default = [self.network.banks[k].is_default_bank for k in range(len(self.network.net_worth))]
+        #print("Default ",default)
         self.network.set_default_vector(default)
         return
 
@@ -37,7 +38,7 @@ class EisenbergNoeModel(Model):
             new_vector_of_payments = np.minimum(self.network.due_payements, np.maximum(self.network.matrix_relative_liabilities.T @ vector_of_payments - shock_vector + self.network.vector_outside_asset,0))
 
             # Vérifier si nous avons convergé
-            if np.allclose(new_vector_of_payments, vector_of_payments, 0.001):
+            if np.allclose(new_vector_of_payments, vector_of_payments, 0.00001):
                 return new_vector_of_payments
 
             # Mettre à jour pour la prochaine itération
@@ -58,13 +59,14 @@ class EisenbergNoeModel(Model):
         shock_measure = np.sum(shock_vector)/self.network.get_sum_outside_assets()
 
         default_count_proportion = self.network.default_vector.count(True)/self.network.number_bank
-
+        #print("Default count proportion: ", default_count_proportion)
         """
-        Vulnerabilities measure, just through the vector beta, false, i have to give the vector itself
+        Vulnerabilities measure, A bank is vulnerable if the ratio between his networth and his outside assets is less than 1, the
+        more his close to zero, the quicker he will be at default when a shock happens. 
         """
-        vulnerabilities_measure = np.max(self.network.vulnerabilities)
 
-        return shock_measure, default_count_proportion, vulnerabilities_measure
+
+        return shock_measure, default_count_proportion
 
 
 
