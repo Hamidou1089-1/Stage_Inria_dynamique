@@ -73,14 +73,13 @@ plt.grid(True)
 plt.savefig('linear_shock_analysis.png')
 plt.show()
 
-# Démonstration des nouvelles fonctionnalités de distribution de chocs
-print("\n=== Démonstration des nouvelles distributions de chocs ===\n")
+
 
 # 1. Utilisation de la distribution uniforme
 print("1. Distribution de chocs uniforme")
-uniform_dist = UniformShockDistribution(network_random)
-simulation_uniform = Simulation("Eisenberg", network_random, uniform_dist.generate_shock(intensity=0.5))
-results_uniform = simulation_uniform.run_scenarios(uniform_dist, n_scenarios=10)
+uniform_dist = UniformShockDistribution(network_random, intensity=1)
+simulation_uniform = Simulation("Eisenberg", network_random, uniform_dist.generate_shock(intensity=1))
+results_uniform = simulation_uniform.run_scenarios(uniform_dist, n_scenarios=100)
 print(f"Moyenne des défauts: {results_uniform['avg_default_count']:.2f}")
 print(f"Maximum des défauts: {results_uniform['max_default_count']:.2f}")
 print(f"Écart-type des défauts: {results_uniform['std_default_count']:.2f}")
@@ -88,8 +87,8 @@ print(f"Écart-type des défauts: {results_uniform['std_default_count']:.2f}")
 # 2. Utilisation de la distribution Beta
 print("\n2. Distribution de chocs Beta")
 beta_dist = BetaShockDistribution(network_random, alpha=2, beta=5)
-simulation_beta = Simulation("Eisenberg", network_random, beta_dist.generate_shock(intensity=0.5))
-results_beta = simulation_beta.run_scenarios(beta_dist, n_scenarios=10)
+simulation_beta = Simulation("Eisenberg", network_random, beta_dist.generate_shock(intensity=1))
+results_beta = simulation_beta.run_scenarios(beta_dist, n_scenarios=100)
 print(f"Moyenne des défauts: {results_beta['avg_default_count']:.2f}")
 print(f"Maximum des défauts: {results_beta['max_default_count']:.2f}")
 print(f"Écart-type des défauts: {results_beta['std_default_count']:.2f}")
@@ -97,8 +96,8 @@ print(f"Écart-type des défauts: {results_beta['std_default_count']:.2f}")
 # 3. Utilisation de la distribution ciblée
 print("\n3. Distribution de chocs ciblés")
 targeted_dist = TargetedShockDistribution(network_random, targeting_strategy="vulnerability")
-simulation_targeted = Simulation("Eisenberg", network_random, targeted_dist.generate_shock(intensity=0.5))
-results_targeted = simulation_targeted.run_scenarios(targeted_dist, n_scenarios=10)
+simulation_targeted = Simulation("Eisenberg", network_random, targeted_dist.generate_shock(intensity=1))
+results_targeted = simulation_targeted.run_scenarios(targeted_dist, n_scenarios=100)
 print(f"Moyenne des défauts: {results_targeted['avg_default_count']:.2f}")
 print(f"Maximum des défauts: {results_targeted['max_default_count']:.2f}")
 print(f"Écart-type des défauts: {results_targeted['std_default_count']:.2f}")
@@ -108,7 +107,7 @@ print("\n4. Analyse d'intensité avec la distribution ciblée")
 intensity_results = simulation_targeted.run_intensity_analysis(
     TargetedShockDistribution, 
     intensity_range=(0.1, 1.0, 0.1),
-    n_scenarios_per_intensity=5,
+    n_scenarios_per_intensity=50,
     targeting_strategy="vulnerability"
 )
 
@@ -122,4 +121,21 @@ plt.grid(True)
 plt.savefig('targeted_intensity_analysis.png')
 plt.show()
 
-print("\nAnalyse terminée. Les graphiques ont été sauvegardés.")
+
+print("\n4. Analyse d'intensité avec la distribution beta")
+intensity_results_beta = simulation_beta.run_intensity_analysis(
+    BetaShockDistribution,
+    intensity_range=(0.1, 1.0, 0.1),
+    n_scenarios_per_intensity=50,
+)
+
+# Visualisation des résultats de l'analyse d'intensité
+plt.figure(figsize=(12, 10))
+plt.plot(intensity_results_beta['intensities'], intensity_results_beta['avg_default_counts'], marker='o')
+plt.title('Analyse de l\'impact de l\'intensité des chocs beta distribue')
+plt.xlabel('Intensité du choc')
+plt.ylabel('Proportion moyenne de défauts')
+plt.grid(True)
+plt.savefig('beta_intensity_analysis.png')
+plt.show()
+

@@ -10,4 +10,8 @@ def create_core_periphery_network(n_core, n_periphery, p_core=0.7, p_periphery=0
     vector_outside_liabilities = np.array([0]*n)
 
 
+    for k in range(n):
+        for l in range(n):
+            pass
+
 
