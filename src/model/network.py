@@ -16,8 +16,21 @@ class Network(Observable, ABC):
                  ):
 
         """
-        All these variable, are common to any kind of network that want to model a financial network.
-        :param number_of_bank:
+        Initializes the object with banking and obligation system properties, setting up matrices
+        and vectors associated with assets, liabilities, payments, probabilities, and vulnerabilities.
+        The class performs critical configuration and computation of the financial network, including
+        normalizing obligations, relating liabilities, and calculating vulnerabilities.
+
+        :param number_of_bank: Number of banks in the system.
+        :type number_of_bank: int
+        :param matrix_obligation: Obligation matrix that represents commitments between banks, optional.
+        :type matrix_obligation: numpy.ndarray or None
+        :param vector_outside_asset: Array representing the external assets of the banks, optional.
+        :type vector_outside_asset: numpy.ndarray or None
+        :param vector_outside_liabilities: Array representing the external liabilities of the banks, optional.
+        :type vector_outside_liabilities: numpy.ndarray or None
+        :param probability_of_linking: Probability of establishing a connection between banks, default is 0.1.
+        :type probability_of_linking: float
         """
         Observable.__init__(self)
         self.number_bank = number_of_bank
@@ -33,33 +46,52 @@ class Network(Observable, ABC):
         self.due_payements = np.array([0]*self.number_bank)
         self.default_vector = np.array([False]*self.number_bank)
         self.probability_of_linking = probability_of_linking
-
+        self.sum_outside_asset = 0
 
         self.generate()
 
         n = self.number_bank
         self.je_dois = np.sum(self.matrix_obligation, axis=1)
         self.on_me_doit = np.sum(self.matrix_obligation , axis=0)
-        self.due_payements = self.matrix_obligation @ np.array([1]*self.number_bank) + self.vector_outside_liabilities
-        for k in range(n):
-            for j in range(n):
-                if self.due_payements[k] == 0:
-                    self.matrix_relative_liabilities[k][j] = 0
-                else:
-                    self.matrix_relative_liabilities[k][j] = self.matrix_obligation[k][j]/self.due_payements[k]
+        self.due_payements = self.je_dois + self.vector_outside_liabilities
+        # Initialisation de la matrice relative des obligations
+        self.matrix_relative_liabilities = np.zeros_like(self.matrix_obligation, dtype=float)
 
-        for i in range(n):
-            for j in range(n):
-                if self.matrix_relative_liabilities[j][i] == 0 or self.net_worth[i] == 0:
-                    self.relative_vulnerabilities[i][j] = 0
-                else:
-                    self.relative_vulnerabilities[i][j] = self.matrix_relative_liabilities[j][i]*(self.vector_outside_asset[j] - self.net_worth[j])/self.net_worth[i]
+        # Création du masque 2D pour où due_payements n'est pas zéro
+        mask_2d = (self.due_payements[:, np.newaxis] != 0)
 
-        for i in range(n):
-            self.banks[i] = Bank(self.vector_outside_asset[i], self.on_me_doit[i], self.vector_outside_liabilities[i], self.je_dois[i])
-            self.net_worth[i] = self.banks[i].balance
+        # Division vectorisée avec masque
+        np.divide(self.matrix_obligation, self.due_payements[:, np.newaxis],
+                  out=self.matrix_relative_liabilities, where=mask_2d)
 
-        #self.vulnerabilities = [self.net_worth[k] / self.vector_outside_asset[k] if self.vector_outside_asset[k] != 0 else self.net_worth[k] for k in range(n)]
+
+
+
+
+        self.relative_vulnerabilities = np.zeros_like(self.matrix_relative_liabilities, dtype=float)
+
+        i_indices, j_indices = np.indices(self.matrix_relative_liabilities.shape)
+        mask2d_vul = self.net_worth[i_indices] != 0
+        self.relative_vulnerabilities[mask2d_vul] = ((
+                self.matrix_relative_liabilities[j_indices[mask2d_vul], i_indices[mask2d_vul]] *
+                (self.vector_outside_asset[j_indices[mask2d_vul]] - self.net_worth[j_indices[mask2d_vul]])) /
+                                                     self.net_worth[i_indices[mask2d_vul]]
+                )
+
+
+
+        self.banks = np.array([
+            Bank(outside_asset, doit, outside_liabilities, j_dois )
+            for outside_asset,doit, outside_liabilities, j_dois in
+            zip(self.vector_outside_asset, self.on_me_doit, self.vector_outside_liabilities, self.je_dois)],
+            dtype=object
+        )
+
+        self.net_worth = np.array([bank.balance for bank in self.banks])
+
+        """
+        C'est la vulnerabilité à l'exterieur qu'on calcule ici.
+        """
         mask0 = self.vector_outside_asset > 0
         x1 = self.net_worth[mask0] / self.vector_outside_asset[mask0]
         x2 = self.net_worth[~mask0]

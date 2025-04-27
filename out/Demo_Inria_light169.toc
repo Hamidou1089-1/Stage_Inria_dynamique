@@ -1,0 +1,9 @@
+\beamer@sectionintoc {1}{Introduction: Beamer}{3}{0}{1}
+\beamer@sectionintoc {2}{Gotham Theme}{27}{0}{2}
+\beamer@subsectionintoc {2}{1}{Fonts}{30}{0}{2}
+\beamer@subsectionintoc {2}{2}{Colors}{36}{0}{2}
+\beamer@subsectionintoc {2}{3}{Inner}{41}{0}{2}
+\beamer@subsectionintoc {2}{4}{Outer}{50}{0}{2}
+\beamer@sectionintoc {3}{Conclusion}{58}{0}{3}
+\beamer@sectionintoc {4}{Things good to know about Beamer}{66}{1}{4}
+\beamer@sectionintoc {5}{Things brought by good practices in UserPackage}{72}{1}{5}

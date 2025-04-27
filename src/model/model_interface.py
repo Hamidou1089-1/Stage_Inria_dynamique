@@ -15,17 +15,52 @@ class Model(ABC):
 
     @abstractmethod
     def apply_shock(self, shock_type):
-        """Applique un choc exogène au système, et met à jour le reseau, sinon ca devient trop long de touché a chaque élément en dehors de la methode"""
+        """
+        Defines an abstract method to apply a shock to a system.
+
+        This method serves as a blueprint for subclasses that need
+        to implement specific functionality for applying a shock of
+        a given type.
+
+        :param shock_type: Specifies the type of shock to be applied.
+        :type shock_type: np.array
+
+        :return: None
+        """
         pass
 
     @abstractmethod
     def compute_clearing_payments(self, max_iterations: int, shock_vector: np.array):
-        """Calcule le vecteur de paiements d'équilibre"""
+        """
+        Compute clearing payments to achieve financial equilibrium among institutions
+        in a network affected by external shocks. This method serves as an abstract
+        specification that must be implemented by subclasses to perform the iterative
+        calculation of equilibrium payments.
+
+        :param max_iterations: Maximum number of iterations to compute clearing payments.
+        :type max_iterations: int
+        :param shock_vector: Array representing the external shocks applied to each
+            institution in the network.
+        :type shock_vector: numpy.array
+        :return: Calculated clearing payments achieving financial equilibrium.
+        :rtype: numpy.array
+        """
         pass
 
     @abstractmethod
     def measure_systemic_impact(self, shock_vector: np.array):
-        """Mesure l'impact systémique après la propagation"""
+        """
+        Measure the systemic impact of a given shock vector.
+
+        This is an abstract method that should be implemented by subclasses to define
+        how a provided shock vector affects the overall system.
+
+        :param shock_vector: Array representing the shock vector to be analyzed. The
+                             vector encapsulates the intensity and distribution of
+                             shocks within the system.
+        :type shock_vector: np.array
+        :return: None
+        """
         pass
 
     def get_network(self):

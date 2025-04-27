@@ -8,6 +8,33 @@ class Bank(Observer):
     Dans le futur, on pourra peut être complexifié avec des formes d'obligation.
     """
     def __init__(self, outside_asset, asset, outside_liabilities, liabilities):
+        """
+        Represents a financial entity with the ability to determine whether it is in
+        default based on its assets and liabilities.
+
+        This class initializes with external assets, internal assets, external
+        liabilities, and internal liabilities, calculating the financial balance, and
+        determining the default status. If the calculated balance is negative, the
+        entity is marked as a default entity.
+
+        :param outside_asset: External assets of the financial entity.
+        :type outside_asset: float
+        :param asset: Internal assets of the financial entity.
+        :type asset: float
+        :param outside_liabilities: External liabilities of the financial entity.
+        :type outside_liabilities: float
+        :param liabilities: Internal liabilities of the financial entity.
+        :type liabilities: float
+
+        :attribute outside_asset: External assets of the financial entity.
+        :attribute asset: Internal assets of the financial entity.
+        :attribute outside_liabilities: External liabilities of the financial entity.
+        :attribute liabilities: Internal liabilities of the financial entity.
+        :attribute is_default_bank: A boolean indicating if the financial entity is in
+            default (`True`) or not (`False`).
+        :attribute balance: The net financial balance of the entity after subtracting
+            liabilities and adding assets. Calculated during initialization.
+        """
         self.outside_asset = outside_asset
         self.asset = asset
         self.outside_liabilities = outside_liabilities
@@ -23,9 +50,15 @@ class Bank(Observer):
 
     def update_balance(self):
         """
-        Permet à la banque de se mettre à jour, en cas de shock dans la simulation.
-        Économiquement, cela permet de rendre les banques dynamiques (ils peuvent modifier leur bilan)
-        :return: None
+        Recalculates the bank's financial state after changes in the simulation.
+
+        This method:
+        1. Calculates the current balance (net worth) as:
+           total assets (internal + external) minus total liabilities (internal + external)
+        2. Updates the default status of the bank based on the new balance
+
+        This allows banks to dynamically respond to economic shocks in the simulation.
+
         """
         self.balance = self.asset + self.outside_asset - (self.outside_liabilities + self.liabilities)
         self.is_default_bank = self.is_default()

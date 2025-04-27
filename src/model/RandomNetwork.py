@@ -22,10 +22,15 @@ class RandomNetwork(Network):
 
     def __init__(self, number_bank: int, probability_of_linking=0.1):
         """
-        Le réseau de depart.
-        :param number_bank: How many banks should be generated ?
-        :param at_random: Do you want to generate at random ?
-        :param probability_of_linking: If you want to generate at random, what should the probability of linking ?
+        Initializes an instance of the class with the given number of banks and
+        probability of linking. Sets up the necessary attributes by invoking
+        the parent class's constructor.
+
+        :param number_bank: The number of banks to be initialized.
+        :type number_bank: int
+        :param probability_of_linking: The probability of linking between entities.
+                                       Default is 0.1.
+        :type probability_of_linking: float
         """
         super().__init__(number_bank, probability_of_linking=probability_of_linking)
 
@@ -39,13 +44,21 @@ class RandomNetwork(Network):
 
     def generate(self):
         """
-        :return:
+        Generates and initializes the financial network of obligations, liabilities, and assets for a set of banks
+        based on the given number of banks and the probability of connections between them. This includes random
+        generation of liabilities, assets, and inter-bank obligations using a gamma distribution. The method
+        ensures proper balancing of obligations and liabilities in the system.
+
+
+
+        :return: None
         """
         n = self.number_bank
 
         self.vector_outside_liabilities = np.array([0]*n)
         self.vector_outside_asset = np.array([0]*n)
         self.matrix_obligation = np.zeros((n, n))
+        proba_liabilities = np.random.random(n) < self.probability_of_linking
 
         for i in range(n):
             if np.random.random() < self.probability_of_linking:

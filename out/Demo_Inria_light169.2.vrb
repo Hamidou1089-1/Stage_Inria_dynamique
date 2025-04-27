@@ -1,0 +1,14 @@
+\frametitle{Section With Pictures}
+As the following command indicates, it is possible to include pictures under a section title:
+		\begin{verbatim}			
+			\providecommand{\sectionImage}{
+				\begin{center}
+					\includegraphics[width=5cm,draft]{\PathSO/UGE/logos/UGE-logo.pdf}
+				\end{center}
+			}
+			\addtobeamertemplate{section frame}{}{
+				\addtobeamertemplate{section page}{}{\sectionImage}
+			}
+			\section{Things good to know about Beamer}
+			\renewcommand{\sectionImage}{}	
+		\end{verbatim}

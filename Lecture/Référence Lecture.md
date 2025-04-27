@@ -49,3 +49,63 @@ J'ai un peu fais ca juste avant.
 
 # Coeur techniques
 On considere d'abord l'article d'eisenberg et Noe qui formalise 
+
+
+
+
+>  # Relecture d'article
+> 
+>  - Eisenberg & Noe
+
+    Default in a single clearing mechanism
+    Obligations determined simultaneously with priority of **debt claims** and **Limited liability of equity** (un Noeud ne paye pas plus que ses resources)
+    Via a *Fixed-Point argument* there always exits a **Clearing payment vector** that clears the obligations of the members of the clearing system
+    Under *Mild refularity conditions* that clearing vector is *Unique*
+    The algorithm developed by the paper both clears the **Financial system** and provides information on *the systemic risk faced by individual system firms*
+    
+**The value of most firms is dependent on the payoffs they receive from their claims on other firms. The value of these claims depends, in turn, on the financial health of yet other firms in the system.**
+*Moreover, linkages between firms can be cyclical*
+example:
+**A default by Firm A on its obligations to Firm B may lead B to default on its obligations to C.A default by C may, in turn, have a feedback effect on A.**
+
+This illustrates a geenral feature of financial system architectures : *cyclical interdependence*
+
+
+debt : dette creancier
+equity : parts des actionnaires
+prioriyé : debt > equity
+
+This clearing vector can be
+computed through a *"fictitious sequential default"*
+algorithm. Moreover, the algorithm corresponds to a
+*process of dynamic adjustment* in which the *set of defaulting firms* at the **start** of each round is fixed by
+the adjustments of the system in the previous round.
+In each *new round*, an **attempt is made to clear** the
+system **assuming that only nodes that defaulted in the last round default**. *If, in fact, no new defaults occur*,
+the *algorithm terminates*. **Otherwise**, the *new wave* of
+*defaults is recorded and the process is iterated again.*
+
+
+
+This algorithm, as well as quickly yielding the clearing
+vector, produces a natural *measure of systemic risk*-
+**the exposure of a given node in the system to defaults by other firms**. This *measure of systemic risk* is **based**
+on *how many "waves" of defaults are required to induce a given firm in the system to fail.*
+
+C'est la *Methode comparative statique*
+Dans ce papier, on analysent specifiquement comment le vecteur de compensation d'équilibre change quand:
+    - Le flux de tresorie operationnels changent
+    - La structure des obligations financieres entre les noeuds change
+    - les niveaux d'obligations nominales changent.
+    
+
+Resultat de la domiannce stochastique de second ordre:
+
+le papier donne un resultat : 
+le vecteur de compensation d'equilibre (*Vecteur de paiement d'equilibre*) est fonction concave des flux de tresorie operationnels et du vecteur des obligations nominales. 
+
+
+*une interpretation de phi (fonction du vecteur p, matrice relative de payement, vecteur de payement du, et des actif exterieur) represente les fonds a utiliser pour satisfaire les obligations de dettes en assumant la reception des payements promis.*
+
+
+
