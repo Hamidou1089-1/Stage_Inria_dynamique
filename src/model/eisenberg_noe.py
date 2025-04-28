@@ -93,7 +93,7 @@ class EisenbergNoeModel(Model):
         """
         shock_measure = np.sum(shock_vector)/self.network.get_sum_outside_assets()
 
-        default_count_proportion = self.network.default_vector.count(True)/self.network.number_bank
+        default_count_proportion = np.sum(self.network.default_vector)/self.network.number_bank
 
         return shock_measure, default_count_proportion
 

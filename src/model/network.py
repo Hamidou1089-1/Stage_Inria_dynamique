@@ -89,9 +89,7 @@ class Network(Observable, ABC):
 
         self.net_worth = np.array([bank.balance for bank in self.banks])
 
-        """
-        C'est la vulnerabilité à l'exterieur qu'on calcule ici.
-        """
+
         mask0 = self.vector_outside_asset > 0
         x1 = self.net_worth[mask0] / self.vector_outside_asset[mask0]
         x2 = self.net_worth[~mask0]
@@ -195,7 +193,7 @@ class Network(Observable, ABC):
 
 
     def update_default(self):
-        self.default_vector = [self.banks[i].is_default_bank for i in range(self.number_bank)]
+        self.default_vector = np.array([bank.is_default_bank for bank in self.banks])
 
 
 

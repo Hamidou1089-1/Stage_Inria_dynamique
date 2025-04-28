@@ -80,15 +80,17 @@ print("1. Distribution de chocs uniforme")
 uniform_dist = UniformShockDistribution(network_random, intensity=1)
 simulation_uniform = Simulation("Eisenberg", network_random, uniform_dist.generate_shock(intensity=1))
 results_uniform = simulation_uniform.run_scenarios(uniform_dist, n_scenarios=100)
+
 print(f"Moyenne des défauts: {results_uniform['avg_default_count']:.2f}")
 print(f"Maximum des défauts: {results_uniform['max_default_count']:.2f}")
 print(f"Écart-type des défauts: {results_uniform['std_default_count']:.2f}")
 
 # 2. Utilisation de la distribution Beta
 print("\n2. Distribution de chocs Beta")
-beta_dist = BetaShockDistribution(network_random, alpha=2, beta=5)
+beta_dist = BetaShockDistribution(network_random, alpha=20, beta=5)
 simulation_beta = Simulation("Eisenberg", network_random, beta_dist.generate_shock(intensity=1))
 results_beta = simulation_beta.run_scenarios(beta_dist, n_scenarios=100)
+
 print(f"Moyenne des défauts: {results_beta['avg_default_count']:.2f}")
 print(f"Maximum des défauts: {results_beta['max_default_count']:.2f}")
 print(f"Écart-type des défauts: {results_beta['std_default_count']:.2f}")
@@ -98,6 +100,7 @@ print("\n3. Distribution de chocs ciblés")
 targeted_dist = TargetedShockDistribution(network_random, targeting_strategy="vulnerability")
 simulation_targeted = Simulation("Eisenberg", network_random, targeted_dist.generate_shock(intensity=1))
 results_targeted = simulation_targeted.run_scenarios(targeted_dist, n_scenarios=100)
+
 print(f"Moyenne des défauts: {results_targeted['avg_default_count']:.2f}")
 print(f"Maximum des défauts: {results_targeted['max_default_count']:.2f}")
 print(f"Écart-type des défauts: {results_targeted['std_default_count']:.2f}")

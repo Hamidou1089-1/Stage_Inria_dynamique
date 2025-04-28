@@ -18,7 +18,9 @@ class Simulation:
 
     Je sais que j'ai plusieurs problèmes potentiels,
     car je pose comme mesure de la gravité du shock :
-    ||x|| = Somme(|x|)/Somme(c).
+    ||x|| = Somme(|x|)/Somme(c) → il faut trouver un moyen de calculer la gravité du shock, parce que cette mesure n'est pas toujours pertinente.
+    Il faut peut-être qu'on voit les vagues de default au cours du run de l'algorithme.
+
     La robustesse du réseau se mesurera à la relative sensibilité d'un nœud au reste des nœuds du réseau (ça sera la norme 1 du vecteur des beta i vecteur).
     Ça sera à travers le beta (qui permet de savoir à quel point un nœud i participe au risque systemic).
     """

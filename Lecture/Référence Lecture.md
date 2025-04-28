@@ -53,8 +53,7 @@ On considere d'abord l'article d'eisenberg et Noe qui formalise
 
 
 
->  # Relecture d'article
-> 
+>  # Relecture d'article 
 >  - Eisenberg & Noe
 
     Default in a single clearing mechanism
@@ -73,7 +72,7 @@ This illustrates a geenral feature of financial system architectures : *cyclical
 
 debt : dette creancier
 equity : parts des actionnaires
-prioriyé : debt > equity
+priorité : debt > equity
 
 This clearing vector can be
 computed through a *"fictitious sequential default"*
@@ -105,7 +104,6 @@ le papier donne un resultat :
 le vecteur de compensation d'equilibre (*Vecteur de paiement d'equilibre*) est fonction concave des flux de tresorie operationnels et du vecteur des obligations nominales. 
 
 
-*une interpretation de phi (fonction du vecteur p, matrice relative de payement, vecteur de payement du, et des actif exterieur) represente les fonds a utiliser pour satisfaire les obligations de dettes en assumant la reception des payements promis.*
-
+*une interpretation de $\phi$ (fonction du vecteur p, matrice relative de payement, vecteur de payement du, et des actif exterieur) represente les fonds a utiliser pour satisfaire les obligations de dettes en assumant la reception des payements promis.*
 
 
