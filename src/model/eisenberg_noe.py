@@ -1,3 +1,5 @@
+
+
 from model import Network
 
 from model import Model
@@ -63,10 +65,14 @@ class EisenbergNoeModel(Model):
 
             # Vérifier si nous avons convergé
             if np.allclose(new_vector_of_payments, vector_of_payments, 0.000000001):
+                print("Is this unique ? ", vector_of_payments[0])
                 return new_vector_of_payments
 
             # Mettre à jour pour la prochaine itération
             vector_of_payments = new_vector_of_payments
+
+
+
 
 
 
@@ -91,6 +97,9 @@ class EisenbergNoeModel(Model):
             - default_count_proportion (float): The proportion of banks in the
               network that are in default as a result of the applied shocks.
         """
+
+        # This irrevelant as a measure, cause it doesn't help us visualize the real impact, or the default cascade
+
         shock_measure = np.sum(shock_vector)/self.network.get_sum_outside_assets()
 
         default_count_proportion = np.sum(self.network.default_vector)/self.network.number_bank

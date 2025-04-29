@@ -33,6 +33,7 @@ class Simulation:
         """
         if model == "Eisenberg":
             self.model = EisenbergNoeModel(network)
+
         elif model == "Small World":
             raise NotImplementedError
         else:

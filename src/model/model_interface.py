@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from copy import deepcopy
+
 from model import RandomNetwork, Network
 import numpy as np
 
@@ -66,7 +68,7 @@ class Model(ABC):
     def get_network(self):
         return self.network
     def set_network(self, network: Network):
-        self.network = np.copy(network)
+        self.network = deepcopy(network)
         return
 
 

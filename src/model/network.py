@@ -33,6 +33,8 @@ class Network(Observable, ABC):
         :type probability_of_linking: float
         """
         Observable.__init__(self)
+
+
         self.number_bank = number_of_bank
         self.vulnerabilities = np.array([0]*self.number_bank)
         self.relative_vulnerabilities = np.zeros((self.number_bank, self.number_bank))
@@ -96,6 +98,25 @@ class Network(Observable, ABC):
         self.vulnerabilities = np.concatenate((x1, x2))
 
         self.compute_sum_outside_assets()
+
+
+        # Structure of the financial network
+
+        # this essentially the net worth, the more banks have a big level of capitalisation, the more resilient they will be
+        # Is a proportion of the outside asset, like a total value of the system
+        self.level_of_capitalisation = 0
+
+        # Degree of connection is simply the likelyhood of having a link between two bank so prob of linking, esdos reyni binomial mean np
+        self.degree_of_connection = (self.number_bank - 1) * self.probability_of_linking
+
+        # The size of interbank exposure is essential for us, because it will quantify the systemic bank, it's essentially what the bank owe to the system internaly
+        self.interbank_exposure = self.matrix_obligation
+
+        # the degree of concentration of the system is the measure of heterogenity in terms
+        # of distribution of the interbank exposure and the degree
+        # connection; for now, I don't have a good formula to quantify it
+
+        #=====================================================================================#
 
     @abstractmethod
     def generate(self):
