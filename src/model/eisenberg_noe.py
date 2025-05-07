@@ -34,7 +34,7 @@ class EisenbergNoeModel(Model):
         [bank.update_balance() for bank in self.network.banks]
         self.network.net_worth = np.array([bank.get_net_worth() for bank in self.network.banks])
 
-        default = [bank.is_default_bank for bank in self.network.banks]
+        default = np.array([bank.is_default_bank for bank in self.network.banks])
         self.network.set_default_vector(default)
 
         return
@@ -65,7 +65,6 @@ class EisenbergNoeModel(Model):
 
             # Vérifier si nous avons convergé
             if np.allclose(new_vector_of_payments, vector_of_payments, 0.000000001):
-                print("Is this unique ? ", vector_of_payments[0])
                 return new_vector_of_payments
 
             # Mettre à jour pour la prochaine itération

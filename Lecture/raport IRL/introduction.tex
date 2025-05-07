@@ -1,0 +1,114 @@
+
+\subsection{Contexte de recherche et collaboration}
+Cette étude s'inscrit dans le cadre d'un projet d'Introduction à la Recherche au sein de l'IMAG,
+en collaboration avec les équipes \textbf{DANCE} et \textbf{POLARIS} de l'INRIA Grenoble.
+L'équipe POLARIS travaille sur l'analyse des performances des très grands systèmes distribués,
+tandis que l'équipe DANCE se concentre sur l'étude des dynamiques sur les réseaux.
+Cette collaboration interdisciplinaire nous a permis d'aborder la question du risque systémique avec des outils et perspectives complémentaires,
+en associant modélisation mathématique et simulation informatique.
+
+
+\subsection{Le risque systémique et son importance}
+La crise financière de 2007-2008 a fourni une illustration dramatique de la propagation des défaillances
+dans un réseau financier \cite{peyton2016contagion}. Lehman Brothers était la 4e plus grande banque
+d'investissement en Amérique. En se basant sur la description de \cite{jglass2006topologyus} du réseau
+interbancaire aux USA, qui nous indique qu'il existe des grandes banques nommées \textbf{core},
+très fortement liées entre elles, et les \textbf{périphéries} qui empruntent à ces grandes banques.
+Ces banques avec un capital très important portent l'appellation "\textbf{too big to fail}",
+ainsi lorsque Lehman Brothers fut en défaut, il y a eu une cascade de défauts. Cependant,
+d'autres facteurs économiques étaient présents, comme la liquidité et les produits dérivés.
+La forte connectivité du réseau de dette interbancaire aux USA a créé des canaux de contagion qui ont
+aggravé la situation de la crise. Ces événements ont révélé comment des institutions fortement
+interconnectées pouvaient transformer des chocs initialement localisés en une crise systémique.
+
+
+L'étude du risque systémique est devenue centrale dans l'analyse de la stabilité financière.
+Cette crise a révélé comment la défaillance d'institutions individuelles pouvait se propager à
+travers un réseau d'interconnexions et menacer l'intégrité du système financier global.
+Cette crise systémique est justement ce qui va nous permettre de donner un sens au \textbf{risque systémique},
+qui n'est rien d'autre que la probabilité qu'une crise systémique se produise.
+Ainsi, pour un réseau de dette interbancaire donné,
+si on réussit à trouver les paramètres qui interviennent le plus sur la fragilité du réseau,
+on réussira à donner une mesure de ce risque.
+
+
+\subsection{Modélisation et approche méthodologique}
+Pour donner un sens à ces paramètres, parlons rapidement du modèle choisi.
+Notre approche se situe à l'intersection de la théorie des graphes aléatoires,
+de l'informatique appliquée à la finance et à l'économie.
+On considère un réseau de dette interbancaire comme un graphe pondéré et orienté,
+avec le sens des flèches représentant l'obligation de l'emprunteur vers le prêteur.
+Supposons dans cette introduction que ce graphe représente le réseau interbancaire d'un monde économique fictif,
+où les banques sont des entités qui n'échangent que des dettes,
+il n'y a aucun problème de liquidité ou encore de taux d'intérêt.
+Ainsi, on représente une banque avec un bilan simplifié, les dettes extérieures au réseau
+et les dettes liées au réseau.
+
+
+Un premier problème qu'on peut soulever, comme \cite{peyton2016contagion} le souligne dans son article,
+est pourquoi les banques décident de tant se lier à d'autres banques à travers les dettes ?
+Ce que la théorie financière nous enseigne, c'est que toutes les banques cherchent à réduire
+le risque derrière chaque opération financière. Ainsi, la forte connectivité permettant de diversifier
+leurs actifs chez différents acteurs, les banques empruntent et prêtent le plus possible.
+Mais on verra par la suite que selon la nature du réseau et selon la longueur des cycles présents dans le réseau,
+ces diversifications peuvent se retourner contre les banques en cas de défaut d'un de leurs créanciers.
+On voit donc que le niveau d'interconnexion joue un rôle important dans la fragilité du réseau.
+
+
+\subsection{Objectifs et problématique}
+Dans cette étude, nous examinons spécifiquement l'impact du niveau d'interconnexion sur la résilience d'un réseau
+financier. La fragilité d'un système financier est un sujet important tant d'un point de vue économique que financier.
+Économique car plus le risque systémique est élevé, plus les conséquences sur l'économie réelle seront importantes,
+se traduisant par des récessions, du chômage et des interventions publiques coûteuses.
+Financier car dans les mécanismes internes du système, cela se traduit par une plus grande volatilité
+et une diminution du volume de capital bancaire.
+
+
+\subsection{État de l'art et positionnement}
+Notons que \cite{peyton2016contagion} explique dans son article l'importance non pas d'un seul paramètre,
+mais plutôt comment plusieurs paramètres interagissent entre eux. En l'occurrence,
+ils regardent comment la structure du réseau interagit avec plusieurs
+paramètres comme les expositions de dettes ou l'effet de levier,
+afin d'illustrer l'ambivalence de l'interconnexion interbancaire,
+qui peut à la fois diversifier les expositions aux risques mais aussi créer des canaux
+par lesquels les chocs peuvent se propager par contagion.
+Dans la même approche, on a le papier de \cite{nier2008stability} qui fait une simulation
+à travers un graphe fixé d'Erdos-Renyi, ce qui nous a beaucoup inspiré pour l'ouverture de ce texte.
+Et pour finir sur les différentes approches qui existent, on peut aussi stipuler l'importance
+que joue l'algorithme \cite{eisenberg2001systemic}, qui permet pendant une simulation,
+ou n'importe quel cas où un réseau interbancaire intervient, de trouver un vecteur d'équilibre de paiement,
+qu'on prendra le temps de définir dans la suite.
+
+
+Dans ce contexte, plusieurs questions fondamentales émergent :
+comment mesurer précisément le risque systémique ?
+Quel rôle joue le volume du capital échangé entre les banques à travers les dettes dans ce risque systémique ?
+Dans le cas d'un non-remboursement provenant de l'extérieur du système (choc exogène),
+comment se propagent les défaillances en cascade à travers le réseau ?
+
+
+\subsection{Problématique centrale et contribution}
+C'est là que notre problématique centrale intervient :
+dans quelle mesure les interconnexions permettent-elles de réduire l'impact d'un choc ?
+À partir de quel seuil d'interconnexions ce choc cesse-t-il d'être dilué pour, au contraire, être amplifié ?
+Parmi les multiples paramètres pouvant influencer la résilience d'un réseau financier
+(volume du capital, structure hiérarchique, nature des actifs, etc.),
+nous avons choisi de nous concentrer spécifiquement sur le degré d'interconnexion.
+Ce choix se justifie par le paradoxe apparent qu'il soulève : alors qu'une plus grande diversification
+des connexions devrait théoriquement diluer les risques,
+l'expérience de la crise suggère qu'au-delà d'un certain seuil, elle pourrait au contraire les amplifier.
+Cette question demeure centrale dans la littérature récente sur la contagion financière.
+
+
+\subsection{Plan de l'article}
+Cet article s'organise comme suit.
+Nous présentons d'abord un état de l'art des travaux sur la contagion dans les réseaux financiers,
+en nous concentrant particulièrement sur les modèles d'Eisenberg-Noe \cite{eisenberg2001systemic}
+et leurs extensions. Nous développons ensuite notre méthodologie basée sur ces travaux,
+en justifiant nos choix de modélisation et d'implémentation. Nous exposons alors les résultats de nos simulations,
+illustrés par des analyses graphiques. Enfin, nous discutons des implications de ces résultats et proposons
+des pistes d'amélioration, notamment par l'intégration d'autres caractéristiques structurelles
+comme l'intensité des obligations, le volume du capital et la concentration des nœuds.
+
+
+

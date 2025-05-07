@@ -107,3 +107,121 @@ le vecteur de compensation d'equilibre (*Vecteur de paiement d'equilibre*) est f
 *une interpretation de $\phi$ (fonction du vecteur p, matrice relative de payement, vecteur de payement du, et des actif exterieur) represente les fonds a utiliser pour satisfaire les obligations de dettes en assumant la reception des payements promis.*
 
 
+
+PLan :
+
+
+# Tous ceci c'est l'intro
+Intro :
+- Colaboration ? Inria  & Gips-Lab, Nicolas gast, Hamidou, Federica, Paolo, --
+- Faire une présentation du risque systemique,--
+    -> la definir comme un indicateur de crise assez parlant.--
+- faire une présentation rapide de la modelisation, --
+- pourquoi un reseau ? pourquoi le risque systemique ?  -> les cycles, probleme de payements en cas de défaut.--
+- Poser la problématique : seuil de diversification vs amplification 
+- qu'est ce qui a deja été effectuer sur le sujet ? == prochaine question
+- y a til d'autre approches pour repondre a la problematique ? 
+    -> Etat de l'art :
+    On utilise trois papiers de recherche principalement, mais c'est un domaine de recherche tres dense, ainsi on peut tres facilement trouver des article differents de ces choix. 
+    - Pour le probleme de payement, l'algorithme d'Eisenberg et Noe nous permettra de determiner le vecteur de payements d'equilibre. 
+    - Peter Young et Glasserman nous permettrons de formaliser la contagion financière, et on adoptera ces notations, 
+    - Le papier qui permet de faire une ouverture avec le papier de pter young. 
+
+-> Un aspect de contribution, on discutera plus de ce que papier nous a apporté que ce qu'on a apporté. 
+- En quoi ce papier apporte quelque chose de nouveau ? 
+- qu'elles sont les resultats obtenu ? 
+- comment interpreter ces resultats ? 
+- Répondent elle a la question ? 
+- On annonce le plan ensuite. 
+
+
+
+
+# Coeur technique
+Méthodologie et l'aspect technique:
+On va en profiter pour poser le probleme plus rigoureusement, 
+definir un reseau financier dans notre cas, exprimer les propriétés les plus simple du reseau, en faire des preuves, puis formuler dans une certaine extension des definitions et propriété, la problematique po justifier notre approche.
+
+- On formalise un reseau, comme un graphe
+- On formalise comment on genere ce graphe ?
+- Pourquoi ce choix simplificateur ?
+- ensuite dans ce graphe le choix des poids ? 
+- Comment on fait pour les isoler ? pour essayer de reduire leur impact sur la contagion, meme si c'est presqu'impossible
+- Faire un tableau pour decrire l'entité banque
+- Ensuite on presente le choix du simulateur ? quel langage ? quel paradigme
+- Pourquoi simuler d'ailleur ? c'etait pas possible de faire des calculs rapide qu'on pouvait extrapoler ? 
+- Conclure sur cette approche, la comparer à l'etat de l'art. 
+
+
+
+
+Résultats
+ON est dans le cas ou la croissance du choc est linéaire, ainsi c'est un cas où on part du principe le choc est exogène, on ne s'interesse pas à la probabilité que cela ce produise, mais on part du principe que cela ce produit.
+
+1. Dans un graphe non connexe ( non connecter ) on ne voit pas de phenome de dilution ou d'amplification, ainsi pour un choc lineaire, le default 
+- expliqué les mesures mise en place pour le plot, les parametres, expliqué le choix des parametres economiquement parlant, et traduire le resultat concretement. 
+
+On aura plusieurs figure : 
+
+- Avoir un graphe complet, et un graphe pas connecter: discuter de cela, :
+Traduire economique ceque cela signifie, est ce realiste ? 
+
+- Une forme de simulation de monte carlo pour ->
+Ensuite trouvé pour un graphe connecter, le seuil d'interconnexion le plus optimale. 
+
+Discussion : 
+L'ouverture sera justement une critique de mon approche, qui pour moi n'est pas complêt sur beaucoup d'aspect, comme par exemple dans le papier de Peter young (Financial contagion) on sait que il ya tout une etude pour savoir quel parametre est le plus significatif pour decrire le risque systemique, enfaite il ya meme plusieur parametre qui intervienne, et chacun permet de decrire avec une meilleure precision le risque systemique. 
+
+Conclusion: 
+On va resumer le papier avec la disvusion, etc etc
+Dans la conclusion on va parler de la suite qu'on developpera, et quel implementation on fera dessus etc. 
+
+
+
+
+
+
+
+
+
+
+
+j'assume trop de truc:
+
+diversifié, si je le vois comment le reconnaitre ? 
+
+Cas ou le choc est ciblé:
+
+    un choc a été diversifié si pour un choc x sur R (ie C - x entry wise) le rayon de default engendré par le choc ne depasse pas un certain seuil, 
+    Il ya plusieur niveau de diversification, 
+
+    Niveau 0: Notre defaut se limite a nous
+    Niveau 1: ========== plus court chemin = 2
+    ....
+    Niveau n; =======================   = n +1
+    
+Si le choc est exogène:
+
+    Un choc exogène a été diversifié 
+
+
+On voit la dilution de maniere temporelle ou par la proportion de default ? 
+plusieur parametre peuvent infuencer cet effet de dilution, la presence de cycle court et long, l'aspect etoile d'un reseau peut mener a un effet d'accumulation qui mene a une amplification
+
+mais meme l'amplification, comment le definir, 
+
+je rentre un choc x, on dit que le reseau amplifie x si 
+la dependance, la presence de cycle est l'amplification:
+A doit 100 B, B doit 100 a C et C doit 100 a A, A ne peut plus rembourser la totalité de sa dette a B disons elle ne peut rembourser que 50, mais ce 50 prenait en compte le fait de recevoir 100 de C, ainsi un choc de 50, ce fait amplifier par ce cylce de dependance. 
+
+Maintenant pour les meme raison, on va ilustrer l'effet inverse, la dilution, puisque la dilution c'est cet effet contraire, disons si A ne peut plus rembourser son du, que son default n'engendre pas une sequence de baisse de payement pour tous le monde
+
+
+
+
+
+
+
+
+
+

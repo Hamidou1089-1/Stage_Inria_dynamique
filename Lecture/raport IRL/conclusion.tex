@@ -1,0 +1,40 @@
+
+Dans cette étude, nous avons examiné l'impact des interconnexions dans un réseau financier sur sa résilience face à des chocs exogènes. Partant de la question fondamentale posée suite à la crise de 2007-2008 -- à savoir si la densité des liens interbancaires renforce ou fragilise le système financier -- nous avons développé un cadre de simulation basé sur des réseaux Erdős-Rényi et l'algorithme de compensation d'Eisenberg-Noe.
+
+Notre principale observation réside dans l'identification d'un seuil critique lorsque le choc atteint approximativement 50\% de la valeur totale des actifs extérieurs du système. Ce seuil se manifeste par un pic dans la variation de la proportion de défauts, suivi d'une relative stabilisation, phénomène qui persiste indépendamment de la taille du réseau et pour différentes densités de connexion. Cette caractéristique rappelle certains aspects des transitions de phase observées dans d'autres systèmes complexes, bien que le mécanisme sous-jacent reste à formaliser rigoureusement.
+
+Contrairement à l'intuition financière traditionnelle sur les bénéfices de la diversification, nos résultats suggèrent que les réseaux moins connectés pourraient être plus résistants aux chocs. Cependant, cette conclusion contre-intuitive pourrait être liée aux limites de notre modèle actuel plutôt qu'à une propriété fondamentale des réseaux financiers.
+
+\subsection{Limites et perspectives}
+
+Plusieurs limitations importantes doivent être soulignées :
+
+\begin{enumerate}
+    \item Notre modèle de choc exogène proportionnel aux actifs extérieurs ne permet pas d'isoler clairement l'effet de diversification du risque.
+
+    \item La construction des bilans bancaires simplifiés ne tient pas compte des différences de capitalisation et de structure d'actifs qui existent dans les systèmes financiers réels.
+
+    \item L'utilisation exclusive de réseaux Erdős-Rényi limite la généralisation de nos résultats à d'autres topologies potentiellement plus représentatives des réseaux financiers réels.
+\end{enumerate}
+
+\subsection{Développements futurs}
+
+Pour approfondir cette recherche, plusieurs axes de travail se dégagent :
+
+\begin{enumerate}
+    \item \textbf{Diversification des topologies de réseau} : Implémenter des modèles de réseaux scale-free et small-world, qui reflètent mieux la structure hiérarchique des systèmes financiers avec leurs institutions centrales et périphériques.
+
+    \item \textbf{Formalisation quantitative de la diversification} : Développer des métriques précises pour mesurer la diversification des expositions au sein du réseau, permettant de distinguer entre l'effet de volume du capital et l'effet de sa distribution.
+
+    \item \textbf{Analyse du rôle des cycles} : Étudier spécifiquement comment la présence et la longueur des cycles dans le réseau impactent la propagation des défauts, en quantifiant leur contribution à l'amplification ou à la dilution des chocs.
+
+    \item \textbf{Modélisation stochastique des chocs} : Dépasser l'approche déterministe actuelle en intégrant des distributions de probabilité pour les chocs exogènes, permettant une évaluation plus réaliste du risque systémique.
+
+    \item \textbf{Intégration de l'hétérogénéité des institutions} : Introduire une variabilité dans les bilans et les seuils de défaut des banques pour refléter la diversité des acteurs du système financier.
+\end{enumerate}
+
+\subsection{Perspectives de recherche interdisciplinaire}
+
+La complexité du phénomène étudié invite à des approches interdisciplinaires. Les modèles issus de la physique statistique et de la science des réseaux pourraient éclairer certains aspects de la transition de phase observée à 50\% du choc. De même, les méthodes de l'intelligence artificielle, notamment l'apprentissage par renforcement, pourraient permettre d'explorer l'espace des paramètres de manière plus exhaustive et d'identifier des configurations optimales de réseau qui maximisent la résilience tout en préservant les bénéfices de la diversification.
+
+En définitive, si ce travail n'apporte pas de réponse définitive à la question du rôle des interconnexions dans la stabilité financière, il propose un cadre méthodologique permettant d'explorer cette question de manière rigoureuse et ouvre plusieurs pistes prometteuses pour des recherches futures. La compréhension approfondie de ces mécanismes demeure un enjeu crucial pour la conception de systèmes financiers plus résilients face aux chocs inévitables qui les affectent périodiquement.

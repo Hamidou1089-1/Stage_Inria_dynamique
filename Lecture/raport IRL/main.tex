@@ -1,0 +1,101 @@
+%! Author = hamid
+%! Date = 30/04/2025
+
+% Preamble
+\documentclass[10pt, twocolumn]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}       % Police Times New Roman pour le texte
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{natbib}         % Pour les citations
+\usepackage{hyperref}
+\usepackage{abstract}       % Pour personnaliser l'abstract
+\usepackage{authblk}
+\usepackage{booktabs}       % Pour des tableaux de meilleure qualité
+\usepackage{microtype}      % Pour améliorer la typographie
+\usepackage{xcolor}         % Pour la couleur
+\usepackage{algorithm}      % Pour les algorithmes
+\usepackage{algorithmic}    % Pour les algorithmes
+\usepackage{caption}        % Pour personnaliser les légendes
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, graphs, positioning}
+
+% Marges (ajuster selon les besoins)
+\usepackage[margin=1in]{geometry}
+
+
+\renewcommand{\abstractname}{\large Abstract}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont}
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
+% En-tête et pied de page
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textit{Dynamique stochastique sur reseau}}
+\fancyhead[R]{\thepage}
+
+% Titre, auteurs et abstract
+\title{\Large\textbf{Risque systemique vue comme un seuil de résilience}}
+
+\author[1]{Hamidou Diallo}
+\affil[1]{INRIA-Gipsa-Lab, Grenoble, France}
+
+\date{\today}
+
+\begin{document}
+
+
+
+\twocolumn[
+\begin{@twocolumnfalse}
+    \maketitle
+    \begin{abstract}
+Le risque systémique depuis la crise 2007--2008 est devenu un sujet essentiel dans le domaine de la finance et pour la recherche en finance.
+    Le \textbf{risque systémique} c'est le risque d'effondrement du système financier, c'est-à-dire une proportion importante de banques d'un pays en défaut pouvant mener à une crise globale.
+    Dans cet article, on cherche à quantifier la résilience d'un réseau interbancaire à différents chocs exogènes.
+    Pour cela on applique l'algorithme itératif de défauts fictifs d'Eisenberg et Noe sur des réseaux Erdös-Rényi pour simuler la propagation des défauts.
+    Nos résultats montrent qu'il existe bien un lien entre la densité du réseau financier et la probabilité de défaut en cascade.
+Dans l'état actuel de l'étude, on peut avancer un argument en faveur d'une structure plus favorable à la dilution d'un choc, qui minimiserait donc la contagion financière.
+\end{abstract}
+    \noindent\textbf{Mots-clés:} réseau financier, théorie des graphes, contagion financière, risque systémique
+
+    \vspace{0.2cm}
+    \noindent\textbf{Keywords:} financial network, graph theory, financial contagion, systemic risk
+
+% JEL Classification (si applicable en économie/finance)
+    \noindent\textbf{Classification JEL:} G01, G21, D85
+    \vspace{0.5cm}
+    \end{@twocolumnfalse}
+]
+% Mots-clés
+
+
+% Introduction
+\section{Introduction}\label{sec:introduction}
+\input{introduction}
+
+
+
+\section{Notation et Formalisation}\label{sec:formalisation}
+\input{formalisation}
+
+\section{Analyse des résultats}\label{sec:analyse}
+\input{analyse}
+
+\section{Conclusion}\label{sec:conclusion}
+\input{conclusion}
+
+% Bibliographie
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+
+
+
+\end{document}

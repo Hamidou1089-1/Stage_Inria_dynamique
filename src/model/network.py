@@ -92,10 +92,8 @@ class Network(Observable, ABC):
         self.net_worth = np.array([bank.balance for bank in self.banks])
 
 
-        mask0 = self.vector_outside_asset > 0
-        x1 = self.net_worth[mask0] / self.vector_outside_asset[mask0]
-        x2 = self.net_worth[~mask0]
-        self.vulnerabilities = np.concatenate((x1, x2))
+
+        self.vulnerabilities = self.net_worth/self.vector_outside_asset
 
         self.compute_sum_outside_assets()
 
@@ -215,6 +213,35 @@ class Network(Observable, ABC):
 
     def update_default(self):
         self.default_vector = np.array([bank.is_default_bank for bank in self.banks])
+
+
+    def measure_centrality(self):
+        pass
+
+    def measure_vulnerability(self):
+        pass
+
+    def measure_interbank_exposure(self):
+        pass
+
+    def measure_level_of_capitalisation(self):
+        pass
+
+    def measure_degree_of_connection(self):
+        pass
+
+    def measure_degree_of_concentration(self):
+        pass
+
+    def measure_systemic_impact(self):
+        pass
+
+    def outside_exposure(self):
+        pass
+
+    def laplacian_matrix_obligation(self):
+        return np.sum(self.matrix_obligation, axis=1) - self.matrix_obligation
+
 
 
 

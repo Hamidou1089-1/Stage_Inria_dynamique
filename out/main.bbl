@@ -1,0 +1,39 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Eisenberg and Noe(2001)]{eisenberg2001systemic}
+Larry Eisenberg and Thomas~H. Noe.
+\newblock Systemic risk in financial systems.
+\newblock \emph{Management Science}, 47\penalty0 (2):\penalty0 236--249, 2001.
+\newblock ISSN 0025-1909.
+\newblock \doi{10.1287/mnsc.47.2.236.9835}.
+
+\bibitem[Glasserman and Young(2016)]{peyton2016contagion}
+Paul Glasserman and H.~Peyton Young.
+\newblock Contagion in financial networks.
+\newblock \emph{Journal of Economic Literature}, 54\penalty0 (3):\penalty0
+  779--831, 2016.
+\newblock ISSN 0022-0515.
+\newblock \doi{10.1257/jel.20151228}.
+
+\bibitem[Nier et~al.(2008)Nier, Yang, Yorulmazer, and
+  Alentorn]{nier2008stability}
+Erlend Nier, Jing Yang, Tanju Yorulmazer, and Amadeo Alentorn.
+\newblock Network models and financial stability.
+\newblock Working Paper 346, Bank of England, April 2008.
+\newblock URL
+  \url{https://www.bankofengland.co.uk/working-paper/2008/network-models-and-financial-stability}.
+
+\bibitem[Soramäki et~al.(2006)Soramäki, Bech, Arnold, Glass, and
+  Beyeler]{jglass2006topologyus}
+Kimmo Soramäki, Morten~L. Bech, Jeffrey Arnold, Robert~J. Glass, and Walter~E.
+  Beyeler.
+\newblock The topology of interbank payment flows.
+\newblock \emph{Federal Reserve Bank of New York Staff Reports}, 243, March
+  2006.
+
+\end{thebibliography}
