@@ -63,6 +63,18 @@ for num_banks in bank_counts:
         }
 
 # Figure 1: Graphique 3D (nombre de banques, mesure du choc, proportion de défauts)
+SMALL_SIZE = 12
+MEDIUM_SIZE = 18
+BIGGER_SIZE = 20
+
+plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=BIGGER_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
 fig1 = plt.figure(figsize=(12, 10))
 ax1 = fig1.add_subplot(111, projection='3d')
 

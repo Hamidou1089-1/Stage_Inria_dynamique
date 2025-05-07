@@ -1,4 +1,4 @@
-\subsection{Présentation du Modèle}
+\subsection{Présentation du Modèle}\label{subsec:presentation-du-modele}
 On va se donner des hypothèses simplificatrice à l'échelle economique, la liquidation des banques en defaut est instannée.
 
 On va se fixer une convention d'écriture au cours de cet article.
@@ -12,40 +12,7 @@ On note :
     \min(x,y) &= \min(x_i, y_i) \ \forall i \in \{1,\ldots, n\}\\
     (x)_{+}  &= \max(0, x)
 \end{align*}
-
-\vspace{0.5cm}
-\textbf{Rappel:}
-Dans la théorie des graphes aléatoires, on va considérer un graphe orienté $\mathcal{R}$ avec $n \in \mathbb{N}$ comme nombre de nœuds.
-Notons :
-$$\mathcal{N} = \{1,\ldots, n\} $$
-l'ensemble des nœuds de $\mathcal{R}$.
-
-Notons $p \in [0,1]$ la probabilité qu'il y ait une arête entre deux nœuds de $\mathcal{N}$, identique pour tous les nœuds.
-On suppose de plus qu'il y a indépendance pour le lien entre chaque nœud.
-
-Ce type de graphe aléatoire est un célèbre graphe nommé Graphe d'Erdos-Renyi (qui n'est pas forcément orienté dans sa définition générale).
-
-\vspace{0.5cm}
-\textbf{Définition:}
-
-On définit un réseau interbancaire comme $\mathcal{R}$, un graphe d'Erdos-Renyi (selon le rappel précédent) pondéré avec
-$n \in \mathbb{N}$ nœuds, et des flux extérieurs qu'on notera $c$ et $b$, deux vecteurs de $\mathbb{R}^n$.
-\\
-Soit $I$ la matrice d'exposition bancaire définie par :
-$$[I]_{ij} = \begin{cases}
-                 \text{obligation} & \text{si $i$ est lié à $j$} \\
-                 0 & \text{sinon ou si $i = j$}
-\end{cases}$$
-
-Ainsi, un réseau interbancaire est un quadruplet $(\mathcal{R}, I, c, b)$.
-\\
-Économiquement, on peut interpréter $c$ et $b$ comme les prêts accordés à des entités extérieures au système bancaire (ménages, entreprises) ou des investissements en actifs non-bancaires. La matrice $I$ représente quant à elle l'ensemble des obligations entre banques, formant ainsi le réseau d'interdépendances financières qui peut devenir un canal de contagion en cas de défaut.
-\\
-Les obligations entre deux banques sont positives ou nulles.
-
-\vspace{0.5cm}
-
-\textbf{Banque $i$}
+\textbf{Définition Banque}
 \\
 Quelques rappels de comptabilité pour faciliter la lecture:
 L'actif du bilan représente les possessions de l'entreprise,
@@ -56,11 +23,11 @@ droite du bilan comptable et représente l'ensemble des dettes de
 l'entreprise concernée.
 \\
 Au cours de cette étude, on nomme banque une entité caractérisée par un bilan simplifié:
-Considérons une Banque $i$ du réseau interbancaire défini précédemment.
+Considérons une Banque.
 
-Soit $b_i \in \mathbb{R}$ et $c_i \in \mathbb{R}$
+Soit $b \in \mathbb{R}$ et $c \in \mathbb{R}$
 \\
-On définit $b_{i}$ et $c_{i}$ respectivement comme la somme totale d'emprunts extérieurs au système bancaire (donc un passif, car dans le
+On définit $b$ et $c$ respectivement comme la somme totale d'emprunts extérieurs au système bancaire (donc un passif, car dans le
 futur on doit rembourser cette dette), et la somme totale de prêts extérieurs au système bancaire (donc un actif).
 \\
 On définit la somme totale des passifs de la banque:
@@ -85,21 +52,31 @@ $$[I]_{i} = \sum_{j=1}^{n} [I]_{ij} + b_i $$
         \hline
     \end{tabular}
 \end{table}
-
-
 \vspace*{0.5cm}
 On nomme ce tableau bilan simplifié car un bilan vérifie la propriété $\text{total d'actif} = \text{total passif}$, ce qui n'est pas forcément notre cas ici.
 Puisqu'on a simplement besoin d'observer une banque comme une entité qui reçoit ou donne de l'argent, avec la seule
 particularité qu'elle est solvable si et seulement si sa \textbf{Valeur nette} est strictement positive.
-
 \vspace*{0.5cm}
+\textbf{Définition: }
+On définit un réseau interbancaire comme $\mathcal{R}$, un graphe pondéré orienté avec
+$N \in \mathbb{N}$ nœuds, et des flux extérieurs qu'on notera $c$ et $b$, deux vecteurs de $\mathbb{R}^N$.
+\\
+Soit $I$ la matrice d'exposition bancaire définie par :
+$$[I]_{ij} = \begin{cases}
+                 \text{obligation} & \text{si $i$ est lié à $j$} \\
+                 0 & \text{sinon ou si $i = j$}
+\end{cases}$$
 
-
+Ainsi, un réseau interbancaire est un quadruplet $(\mathcal{R}, I, c, b)$.
+\\
+Économiquement, on peut interpréter $c$ et $b$ comme les prêts accordés à des entités extérieures au système bancaire (ménages, entreprises) ou des investissements en actifs non-bancaires. La matrice $I$ représente quant à elle l'ensemble des obligations entre banques, formant ainsi le réseau d'interdépendances financières qui peut devenir un canal de contagion en cas de défaut.
+\\
+Les obligations entre deux banques sont positives ou nulles.
+\vspace{0.5cm}
 \subsection{Exemple de réseau}\label{subsec:exemple-de-reseau}
 Illustrons un exemple d'un réseau interbancaire, avec 4 banques.
 On retrouve bien toutes les informations du bilan
 simplifié sur la figure~\ref{fig:network_with_externals}.
-
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
@@ -151,17 +128,13 @@ simplifié sur la figure~\ref{fig:network_with_externals}.
     \caption{Réseau interbancaire avec actifs et passifs externes}
     \label{fig:network_with_externals}
 \end{figure}
-\\
 \textbf{Description}
-\\
 \begin{itemize}
     \item Banque 1 possède un actif total de 245 (150 d'actifs externes + 95 de prêts interbancaires de la Banque 3) et un passif total de 235 (95 de passifs externes + 140 de prêts à la Banque 2), ce qui explique sa valeur nette positive de 10.
     \item Banque 2 possède un actif total de 220 (80 d'actifs externes + 140 de prêts interbancaires de la Banque 1) et un passif total de 215 (140 de passifs externes + 75 de prêts à la Banque 4), lui donnant une valeur nette de 5.
     \item Banque 3 possède un actif total de 200 (100 d'actifs externes + 100 de prêts interbancaires de la Banque 4) et un passif total de 195 (100 de passifs externes + 95 de prêts à la Banque 1), résultant en une valeur nette de 5.
     \item Banque 4 possède un actif total de 185 (110 d'actifs externes + 75 de prêts interbancaires de la Banque 2) et un passif total de 175 (75 de passifs externes + 100 de prêts à la Banque 3), lui conférant une valeur nette de 10.
 \end{itemize}
-
-
 \textbf{Remarque}
 \\
 Cette figure~\ref{fig:network_with_externals} est un graphe orienté connexe cyclique.
@@ -169,11 +142,23 @@ On peut affirmer avec cette topologie de graphe qu'il est dense, mais ce qui le 
 le cycle, parce que dans cette étude, on souhaite quantifier la résilience d'un réseau en fonction des interconnexions.
 Cependant, avant de voir comment construire cela, il faut qu'on garde à l'esprit que le nombre de cycles courts ou longs dans notre réseau influence grandement \textbf{l'effet de cascade}
 de défaut; d'ailleurs ce sera une difficulté au cours de cette étude, de faire la part des choses entre le rôle de la densité du réseau et le nombre de cycles présents dans le réseau.
-
 \subsection{Approche par Simulation}\label{subsec:approche-par-simulation}
 Avec les notations définies précédemment,
 on met en place un réseau afin de le tester, c'est-à-dire appliquer un choc exogène sur le réseau.
 \textbf{On définit un choc comme le non-remboursement d'une entité extérieure vers une banque}, c'est-à-dire lorsque le $c_i$ (actif extérieur de la banque i) attendu diminue.
+
+\textbf{Choix du Graphe}
+
+\textbf{Graphe de Erdos-Renyi dirigé}
+Dans la théorie des graphes aléatoires, on va considérer un graphe orienté $\mathcal{R}$ avec $n \in \mathbb{N}$ comme nombre de nœuds.
+Notons :
+$$\mathcal{N} = \{1,\ldots, n\} $$
+l'ensemble des nœuds de $\mathcal{R}$.
+
+Notons $p \in [0,1]$ la probabilité qu'il y ait une arête entre deux nœuds de $\mathcal{N}$, identique pour tous les nœuds.
+On suppose de plus qu'il y a indépendance pour le lien entre chaque nœud.
+
+Ce type de graphe aléatoire est un célèbre graphe nommé Graphe d'Erdos-Renyi (qui n'est pas forcément orienté dans sa définition générale).
 
 On choisit de faire un choc exogène car cela nous permet de formaliser une mesure simple de gravité du choc.
 Soit $x\in \mathbb{R}^N$ un choc, notons que :
@@ -187,7 +172,6 @@ En considérant cette mesure de gravité du choc, on souhaite voir la relation a
 pour un $p$ fixé, la probabilité dans le graphe d'Erdos-Renyi d'avoir un lien entre deux banques.
 On défini $d$ tel que :
 $$d = \frac{\text{Nombre de defaut}}{N}$$
-\\
 On voit naturellement que d'un point de vue empirique, la simulation s'exprime d'elle-même : on va tester, pour un choc exogène croissant linéaire avec un réseau de plus en plus dense (faire croître p), la courbe
 de la proportion de défaut dans le réseau après avoir appliqué le choc.
 \\\\
@@ -206,13 +190,14 @@ est en defaut.
 Avec cette perte énorme de capital pour la banque 1, on a un autre problème qui apparait, maintenant que banque 1 à fait défaut, elle ne peut plus rembourser ces dettes en totalité.
 Une méthode utilisé en finance dans ce cas, c'est la liquidation par prorata, rembourser nos créanciers en fonction de la proportion de leurs créances dans nos dettes.
 
-Ainsi donc on définir une matrice R, qui va representer la proportion de chaque dette:
+\subsection{Algorithme du vecteur de payement}
+Ainsi donc on défini une matrice R, qui va representer la proportion de chaque dette:
 $$[R]_{ij} = \frac{[I]_{ij}}{[I]_{i}}$$
-Ainsi Banque 1 ne remboursera que 60 (on arrondi) à la Banque 2, ce qui mène la Banque 2 à également faire défaut, par le même proceder,
-elle ne rembourse que 49 à la banque 4, ce qui la mène aussi en defaut, et de même,
-la banque 4 rembourse 75 à la banque 3, qui elle aussi se retrouve en defaut.
+Reprenons l'exemple~\ref{subsec:exemple-de-reseau}, si Banque 1 ne rembourse que 60 (on arrondi) à la Banque 2, ce qui mène la Banque 2 à également faire défaut, par le même proceder,
+elle ne remboursera que 49 à la banque 4, ce qui la mène aussi à faire defaut, et de même,
+la banque 4 rembourse 75 à la banque 3, qui elle aussi se retrouvera en defaut.
 Mais tous ce calcul n'a été effectuer en supposant que la banque 3 rembourse la totalité de sa dette à la banque 1, ainsi on voit ici un problème de payements.
-Le vecteur de payement qui nous permet d'avoir le vecteur de payement d'equilibre est un point fixe d'une transformation défini dans le papier \cite{eisenberg2001systemic} et reformuler par noe dans \cite{peyton2016contagion},
+Le vecteur de payement qui nous permet d'avoir le vecteur de payement d'équilibre est un point fixe d'une transformation défini dans le papier~\cite{eisenberg2001systemic} et reformuler par noe dans \cite{peyton2016contagion},
 On rappel cette transformation notée $\phi(P)$, avec P un vecteur de payement.
 Notons $\bar{P} \in \mathbb{R}^N$ défini tel que:
 $$\bar{P}_i = [I]_i$$

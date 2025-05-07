@@ -65,13 +65,15 @@ et une diminution du volume de capital bancaire.
 
 
 \subsection{État de l'art et positionnement}
-Notons que \cite{peyton2016contagion} explique dans son article l'importance non pas d'un seul paramètre,
+L'impact de l'interconnexion sur la résilience d'un réseau est une rélation étudier par beaucoup de chercheur,
+comme par exemple \cite{peyton2016contagion} dans son article Systemic risk in
+financial systems, ils étudient l'importance non pas d'un seul paramètre,
 mais plutôt comment plusieurs paramètres interagissent entre eux. En l'occurrence,
-ils regardent comment la structure du réseau interagit avec plusieurs
-paramètres comme les expositions de dettes ou l'effet de levier,
-afin d'illustrer l'ambivalence de l'interconnexion interbancaire,
+ils regardent comment les expositions de dettes ou l'effet de levier influence le risque systemique,
+et montre l'ambivalence de l'interconnexion interbancaire,
 qui peut à la fois diversifier les expositions aux risques mais aussi créer des canaux
-par lesquels les chocs peuvent se propager par contagion.
+par lesquels les chocs peuvent se propager par contagion. Une particularité de ce papier est qu'il synthétise l'état de l'art sur le risque systemique, et donne les différents approchent pour
+modeliser et tester la résilience d'un réseau, quel paramètre serait le plus significatif.
 Dans la même approche, on a le papier de \cite{nier2008stability} qui fait une simulation
 à travers un graphe fixé d'Erdos-Renyi, ce qui nous a beaucoup inspiré pour l'ouverture de ce texte.
 Et pour finir sur les différentes approches qui existent, on peut aussi stipuler l'importance
@@ -102,11 +104,9 @@ Cette question demeure centrale dans la littérature récente sur la contagion f
 
 \subsection{Plan de l'article}
 Cet article s'organise comme suit.
-Nous présentons d'abord un état de l'art des travaux sur la contagion dans les réseaux financiers,
-en nous concentrant particulièrement sur les modèles d'Eisenberg-Noe \cite{eisenberg2001systemic}
-et leurs extensions. Nous développons ensuite notre méthodologie basée sur ces travaux,
-en justifiant nos choix de modélisation et d'implémentation. Nous exposons alors les résultats de nos simulations,
-illustrés par des analyses graphiques. Enfin, nous discutons des implications de ces résultats et proposons
+Nous formalisons le problème~\ref{sec:formalisation}, en présentant le modèle et puis on présente notre approche par simulation et annonce les résultats de la simulation.
+Et enfin on analyse les résultats ~\ref{sec:analyse} par des analyses graphiques.
+Nous discutons des implications de ces résultats et proposons
 des pistes d'amélioration, notamment par l'intégration d'autres caractéristiques structurelles
 comme l'intensité des obligations, le volume du capital et la concentration des nœuds.
 
