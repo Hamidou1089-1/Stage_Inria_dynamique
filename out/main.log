@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.4.14)  8 MAY 2025 01:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.4.14)  8 MAY 2025 03:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -933,12 +933,7 @@ Underfull \hbox (badness 8000) in paragraph at lines 3--9
 
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 35--35
-[]\T1/ptm/b/n/12 (+20) Modélisation et ap-proche
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 6725) has occurred while \output is active []
 
 
 
@@ -947,10 +942,21 @@ dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]\T1/ptm/b/n/12 (+20) Modélisation et ap-proche
+ []
 
-)
 
-[2] (./formalisation.tex
+Underfull \vbox (badness 1577) has occurred while \output is active []
+
+
+
+
+Underfull \vbox (badness 3302) has occurred while \output is active []
+
+
+
+[2]) (./formalisation.tex
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
@@ -993,11 +999,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 49--49
  []
 
 
+
+
 Underfull \hbox (badness 2027) in paragraph at lines 70--76
 []\T1/ptm/m/n/10 (+20) Ainsi, un réseau in-ter-ban-caire est un quadru-plet
  []
-
-
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 107.
@@ -1010,32 +1016,40 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [3]
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--192
+Underfull \hbox (badness 10000) in paragraph at lines 176--194
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--192
+Underfull \hbox (badness 10000) in paragraph at lines 176--194
 
  []
 
 
-Underfull \hbox (badness 1048) in paragraph at lines 174--192
+Underfull \hbox (badness 1048) in paragraph at lines 176--194
 \T1/ptm/m/n/10 (+20) Il nous manque un in-gre-di-ent pour que cette sim-u-
  []
 
 
 
-[4])
+[4]
+Underfull \hbox (badness 3323) in paragraph at lines 204--205
+[]\T1/ptm/m/n/10 (+20) Avant de don-ner la for-mule, on peut l'intuiter
+ []
 
-(./analyse.tex
+
+
+) (./analyse.tex
 <fig2_2d_prob_shock_default.png, id=159, 736.9131pt x 523.9575pt>
 File: fig2_2d_prob_shock_default.png Graphic file (type png)
 <use fig2_2d_prob_shock_default.png>
 Package pdftex.def Info: fig2_2d_prob_shock_default.png  used on input line 10.
 
 (pdftex.def)             Requested size: 229.8775pt x 163.4405pt.
-<fig4_2d_variation_shock_default.png, id=162, 794.4882pt x 523.9575pt>
+
+
+[5]
+<fig4_2d_variation_shock_default.png, id=169, 794.4882pt x 523.9575pt>
 File: fig4_2d_variation_shock_default.png Graphic file (type png)
 <use fig4_2d_variation_shock_default.png>
 Package pdftex.def Info: fig4_2d_variation_shock_default.png  used on input lin
@@ -1043,33 +1057,35 @@ e 25.
 (pdftex.def)             Requested size: 229.8775pt x 151.59999pt.
 
 
-[5 <./fig2_2d_prob_shock_default.png>]
-
-<fig3_3d_prob_shock_default.png, id=176, 745.3446pt x 573.5829pt>
+<fig3_3d_prob_shock_default.png, id=171, 745.3446pt x 573.5829pt>
 File: fig3_3d_prob_shock_default.png Graphic file (type png)
 <use fig3_3d_prob_shock_default.png>
-Package pdftex.def Info: fig3_3d_prob_shock_default.png  used on input line 52.
+Package pdftex.def Info: fig3_3d_prob_shock_default.png  used on input line 53.
 
 (pdftex.def)             Requested size: 229.8775pt x 176.89864pt.
-<fig1_3d_bank_shock_default.png, id=180, 699.8145pt x 574.3056pt>
+
+
+[6 <./fig2_2d_prob_shock_default.png> <./fig4_2d_variation_shock_default.png> <
+./fig3_3d_prob_shock_default.png>]
+<fig1_3d_bank_shock_default.png, id=190, 699.8145pt x 574.3056pt>
 File: fig1_3d_bank_shock_default.png Graphic file (type png)
 <use fig1_3d_bank_shock_default.png>
-Package pdftex.def Info: fig1_3d_bank_shock_default.png  used on input line 65.
+Package pdftex.def Info: fig1_3d_bank_shock_default.png  used on input line 73.
 
 (pdftex.def)             Requested size: 229.8775pt x 188.64511pt.
 
 
-[6 <./fig4_2d_variation_shock_default.png> <./fig3_3d_prob_shock_default.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 81--82
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
 []\T1/ptm/b/n/10 (+20) Complexité des mé-can-ismes sous-jacents \T1/ptm/m/n/10 
 (+20) :
  []
 
 ) (./conclusion.tex
 
-
-
 [7 <./fig1_3d_bank_shock_default.png>]
+
+
 Underfull \hbox (badness 2261) in paragraph at lines 43--43
 []\T1/ptm/b/n/12 (+20) Perspectives de recherche in-ter-dis-ci-
  []
@@ -1112,8 +1128,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 25--30
  []
 
 
-
-
 Underfull \hbox (badness 1087) in paragraph at lines 33--38
 []\T1/ptm/m/n/10 (+20) Kimmo So-ramäki, Morten L. Bech, Jef-frey Arnold,
  []
@@ -1130,11 +1144,11 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 50B6947D2D7E790EE6B35EE298A4BDC3;4810.
  ) 
 Here is how much of TeX's memory you used:
- 27053 strings out of 473584
- 500979 string characters out of 5730879
- 1955905 words of memory out of 5000000
+ 27055 strings out of 473584
+ 500997 string characters out of 5730879
+ 1952905 words of memory out of 5000000
  49117 multiletter control sequences out of 15000+600000
- 640345 words of font info for 340 fonts, out of 8000000 for 9000
+ 640862 words of font info for 342 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,13n,87p,1001b,832s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
@@ -1148,11 +1162,11 @@ r.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmri8a.pfb>
-Output written on /home/hamid/Stage_Inria_dynamique/out/main.pdf (8 pages, 2386
-541 bytes).
+Output written on /home/hamid/Stage_Inria_dynamique/out/main.pdf (8 pages, 2390
+739 bytes).
 PDF statistics:
- 288 PDF objects out of 1000 (max. 8388607)
- 243 compressed objects within 3 object streams
+ 289 PDF objects out of 1000 (max. 8388607)
+ 244 compressed objects within 3 object streams
  60 named destinations out of 1000 (max. 500000)
  89817 words of extra memory for PDF output out of 106986 (max. 10000000)
 

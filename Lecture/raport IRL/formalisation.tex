@@ -9,8 +9,8 @@ Considérons $x, y \in \mathbb{R}^n$,
 
 On note :
 \begin{align*}
-    \min(x,y) &= \min(x_i, y_i) \ \forall i \in \{1,\ldots, n\}\\
-    (x)_{+}  &= \max(0, x)
+    \min(x,y) &= \min(x_i, y_i) \ \forall i \in \{1,\ldots, n\}.\\
+    (x)_{+}  &= \max(0, x).
 \end{align*}
 \textbf{Définition Banque}
 \\
@@ -31,7 +31,7 @@ On définit $b$ et $c$ respectivement comme la somme totale d'emprunts extérieu
 futur on doit rembourser cette dette), et la somme totale de prêts extérieurs au système bancaire (donc un actif).
 \\
 On définit la somme totale des passifs de la banque:
-$$[I]_{i} = \sum_{j=1}^{n} [I]_{ij} + b_i $$
+$$[I]_{i} = \sum_{j=1}^{n} [I]_{ij} + b_i.$$
 \vspace{0.5cm}
 \begin{table}[htbp]
     \centering
@@ -43,12 +43,12 @@ $$[I]_{i} = \sum_{j=1}^{n} [I]_{ij} + b_i $$
         \hline
         \textbf{Actifs} & \textbf{Passifs} \\
         \hline
-        Prêts interbancaires: $\sum_{j=1}^{n} [I]_{ji}$ & Emprunts interbancaires: $\sum_{j=1}^{n} [I]_{ij}$ \\
+        Prêts interbancaires: $\sum_{j=1}^{n} [I]_{ji}$ & Emprunts interbancaires: $\sum_{j=1}^{n} [I]_{ij}.$ \\
         Actifs extérieurs: $c_i$ & Passifs extérieurs: $b_i$ \\
         \hline
-        \textbf{Total actifs}: $\sum_{j=1}^{n} [I]_{ji} + c_i$ & \textbf{Total passifs}: $\sum_{j=1}^{n} [I]_{ij} + b_i$ \\
+        \textbf{Total actifs}: $\sum_{j=1}^{n} [I]_{ji} + c_i$ & \textbf{Total passifs}: $\sum_{j=1}^{n} [I]_{ij} + b_i.$ \\
         \hline
-        \multicolumn{2}{|c|}{Valeur nette: $\sum_{j=1}^{n} [I]_{ji} + c_i - \sum_{j=1}^{n} [I]_{ij} - b_i$} \\
+        \multicolumn{2}{|c|}{Valeur nette: $\sum_{j=1}^{n} [I]_{ji} + c_i - \sum_{j=1}^{n} [I]_{ij} - b_i.$} \\
         \hline
     \end{tabular}
 \end{table}
@@ -65,7 +65,7 @@ Soit $I$ la matrice d'exposition bancaire définie par :
 $$[I]_{ij} = \begin{cases}
                  \text{obligation} & \text{si $i$ est lié à $j$} \\
                  0 & \text{sinon ou si $i = j$}
-\end{cases}$$
+\end{cases}.$$
 
 Ainsi, un réseau interbancaire est un quadruplet $(\mathcal{R}, I, c, b)$.
 \\
@@ -147,9 +147,8 @@ Avec les notations définies précédemment,
 on met en place un réseau afin de le tester, c'est-à-dire appliquer un choc exogène sur le réseau.
 \textbf{On définit un choc comme le non-remboursement d'une entité extérieure vers une banque}, c'est-à-dire lorsque le $c_i$ (actif extérieur de la banque i) attendu diminue.
 
-\textbf{Choix du Graphe}
+Ainsi pour effectuer une simulation, on a besoin d'une méthode pour génerer un graphe.
 
-\textbf{Graphe de Erdos-Renyi dirigé}
 Dans la théorie des graphes aléatoires, on va considérer un graphe orienté $\mathcal{R}$ avec $n \in \mathbb{N}$ comme nombre de nœuds.
 Notons :
 $$\mathcal{N} = \{1,\ldots, n\} $$
@@ -160,12 +159,15 @@ On suppose de plus qu'il y a indépendance pour le lien entre chaque nœud.
 
 Ce type de graphe aléatoire est un célèbre graphe nommé Graphe d'Erdos-Renyi (qui n'est pas forcément orienté dans sa définition générale).
 
+Ainsi on va génerer notre réseau interbancaire comme un graphe d'Erdos-Renyi, tel que les obligations et les dettes exterieurs sont choisis de manière a avoir un capital inferieur au actifs exterieur, pour l'effet du choc exogène
+ne puissent pas être négliger.
+
 On choisit de faire un choc exogène car cela nous permet de formaliser une mesure simple de gravité du choc.
 Soit $x\in \mathbb{R}^N$ un choc, notons que :
 $$\forall i \in \{1, \ldots, N\} \ x_i \in [0, c_i]$$
 Ainsi on définit la gravité du choc x, notée g telle que :
-$$g = \frac{\|x\|}{\|c\|}$$
-avec $\|x\| = \sum_{i=1}^{n} |x_i|$\\
+$$g = \frac{\|x\|}{\|c\|}.$$
+avec $\|x\| = \sum_{i=1}^{n} |x_i|.$\\
 De plus $g \in [0, 1]$.
 
 En considérant cette mesure de gravité du choc, on souhaite voir la relation avec la proportion de défaut notée $d$
@@ -191,23 +193,26 @@ Avec cette perte énorme de capital pour la banque 1, on a un autre problème qu
 Une méthode utilisé en finance dans ce cas, c'est la liquidation par prorata, rembourser nos créanciers en fonction de la proportion de leurs créances dans nos dettes.
 
 \subsection{Algorithme du vecteur de payement}
-Ainsi donc on défini une matrice R, qui va representer la proportion de chaque dette:
-$$[R]_{ij} = \frac{[I]_{ij}}{[I]_{i}}$$
-Reprenons l'exemple~\ref{subsec:exemple-de-reseau}, si Banque 1 ne rembourse que 60 (on arrondi) à la Banque 2, ce qui mène la Banque 2 à également faire défaut, par le même proceder,
-elle ne remboursera que 49 à la banque 4, ce qui la mène aussi à faire defaut, et de même,
-la banque 4 rembourse 75 à la banque 3, qui elle aussi se retrouvera en defaut.
-Mais tous ce calcul n'a été effectuer en supposant que la banque 3 rembourse la totalité de sa dette à la banque 1, ainsi on voit ici un problème de payements.
-Le vecteur de payement qui nous permet d'avoir le vecteur de payement d'équilibre est un point fixe d'une transformation défini dans le papier~\cite{eisenberg2001systemic} et reformuler par noe dans \cite{peyton2016contagion},
-On rappel cette transformation notée $\phi(P)$, avec P un vecteur de payement.
-Notons $\bar{P} \in \mathbb{R}^N$ défini tel que:
-$$\bar{P}_i = [I]_i$$
-Avant de donner la formule, on peut l'intuité economiquement, pour une banque i, elle ne va pas rembourser plus qu'elle devait de base, de plus elle ne peut pas rembourser une somme qu'elle ne possède pas.
-Ainsi on en déduit la formule :
-$$\phi(P) = \min(\bar{P}, \max(0, R^{T}P + c))$$
-Ainsi le vecteur de payement d'équilibre est une solution du problème de point de fixe $\phi(P) = P$.
+Ainsi donc on définit une matrice R, qui va représenter la proportion de chaque dette:
+$$[R]_{ij} = \frac{[I]_{ij}}{[I]_{i}}.$$
 
-C'est là que l'algorithme d'Eisenberg-Noe intervient, car dans leur papier \cite{eisenberg2001systemic}, il démontre que dans les conditions qu'on vérifie par construction, on commence avec un reseau qui contient des banques avec des valeurs nette
-positives et les poids sur les noeuds sont positifs, ce que l'algorithme de noe demande pour la convergence du probleme.
+Reprenons l'exemple~\ref{subsec:exemple-de-reseau}, si Banque 1 ne rembourse que 60 (on arrondit) à la Banque 2, ce qui mène la Banque 2 à également faire défaut, par le même procédé, elle ne remboursera que 49 à la banque 4, ce qui la mène aussi à faire défaut, et de même, la banque 4 rembourse 75 à la banque 3, qui elle aussi se retrouvera en défaut. Mais tout ce calcul n'a été effectué en supposant que la banque 3 rembourse la totalité de sa dette à la banque 1, ainsi on voit ici un problème de paiements.
 
-Maintenant avec cette algorithme, on va voir ce que les tracer nous donne.
+Le vecteur de paiement qui nous permet d'avoir le vecteur de paiement d'équilibre est un point fixe d'une transformation définie dans le papier~\cite{eisenberg2001systemic} et reformulée par Noe dans \cite{peyton2016contagion}. On rappelle cette transformation notée $\phi(P)$, avec P un vecteur de paiement. Notons $\bar{P} \in \mathbb{R}^N$ défini tel que:
+$$\bar{P}_i = [I]_i.$$
 
+Avant de donner la formule, on peut l'intuiter économiquement : pour une banque i, elle ne va pas rembourser plus qu'elle devait de base, de plus elle ne peut pas rembourser une somme qu'elle ne possède pas. Ainsi on en déduit la formule:
+$$\phi(P) = \min(\bar{P}, \max(0, R^{T}P + c)).$$
+
+Ainsi le vecteur de paiement d'équilibre est une solution du problème de point fixe $\phi(P) = P$.
+
+Pour calculer ce vecteur d'équilibre, Eisenberg et Noe proposent un algorithme itératif, parfois appelé \textit{algorithme des défauts fictifs} \cite{eisenberg2001systemic}. Le principe est de construire une séquence de vecteurs de paiement qui converge vers la solution. On commence avec $P^0 = \bar{P}$, qui correspond au cas où toutes les banques remboursent intégralement leurs dettes. Puis on construit itérativement:
+$$P^1 = \phi(P^0), P^2 = \phi(P^1), P^3 = \phi(P^2), \ldots$$
+
+Eisenberg et Noe démontrent que cette séquence est monotone décroissante: $P^0 \geq P^1 \geq P^2 \geq \ldots$, ce qui signifie qu'à chaque itération, les paiements estimés diminuent ou restent constants. Comme cette séquence est bornée inférieurement par le vecteur nul (les paiements ne peuvent pas être négatifs), elle converge nécessairement vers une limite $P' = \lim_{k \to \infty} P^k$.
+
+La continuité de la fonction $\phi$ garantit que $P'$ est un point fixe de $\phi$, c'est-à-dire $\phi(P') = P'$.
+Ce point fixe constitue le vecteur de paiement d'équilibre recherché.
+La convergence de l'algorithme est assurée lorsque toutes les banques ont initialement une valeur nette positive et que tous les poids dans la matrice R sont positifs, conditions que notre construction vérifie par définition.
+
+Maintenant avec cet algorithme, on va voir ce que les tracés nous donnent.

@@ -45,7 +45,8 @@ Il est important de noter que ces hypothèses restent à vérifier par des analy
 
 \subsection{Influence de la densité du réseau}\label{subsec:influence-de-la-densite-du-reseau}
 
-Notre étude visait initialement à déterminer l'influence de la densité du réseau sur sa résilience face aux chocs. La Figure \ref{fig:3d_density_shock} présente la relation entre la probabilité de connexion, l'amplitude du choc, et la proportion de défauts.
+Notre étude visait initialement à déterminer l'influence de la densité du réseau sur sa résilience face aux chocs.
+La Figure \ref{fig:3d_density_shock} présente la relation entre la probabilité de connexion, l'amplitude du choc, et la proportion de défauts.
 
 \begin{figure}[htbp]
     \centering
@@ -54,7 +55,14 @@ Notre étude visait initialement à déterminer l'influence de la densité du r�
     \label{fig:3d_density_shock}
 \end{figure}
 
-L'analyse de cette visualisation révèle un résultat contre-intuitif : les réseaux moins connectés apparaissent plus résistants aux chocs que les réseaux densément connectés. Ce constat va à l'encontre de l'hypothèse de diversification du risque défendue par \cite{peyton2016contagion}, selon laquelle une plus grande interconnexion devrait permettre de mieux diluer l'impact des chocs.
+L'analyse de cette visualisation montre que les réseaux moins connectés apparaissent plus résistants aux chocs exogènes que les réseaux densément connectés dans notre modèle.
+Ce résultat peut sembler paradoxal au regard de la théorie de diversification des risques défendue par~\cite{peyton2016contagion}, mais il est important de distinguer deux types de risques bancaires :
+
+1. Le risque idiosyncratique (ou spécifique) : propre à chaque institution, il bénéficie effectivement de la diversification par l'interconnexion. Face à ce type de risque, un réseau plus dense permet à chaque banque de répartir ses expositions, réduisant ainsi sa vulnérabilité aux défaillances isolées.
+
+2. Le risque systémique (ou global) : affectant simultanément plusieurs parties du système, il peut au contraire être amplifié par l'interconnexion. Dans ce cas, les liens entre institutions deviennent des canaux de contagion plutôt que des mécanismes de dilution.
+
+Notre étude se concentre précisément sur la propagation de chocs exogènes à travers le système, correspondant au deuxième type de risque. Il est donc cohérent d'observer qu'un réseau moins connecté présente moins de canaux de contagion et se montre plus résistant dans ce contexte spécifique, sans pour autant contredire les bénéfices de la diversification contre les risques idiosyncratiques.
 
 \subsection{Effet de l'échelle du réseau}\label{subsec:effet-de-l'echelle-du-reseau}
 
