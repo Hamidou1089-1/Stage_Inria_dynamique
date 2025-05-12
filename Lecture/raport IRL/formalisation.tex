@@ -1,4 +1,4 @@
-\subsection{Présentation du Modèle}\label{subsec:presentation-du-modele}
+\subsection*{Présentation du Modèle}\label{subsec:presentation-du-modele}
 On va se donner des hypothèses simplificatrice à l'échelle economique, la liquidation des banques en defaut est instannée.
 
 On va se fixer une convention d'écriture au cours de cet article.
@@ -12,7 +12,7 @@ On note :
     \min(x,y) &= \min(x_i, y_i) \ \forall i \in \{1,\ldots, n\}.\\
     (x)_{+}  &= \max(0, x).
 \end{align*}
-\textbf{Définition Banque}
+\subsubsection*{Définition Banque}
 \\
 Quelques rappels de comptabilité pour faciliter la lecture:
 L'actif du bilan représente les possessions de l'entreprise,
@@ -23,16 +23,17 @@ droite du bilan comptable et représente l'ensemble des dettes de
 l'entreprise concernée.
 \\
 Au cours de cette étude, on nomme banque une entité caractérisée par un bilan simplifié:
-Considérons une Banque.
-
-Soit $b \in \mathbb{R}$ et $c \in \mathbb{R}$
-\\
-On définit $b$ et $c$ respectivement comme la somme totale d'emprunts extérieurs au système bancaire (donc un passif, car dans le
+Pour une banque i, on note $b_i \in \mathbb{R}$ et $c_i \in \mathbb{R}$ respectivement comme la somme totale d'emprunts extérieurs au système bancaire (donc un passif, car dans le
 futur on doit rembourser cette dette), et la somme totale de prêts extérieurs au système bancaire (donc un actif).
+
 \\
-On définit la somme totale des passifs de la banque:
+Entre deux banques i et j, on note $[I]_{ij}$ l'obligation de i vers j , autrement dit la banque i doit $[I]_{ij}$ d'argent
+à la banque j.
+
+On définit la somme totale des passifs de la banque, comme la somme total de ces obligations à toutes les autres banques
+plus la somme totale de ces emprunts exterieurs:
 $$[I]_{i} = \sum_{j=1}^{n} [I]_{ij} + b_i.$$
-\vspace{0.5cm}
+
 \begin{table}[htbp]
     \centering
     \caption{Bilan comptable simplifié d'une banque dans un réseau interbancaire}
@@ -52,28 +53,29 @@ $$[I]_{i} = \sum_{j=1}^{n} [I]_{ij} + b_i.$$
         \hline
     \end{tabular}
 \end{table}
-\vspace*{0.5cm}
-On nomme ce tableau bilan simplifié car un bilan vérifie la propriété $\text{total d'actif} = \text{total passif}$, ce qui n'est pas forcément notre cas ici.
+
+On nomme ce tableau ~\ref{tab:bilan-banque} bilan simplifié car un bilan vérifie la propriété $\text{total d'actif} = \text{total passif}$, ce qui n'est pas forcément notre cas ici.
 Puisqu'on a simplement besoin d'observer une banque comme une entité qui reçoit ou donne de l'argent, avec la seule
 particularité qu'elle est solvable si et seulement si sa \textbf{Valeur nette} est strictement positive.
-\vspace*{0.5cm}
-\textbf{Définition: }
+
+\subsubsection*{Définition:}
 On définit un réseau interbancaire comme $\mathcal{R}$, un graphe pondéré orienté avec
 $N \in \mathbb{N}$ nœuds, et des flux extérieurs qu'on notera $c$ et $b$, deux vecteurs de $\mathbb{R}^N$.
 \\
 Soit $I$ la matrice d'exposition bancaire définie par :
 $$[I]_{ij} = \begin{cases}
-                 \text{obligation} & \text{si $i$ est lié à $j$} \\
+                 \text{obligation} & \text{si $i$ est emprunte à $j$} \\
                  0 & \text{sinon ou si $i = j$}
 \end{cases}.$$
 
 Ainsi, un réseau interbancaire est un quadruplet $(\mathcal{R}, I, c, b)$.
 \\
-Économiquement, on peut interpréter $c$ et $b$ comme les prêts accordés à des entités extérieures au système bancaire (ménages, entreprises) ou des investissements en actifs non-bancaires. La matrice $I$ représente quant à elle l'ensemble des obligations entre banques, formant ainsi le réseau d'interdépendances financières qui peut devenir un canal de contagion en cas de défaut.
+Économiquement, on peut interpréter $c$ et $b$ comme les prêts accordés à des entités extérieures au système bancaire (ménages, entreprises) ou des investissements en actifs non-bancaires.
+La matrice $I$ représente quant à elle l'ensemble des obligations entre banques, formant ainsi le réseau d'interdépendances financières qui peut devenir un canal de contagion en cas de défaut.
 \\
 Les obligations entre deux banques sont positives ou nulles.
-\vspace{0.5cm}
-\subsection{Exemple de réseau}\label{subsec:exemple-de-reseau}
+
+\subsection*{Exemple de réseau}\label{subsec:exemple-de-reseau}
 Illustrons un exemple d'un réseau interbancaire, avec 4 banques.
 On retrouve bien toutes les informations du bilan
 simplifié sur la figure~\ref{fig:network_with_externals}.
@@ -128,21 +130,22 @@ simplifié sur la figure~\ref{fig:network_with_externals}.
     \caption{Réseau interbancaire avec actifs et passifs externes}
     \label{fig:network_with_externals}
 \end{figure}
-\textbf{Description}
+\subsubsection*{Description}
 \begin{itemize}
     \item Banque 1 possède un actif total de 245 (150 d'actifs externes + 95 de prêts interbancaires de la Banque 3) et un passif total de 235 (95 de passifs externes + 140 de prêts à la Banque 2), ce qui explique sa valeur nette positive de 10.
     \item Banque 2 possède un actif total de 220 (80 d'actifs externes + 140 de prêts interbancaires de la Banque 1) et un passif total de 215 (140 de passifs externes + 75 de prêts à la Banque 4), lui donnant une valeur nette de 5.
     \item Banque 3 possède un actif total de 200 (100 d'actifs externes + 100 de prêts interbancaires de la Banque 4) et un passif total de 195 (100 de passifs externes + 95 de prêts à la Banque 1), résultant en une valeur nette de 5.
     \item Banque 4 possède un actif total de 185 (110 d'actifs externes + 75 de prêts interbancaires de la Banque 2) et un passif total de 175 (75 de passifs externes + 100 de prêts à la Banque 3), lui conférant une valeur nette de 10.
 \end{itemize}
-\textbf{Remarque}
+\subsubsection*{Remarque}
 \\
 Cette figure~\ref{fig:network_with_externals} est un graphe orienté connexe cyclique.
 On peut affirmer avec cette topologie de graphe qu'il est dense, mais ce qui le rend particulièrement intéressant c'est
 le cycle, parce que dans cette étude, on souhaite quantifier la résilience d'un réseau en fonction des interconnexions.
 Cependant, avant de voir comment construire cela, il faut qu'on garde à l'esprit que le nombre de cycles courts ou longs dans notre réseau influence grandement \textbf{l'effet de cascade}
 de défaut; d'ailleurs ce sera une difficulté au cours de cette étude, de faire la part des choses entre le rôle de la densité du réseau et le nombre de cycles présents dans le réseau.
-\subsection{Approche par Simulation}\label{subsec:approche-par-simulation}
+
+\subsection*{Approche par Simulation}\label{subsec:approche-par-simulation}
 Avec les notations définies précédemment,
 on met en place un réseau afin de le tester, c'est-à-dire appliquer un choc exogène sur le réseau.
 \textbf{On définit un choc comme le non-remboursement d'une entité extérieure vers une banque}, c'est-à-dire lorsque le $c_i$ (actif extérieur de la banque i) attendu diminue.
@@ -159,10 +162,19 @@ On suppose de plus qu'il y a indépendance pour le lien entre chaque nœud.
 
 Ce type de graphe aléatoire est un célèbre graphe nommé Graphe d'Erdos-Renyi (qui n'est pas forcément orienté dans sa définition générale).
 
-Ainsi on va génerer notre réseau interbancaire comme un graphe d'Erdos-Renyi, tel que les obligations et les dettes exterieurs sont choisis de manière a avoir un capital inferieur au actifs exterieur, pour l'effet du choc exogène
+Ainsi on va génerer notre réseau interbancaire comme un graphe d'Erdos-Renyi, tel que les obligations et les dettes exterieurs sont choisis de manière a avoir un capital inferieur au actifs exterieur, pour que l'effet du choc exogène
 ne puissent pas être négliger.
-
+\subsubsection*{Methode de generation}
+Pour la génération de notre réseau interbancaire, nous adoptons une approche pragmatique:
+les obligations interbancaires (matrice I) et les actifs/passifs extérieurs (vecteurs b et c) sont
+d'abord générés aléatoirement, puis systématiquement ajustés pour garantir que chaque banque
+commence avec une valeur nette positive.
+Cette neutralisation délibérée nous permet de nous concentrer spécifiquement sur
+l'effet de la densité du réseau sur la propagation des défauts suite à un choc exogène,
+en isolant cette variable des effets potentiels des distributions statistiques initiales.
+\\\\
 On choisit de faire un choc exogène car cela nous permet de formaliser une mesure simple de gravité du choc.
+
 Soit $x\in \mathbb{R}^N$ un choc, notons que :
 $$\forall i \in \{1, \ldots, N\} \ x_i \in [0, c_i]$$
 Ainsi on définit la gravité du choc x, notée g telle que :
@@ -173,26 +185,26 @@ De plus $g \in [0, 1]$.
 En considérant cette mesure de gravité du choc, on souhaite voir la relation avec la proportion de défaut notée $d$
 pour un $p$ fixé, la probabilité dans le graphe d'Erdos-Renyi d'avoir un lien entre deux banques.
 On défini $d$ tel que :
-$$d = \frac{\text{Nombre de defaut}}{N}$$
-On voit naturellement que d'un point de vue empirique, la simulation s'exprime d'elle-même : on va tester, pour un choc exogène croissant linéaire avec un réseau de plus en plus dense (faire croître p), la courbe
-de la proportion de défaut dans le réseau après avoir appliqué le choc.
+$$d = \frac{\text{Nombre de defaut}}{N}.$$
+On voit naturellement que d'un point de vue empirique, la simulation s'exprime d'elle-même : on va tester, pour un choc exogène croissant linéaire sur un réseau de plus en plus dense (faire croître p), afficher la courbe
+de la proportion de défaut dans le réseau en fonction de la gravité du choc g.
 \\\\
-Pour faire cela, on a choisi de faire une implémentation en Python avec une architecture MVC (modèle, vue et contrôleur), pour un développement modulaire qui nous aidera dans de futurs développements du modèle du réseau, sans trop
+Pour faire cela, on a choisi de faire une implémentation en Python avec une architecture MVC (modèle, vue et contrôleur), pour un développement modulaire qui nous aidera dans de futurs développements du modèle du réseau,
 notons en l'occurence que ce choix est très adapté pour ce type de problème, car une simulation par définition est un objet qui prend différent objet et teste des propriété dessus.
 Notre simulateur étant le controlleur, il va prendre un réseau qui est une donnée avec toute sa logique metier, et va appliquer des chocs sur le reseau, ensuite demande à la vue de nous afficher le graphique correspondant.\\
 À ce niveau, on peut déjà se demander si cette approche nous donnera une bonne mesure du risque systémique.
 À quoi ressemblerait cette mesure ?
 \\
-\textbf{Avec un réseau, avec ses paramètres et sa topologie, en l'occurrence pour nous avec la densité du réseau, faire ressortir la résilience du réseau, qui est un seuil de proportion de défaut, qui lorsqu'on le dépasse, on considère qu'on est en crise systémique.}
-En l'état actuel de l'étude, on n'a pas encore traduit cela en probabilité, c'est-à-dire la probabilité pour un réseau de faire une crise systémique, car pour cela on devrait considérer la probabilité d'avoir un choc particulier.
+Par la définition du risque systémique, on cherche à savoir pour un choc donné, avec un niveau d'interconnexion connu
+quel proportion de banque font défaut.
 \\\\
-Il nous manque un ingredient pour que cette simulation se déroule bien, comment mettre à jour le réseau et compter le nombre de defaut après un choc ?\\
+Il nous manque un ingredient pour que cette simulation soit utile, comment mettre à jour le réseau et compter le nombre de defaut après un choc ?\\
 Revenons sur la figure~\ref{fig:network_with_externals}, si la banque 1 fait défaut car on ne lui rembourse plus 150 mais 5, un calcul rapide de sa valeur nette nous montre qu'il
 est en defaut.
 Avec cette perte énorme de capital pour la banque 1, on a un autre problème qui apparait, maintenant que banque 1 à fait défaut, elle ne peut plus rembourser ces dettes en totalité.
 Une méthode utilisé en finance dans ce cas, c'est la liquidation par prorata, rembourser nos créanciers en fonction de la proportion de leurs créances dans nos dettes.
 
-\subsection{Algorithme du vecteur de payement}
+\subsection*{Algorithme du vecteur de payement}\label{subsec:algorithme-du-vecteur-de-payement}
 Ainsi donc on définit une matrice R, qui va représenter la proportion de chaque dette:
 $$[R]_{ij} = \frac{[I]_{ij}}{[I]_{i}}.$$
 

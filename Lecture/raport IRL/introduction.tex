@@ -1,5 +1,5 @@
 
-\subsection{Contexte de recherche et collaboration}
+\subsection*{Contexte de recherche et collaboration}
 Cette étude s'inscrit dans le cadre d'un projet d'Introduction à la Recherche au sein de l'IMAG,
 en collaboration avec les équipes \textbf{DANCE} et \textbf{POLARIS} de l'INRIA Grenoble.
 L'équipe POLARIS travaille sur l'analyse des performances des très grands systèmes distribués,
@@ -8,16 +8,18 @@ Cette collaboration interdisciplinaire nous a permis d'aborder la question du ri
 en associant modélisation mathématique et simulation informatique.
 
 
-\subsection{Le risque systémique et son importance}
+\subsection*{Le risque systémique et son importance}
 L'existence des marchés financiers au cours de l'histoire du capitalisme se caracterise par les crises périodiques qui sont censés être des évenements extrême,
-pourtant, on en voit plus souvent que prevu. Dans la plupart de nos modèles, on sous estime les interdépendances bancaires. Parmi les crises récente, l'envergure de la crise 2007-2008, avec l'enjeu des interconnexion va nous permettre de motiver notre problème.
+pourtant, on en voit plus souvent que prevu. Dans la plupart de nos modèles, on sous estime les interdépendances bancaires. Parmi les crises récente, l'envergure de la crise 2007-2008, le rôle joué par les interconnexions des banques dans cette crise sera un point de depart pour notre
+problème.
 Cette crise a fourni une illustration dramatique de la propagation des défaillances
 dans un réseau financier \cite{peyton2016contagion}. Lehman Brothers était la 4e plus grande banque
 d'investissement en Amérique. En se basant sur la description de \cite{jglass2006topologyus} du réseau
 interbancaire aux USA, qui nous indique qu'il existe des grandes banques nommées \textbf{core},
 très fortement liées entre elles, et les \textbf{périphéries} qui empruntent à ces grandes banques.
-Ces banques avec un capital très important portent l'appellation "\textbf{too big to fail}",
-ainsi lorsque Lehman Brothers fut en défaut, il y a eu une cascade de défauts. Cependant,
+Ces banques avec un capital très important portent l'appellation "\textbf{too big to fail}".
+Lehman Brothers faisait parti des \textbf{core} et même des core les plus important.
+Ainsi lorsque Lehman Brothers fut en faillite, elle provoqua une cascade de défaut. Cependant,
 d'autres facteurs économiques étaient présents, comme la liquidité et les produits dérivés.
 La forte connectivité du réseau de dette interbancaire aux USA a créé des canaux de contagion qui ont
 aggravé la situation de la crise. Ces événements ont révélé comment des institutions fortement
@@ -30,11 +32,11 @@ travers un réseau d'interconnexions et menacer l'intégrité du système financ
 Cette crise systémique est justement ce qui va nous permettre de donner un sens au \textbf{risque systémique},
 qui n'est rien d'autre que la probabilité qu'une crise systémique se produise.
 Ainsi, pour un réseau de dette interbancaire donné,
-si on réussit à trouver les paramètres qui interviennent le plus sur la fragilité du réseau,
+si on réussit à trouver les paramètres qui influence le plus la fragilité du réseau,
 on réussira à donner une mesure de ce risque.
 
 
-\subsection{Modélisation et approche méthodologique}
+\subsection*{Modélisation et approche méthodologique}
 Pour donner un sens à ces paramètres, parlons rapidement du modèle choisi.
 Notre approche se situe à l'intersection de la théorie des graphes aléatoires,
 de l'informatique appliquée à la finance et à l'économie.
@@ -48,25 +50,25 @@ et les dettes liées au réseau.
 
 
 Un premier problème qu'on peut soulever, comme \cite{peyton2016contagion} le souligne dans son article,
-est pourquoi les banques décident de tant se lier à d'autres banques à travers les dettes ?
+pourquoi les banques décident de tant se lier à d'autres banques à travers les dettes ?
 Ce que la théorie financière nous enseigne, c'est que toutes les banques cherchent à réduire
-le risque derrière chaque opération financière. Ainsi, la forte connectivité permettant de diversifier
+le risque derrière chaque opération financière c'est le risque global. Ainsi, la forte connectivité permettant de diversifier
 leurs actifs chez différents acteurs, les banques empruntent et prêtent le plus possible.
 Mais on verra par la suite que selon la nature du réseau et selon la longueur des cycles présents dans le réseau,
 ces diversifications peuvent se retourner contre les banques en cas de défaut d'un de leurs créanciers.
 On voit donc que le niveau d'interconnexion joue un rôle important dans la fragilité du réseau.
 
 
-\subsection{Objectifs et problématique}
+\subsection*{Objectifs et problématique}
 Dans cette étude, nous examinons spécifiquement l'impact du niveau d'interconnexion sur la résilience d'un réseau
 financier. La fragilité d'un système financier est un sujet important tant d'un point de vue économique que financier.
-Économique car plus le risque systémique est élevé, plus les conséquences sur l'économie réelle seront importantes,
+Économiquement car plus le risque systémique est élevé, plus les conséquences sur l'économie réelle seront importantes,
 se traduisant par des récessions, du chômage et des interventions publiques coûteuses.
-Financier car dans les mécanismes internes du système, cela se traduit par une plus grande volatilité
+Financierèment car dans les mécanismes internes du système, cela se traduit par une plus grande volatilité
 et une diminution du volume de capital bancaire.
 
 
-\subsection{État de l'art et positionnement}
+\subsection*{État de l'art et positionnement}
 L'impact de l'interconnexion sur la résilience d'un réseau est une rélation étudier par beaucoup de chercheur,
 comme par exemple \cite{peyton2016contagion} dans son article Systemic risk in
 financial systems, ils étudient l'importance non pas d'un seul paramètre,
@@ -75,7 +77,9 @@ ils regardent comment les expositions de dettes ou l'effet de levier influence l
 et montre l'ambivalence de l'interconnexion interbancaire,
 qui peut à la fois diversifier les expositions aux risques mais aussi créer des canaux
 par lesquels les chocs peuvent se propager par contagion. Une particularité de ce papier est qu'il synthétise l'état de l'art sur le risque systemique, et donne les différents approchent pour
-modeliser et tester la résilience d'un réseau, quel paramètre serait le plus significatif.
+modeliser et tester la résilience d'un réseau, quel paramètre serait le plus significatif. Ce qui nous a beaucoup inspiré
+car notre approche consiste à explorer sa synthèse sur les paramètres, et montrer grace à nos simulation une ilustration empirique.
+
 Dans la même approche, on a le papier de \cite{nier2008stability} qui fait une simulation
 à travers un graphe fixé d'Erdos-Renyi, ce qui nous a beaucoup inspiré pour l'ouverture de ce texte.
 Et pour finir sur les différentes approches qui existent, on peut aussi stipuler l'importance
@@ -91,8 +95,9 @@ Dans le cas d'un non-remboursement provenant de l'extérieur du système (choc e
 comment se propagent les défaillances en cascade à travers le réseau ?
 
 
-\subsection{Problématique centrale et contribution}
+\subsection*{Problématique centrale et contribution}
 C'est là que notre problématique centrale intervient :
+
 dans quelle mesure les interconnexions permettent-elles de réduire l'impact d'un choc ?
 À partir de quel seuil d'interconnexions ce choc cesse-t-il d'être dilué pour, au contraire, être amplifié ?
 Parmi les multiples paramètres pouvant influencer la résilience d'un réseau financier
@@ -104,7 +109,7 @@ l'expérience de la crise suggère qu'au-delà d'un certain seuil, elle pourrait
 Cette question demeure centrale dans la littérature récente sur la contagion financière.
 
 
-\subsection{Plan de l'article}
+\subsection*{Plan de l'article}
 Cet article s'organise comme suit.
 Nous formalisons le problème~\ref{sec:formalisation}, en présentant le modèle et puis on présente notre approche par simulation et annonce les résultats de la simulation.
 Et enfin on analyse les résultats ~\ref{sec:analyse} par des analyses graphiques.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.4.14)  8 MAY 2025 03:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.4.14)  12 MAY 2025 16:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -880,7 +880,7 @@ Package caption Info: End \AtBeginDocument code.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line
- 75.
+ 76.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
@@ -889,35 +889,35 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line
- 75.
+ 76.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line
- 75.
+ 76.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line
- 75.
+ 76.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 7
-5.
+6.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 76.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 76.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 76.
 
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
@@ -942,17 +942,9 @@ dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 37--37
-[]\T1/ptm/b/n/12 (+20) Modélisation et ap-proche
- []
+Underfull \vbox (badness 1831) has occurred while \output is active []
 
 
-Underfull \vbox (badness 1577) has occurred while \output is active []
-
-
-
-
-Underfull \vbox (badness 3302) has occurred while \output is active []
 
 
 
@@ -964,92 +956,139 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--46
+
+./formalisation.tex:17: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.17 Q
+      uelques rappels de comptabilitÃ© pour faciliter la lecture:
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./formalisation.tex:30: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.30 E
+      ntre deux banques i et j, on note $[I]_{ij}$ l'obligation de i vers j ...
+
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
 []\T1/ptm/m/n/10 (+20) Prêts in-ter-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--46
+Underfull \hbox (badness 10000) in paragraph at lines 47--47
 \T1/ptm/m/n/10 (+20) ban-caires:
  []
 
 
-Underfull \hbox (badness 3849) in paragraph at lines 46--47
+Underfull \hbox (badness 3849) in paragraph at lines 47--48
 []\T1/ptm/m/n/10 (+20) Emprunts in-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--47
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
 \T1/ptm/m/n/10 (+20) ter-ban-caires:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--47
+Underfull \hbox (badness 10000) in paragraph at lines 48--48
 []\T1/ptm/m/n/10 (+20) Actifs ex-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--48
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
 []\T1/ptm/m/n/10 (+20) Passifs ex-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--49
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
 []\T1/ptm/b/n/10 (+20) Total ac-t-ifs\T1/ptm/m/n/10 (+20) :
  []
 
 
 
 
-Underfull \hbox (badness 2027) in paragraph at lines 70--76
+Underfull \hbox (badness 2027) in paragraph at lines 71--77
 []\T1/ptm/m/n/10 (+20) Ainsi, un réseau in-ter-ban-caire est un quadru-plet
  []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 107.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 109.
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-33.
+35.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 
 [3]
 
+./formalisation.tex:142: LaTeX Error: There's no line here to end.
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--194
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.142 C
+       ette figure~\ref{fig:network_with_externals} est un graphe orientÃ© c...
 
- []
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--194
-
- []
 
 
-Underfull \hbox (badness 1048) in paragraph at lines 176--194
-\T1/ptm/m/n/10 (+20) Il nous manque un in-gre-di-ent pour que cette sim-u-
+Underfull \hbox (badness 10000) in paragraph at lines 168--177
+
  []
 
 
 
 [4]
-Underfull \hbox (badness 3323) in paragraph at lines 204--205
-[]\T1/ptm/m/n/10 (+20) Avant de don-ner la for-mule, on peut l'intuiter
+Underfull \hbox (badness 10000) in paragraph at lines 188--206
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 188--206
+
+ []
+
+
+Underfull \hbox (badness 1048) in paragraph at lines 188--206
+\T1/ptm/m/n/10 (+20) Il nous manque un in-gre-di-ent pour que cette sim-u-
  []
 
 
 
+
+Underfull \hbox (badness 3323) in paragraph at lines 216--217
+[]\T1/ptm/m/n/10 (+20) Avant de don-ner la for-mule, on peut l'intuiter
+ []
+
 ) (./analyse.tex
-<fig2_2d_prob_shock_default.png, id=159, 736.9131pt x 523.9575pt>
+
+[5]
+<fig2_2d_prob_shock_default.png, id=104, 736.9131pt x 523.9575pt>
 File: fig2_2d_prob_shock_default.png Graphic file (type png)
 <use fig2_2d_prob_shock_default.png>
 Package pdftex.def Info: fig2_2d_prob_shock_default.png  used on input line 10.
 
 (pdftex.def)             Requested size: 229.8775pt x 163.4405pt.
-
-
-[5]
-<fig4_2d_variation_shock_default.png, id=169, 794.4882pt x 523.9575pt>
+<fig4_2d_variation_shock_default.png, id=107, 794.4882pt x 523.9575pt>
 File: fig4_2d_variation_shock_default.png Graphic file (type png)
 <use fig4_2d_variation_shock_default.png>
 Package pdftex.def Info: fig4_2d_variation_shock_default.png  used on input lin
@@ -1057,7 +1096,7 @@ e 25.
 (pdftex.def)             Requested size: 229.8775pt x 151.59999pt.
 
 
-<fig3_3d_prob_shock_default.png, id=171, 745.3446pt x 573.5829pt>
+<fig3_3d_prob_shock_default.png, id=109, 745.3446pt x 573.5829pt>
 File: fig3_3d_prob_shock_default.png Graphic file (type png)
 <use fig3_3d_prob_shock_default.png>
 Package pdftex.def Info: fig3_3d_prob_shock_default.png  used on input line 53.
@@ -1065,14 +1104,16 @@ Package pdftex.def Info: fig3_3d_prob_shock_default.png  used on input line 53.
 (pdftex.def)             Requested size: 229.8775pt x 176.89864pt.
 
 
-[6 <./fig2_2d_prob_shock_default.png> <./fig4_2d_variation_shock_default.png> <
-./fig3_3d_prob_shock_default.png>]
-<fig1_3d_bank_shock_default.png, id=190, 699.8145pt x 574.3056pt>
+[6 <./fig2_2d_prob_shock_default.png> <./fig4_2d_variation_shock_default.png>]
+<fig1_3d_bank_shock_default.png, id=131, 699.8145pt x 574.3056pt>
 File: fig1_3d_bank_shock_default.png Graphic file (type png)
 <use fig1_3d_bank_shock_default.png>
 Package pdftex.def Info: fig1_3d_bank_shock_default.png  used on input line 73.
 
 (pdftex.def)             Requested size: 229.8775pt x 188.64511pt.
+
+Underfull \vbox (badness 2302) has occurred while \output is active []
+
 
 
 
@@ -1083,18 +1124,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 89--90
 
 ) (./conclusion.tex
 
-[7 <./fig1_3d_bank_shock_default.png>]
-
-
-Underfull \hbox (badness 2261) in paragraph at lines 43--43
-[]\T1/ptm/b/n/12 (+20) Perspectives de recherche in-ter-dis-ci-
- []
+[7 <./fig3_3d_prob_shock_default.png> <./fig1_3d_bank_shock_default.png>]
 
 ) (/home/hamid/Stage_Inria_dynamique/out/main.bbl
+
+[8]
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 2
 9.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 Package microtype Info: Loading generic protrusion settings for font family
@@ -1134,23 +1171,27 @@ Underfull \hbox (badness 1087) in paragraph at lines 33--38
 
 )
 
-[8{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
+
+
+[9{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}
+
+]
 (/home/hamid/Stage_Inria_dynamique/out/main.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-05-27>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 50B6947D2D7E790EE6B35EE298A4BDC3;4810.
+(rerunfilecheck)             Checksum: 86F24E21F8750E67312BB969472C08F4;527.
  ) 
 Here is how much of TeX's memory you used:
- 27055 strings out of 473584
- 500997 string characters out of 5730879
- 1952905 words of memory out of 5000000
- 49117 multiletter control sequences out of 15000+600000
- 640862 words of font info for 342 fonts, out of 8000000 for 9000
+ 27046 strings out of 473584
+ 500761 string characters out of 5730879
+ 1953905 words of memory out of 5000000
+ 49099 multiletter control sequences out of 15000+600000
+ 640992 words of font info for 344 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,13n,87p,1001b,832s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,87p,1001b,836s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
@@ -1162,11 +1203,11 @@ r.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/urw/times/utmri8a.pfb>
-Output written on /home/hamid/Stage_Inria_dynamique/out/main.pdf (8 pages, 2390
-739 bytes).
+Output written on /home/hamid/Stage_Inria_dynamique/out/main.pdf (9 pages, 2389
+370 bytes).
 PDF statistics:
- 289 PDF objects out of 1000 (max. 8388607)
- 244 compressed objects within 3 object streams
- 60 named destinations out of 1000 (max. 500000)
- 89817 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 241 PDF objects out of 1000 (max. 8388607)
+ 196 compressed objects within 2 object streams
+ 66 named destinations out of 1000 (max. 500000)
+ 89665 words of extra memory for PDF output out of 106986 (max. 10000000)
 
