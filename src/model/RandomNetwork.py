@@ -62,16 +62,16 @@ class RandomNetwork(Network):
 
         for i in range(n):
             if np.random.random() < self.probability_of_linking:
-                self.vector_outside_liabilities[i] = stats.gamma.rvs(a=1, scale=100)
+                self.vector_outside_liabilities[i] = stats.gamma.rvs(a=150)
             for j in range(n):
                 if np.random.random() < self.probability_of_linking:
                     if i == j or self.matrix_obligation[j][i] > 0:
                         self.matrix_obligation[i][j] = 0
                         continue
                     elif np.random.random() < 0.5:
-                        self.matrix_obligation[i][j] = stats.gamma.rvs(a=1, scale=100)
+                        self.matrix_obligation[i][j] = stats.gamma.rvs(a=150)
                     else:
-                        self.matrix_obligation[j][i] = stats.gamma.rvs(a=1, scale=100)
+                        self.matrix_obligation[j][i] = stats.gamma.rvs(a=150)
 
 
 
@@ -80,9 +80,9 @@ class RandomNetwork(Network):
 
         for i in range(n):
             if on_me_doit[i] < je_dois[i] + self.vector_outside_liabilities[i]:
-                self.vector_outside_asset[i] = je_dois[i] + self.vector_outside_liabilities[i] - on_me_doit[i] + stats.gamma.rvs(a=1.99, scale=100)
+                self.vector_outside_asset[i] = je_dois[i] + self.vector_outside_liabilities[i] - on_me_doit[i] + stats.gamma.rvs(a=200)
             else:
-                self.vector_outside_asset[i] = stats.gamma.rvs(a=1.99, scale=100)
+                self.vector_outside_asset[i] = stats.gamma.rvs(a=200)
 
 
 

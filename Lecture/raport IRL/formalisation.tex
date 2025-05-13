@@ -1,4 +1,4 @@
-\subsection*{Présentation du Modèle}\label{subsec:presentation-du-modele}
+\subsection{Présentation du Modèle}\label{subsec:presentation-du-modele}
 On va se donner des hypothèses simplificatrice à l'échelle economique, la liquidation des banques en defaut est instannée.
 
 On va se fixer une convention d'écriture au cours de cet article.
@@ -75,7 +75,7 @@ La matrice $I$ représente quant à elle l'ensemble des obligations entre banque
 \\
 Les obligations entre deux banques sont positives ou nulles.
 
-\subsection*{Exemple de réseau}\label{subsec:exemple-de-reseau}
+\subsection{Exemple de réseau}\label{subsec:exemple-de-reseau}
 Illustrons un exemple d'un réseau interbancaire, avec 4 banques.
 On retrouve bien toutes les informations du bilan
 simplifié sur la figure~\ref{fig:network_with_externals}.
@@ -145,7 +145,7 @@ le cycle, parce que dans cette étude, on souhaite quantifier la résilience d'u
 Cependant, avant de voir comment construire cela, il faut qu'on garde à l'esprit que le nombre de cycles courts ou longs dans notre réseau influence grandement \textbf{l'effet de cascade}
 de défaut; d'ailleurs ce sera une difficulté au cours de cette étude, de faire la part des choses entre le rôle de la densité du réseau et le nombre de cycles présents dans le réseau.
 
-\subsection*{Approche par Simulation}\label{subsec:approche-par-simulation}
+\subsection{Approche par Simulation}\label{subsec:approche-par-simulation}
 Avec les notations définies précédemment,
 on met en place un réseau afin de le tester, c'est-à-dire appliquer un choc exogène sur le réseau.
 \textbf{On définit un choc comme le non-remboursement d'une entité extérieure vers une banque}, c'est-à-dire lorsque le $c_i$ (actif extérieur de la banque i) attendu diminue.
@@ -164,7 +164,8 @@ Ce type de graphe aléatoire est un célèbre graphe nommé Graphe d'Erdos-Renyi
 
 Ainsi on va génerer notre réseau interbancaire comme un graphe d'Erdos-Renyi, tel que les obligations et les dettes exterieurs sont choisis de manière a avoir un capital inferieur au actifs exterieur, pour que l'effet du choc exogène
 ne puissent pas être négliger.
-\subsubsection*{Methode de generation}
+
+\subsection{Méthode de generation}\label{subsec:methode-de-generation}
 Pour la génération de notre réseau interbancaire, nous adoptons une approche pragmatique:
 les obligations interbancaires (matrice I) et les actifs/passifs extérieurs (vecteurs b et c) sont
 d'abord générés aléatoirement, puis systématiquement ajustés pour garantir que chaque banque
@@ -172,7 +173,68 @@ commence avec une valeur nette positive.
 Cette neutralisation délibérée nous permet de nous concentrer spécifiquement sur
 l'effet de la densité du réseau sur la propagation des défauts suite à un choc exogène,
 en isolant cette variable des effets potentiels des distributions statistiques initiales.
-\\\\
+
+\vspace{0.45cm}
+Pour être plus formelle, on génère la matrice d'obligation par la loi gamma conditionnée à la probabilité de lien entre
+deux banques et pour notre modèle on suppose que l'obligation ne va que dans un sens,
+on suppose cela pour facilité l'interpretabilité.
+
+\vspace{0.45cm}
+Ainsi pour la Matrice I, on considère une variable aléatoire $X \sim \Gamma(\alpha, \beta)$, avec $\alpha = 150$ et $\beta = 1$, on fait ces choix de paramètre pour réduire la variance, afin de réduire
+l'impact du capital.
+
+\vspace{0.45cm}
+Pour $p$ la probabilité d'avoir un lien entre deux banques $i$ et $j$, on considère une matrice aléatoire $Y$ de coordonnée $\sim \mathcal{B}(p)$,
+et une matrice aléatoire $Z$ de coordonnée $\sim \mathcal{B}(0.5)$
+
+\begin{align*}
+    \begin{cases}
+        [I]_{ij} = X\mathds{1}_{Y_{ij} = 1}\mathds{1}_{Z_{ij} = 1}\\
+        [I]_{ji} = X\mathds{1}_{Y_{ij} = 1}\mathds{1}_{Z_{ij} = 0}
+    \end{cases}
+\end{align*}
+
+\vspace{0.45cm}
+Pour les vecteurs de passifs et d'actifs extérieurs (respectivement $b$ et $c$), on procède selon le formalisme suivant:
+
+Pour chaque banque $i$, on définit:
+\begin{align*}
+    \text{Dette émise:} \quad D^E_i &= \sum_{j=1}^{n} [I]_{ij} \\
+    \text{Dette reçue:} \quad D^R_i &= \sum_{j=1}^{n} [I]_{ji}
+\end{align*}
+
+Ces sommes correspondent à des sommes de variables aléatoires indépendantes.
+Pour chaque banque $i$, la loi de $D^E_i$ peut être approchée par une distribution composée:
+
+Chaque terme de la somme suit une loi produit:
+
+$[I]_{ij} = U_{ij} \cdot X_{ij}$ où:
+\begin{align*}
+    U_{ij} &\sim \mathcal{B}(p/2) \quad \text{(probabilité d'avoir un lien de $i$ vers $j$)} \\
+    X_{ij} &\sim \Gamma(150, 1) \quad \text{(valeur de l'obligation)}
+\end{align*}
+
+Comme il y a $(n-1)$ autres banques potentiellement liées à la banque $i$,
+on peut approximer $D^E_i$ comme une somme de $(n-1)$ variables aléatoires indépendantes suivant cette loi produit.
+De façon similaire pour $D^R_i$.
+
+\textbf{Actifs extérieurs ($c$):}
+
+En s'appuyant sur cette analyse, les actifs extérieurs sont alors définis par:
+\begin{align*}
+    c_i =
+    \begin{cases}
+        D^E_i + b_i - D^R_i + \hat{V} & \text{si } D^R_i < D^E_i + b_i \\
+        \hat{V} & \text{sinon}
+    \end{cases}
+\end{align*}
+avec $\hat{V} \sim \Gamma(200, 1)$
+
+Cette formulation garantit que chaque banque possède un capital propre positif,
+car lorsque les dettes reçues sont insuffisantes par rapport aux obligations,
+on ajuste l'actif extérieur pour assurer la solvabilité, avec un terme aléatoire supplémentaire pour introduire de la variabilité.
+
+\subsection{Modèle de choc}\label{subsec:modele-de-choc}
 On choisit de faire un choc exogène car cela nous permet de formaliser une mesure simple de gravité du choc.
 
 Soit $x\in \mathbb{R}^N$ un choc, notons que :
@@ -188,40 +250,54 @@ On défini $d$ tel que :
 $$d = \frac{\text{Nombre de defaut}}{N}.$$
 On voit naturellement que d'un point de vue empirique, la simulation s'exprime d'elle-même : on va tester, pour un choc exogène croissant linéaire sur un réseau de plus en plus dense (faire croître p), afficher la courbe
 de la proportion de défaut dans le réseau en fonction de la gravité du choc g.
-\\\\
-Pour faire cela, on a choisi de faire une implémentation en Python avec une architecture MVC (modèle, vue et contrôleur), pour un développement modulaire qui nous aidera dans de futurs développements du modèle du réseau,
-notons en l'occurence que ce choix est très adapté pour ce type de problème, car une simulation par définition est un objet qui prend différent objet et teste des propriété dessus.
-Notre simulateur étant le controlleur, il va prendre un réseau qui est une donnée avec toute sa logique metier, et va appliquer des chocs sur le reseau, ensuite demande à la vue de nous afficher le graphique correspondant.\\
+
+\subsection{Méthode d'implémentation}\label{subsec:methode-d'implementation}
+Pour faire cela, on a choisi de faire une implémentation en Python avec une architecture MVC (modèle, vue et contrôleur), pour un développement modulaire qui nous aidera dans de futurs développements du modèle du réseau.
+
+Cette architecture se décompose de la façon suivante:
+\begin{itemize}
+    \item \textbf{Modèle}: Représenté par les classes \texttt{Network}, \texttt{RandomNetwork} et \texttt{Bank} qui encapsulent toute la logique métier et les données du réseau interbancaire.
+    \item \textbf{Contrôleur}: Implémenté par la classe \texttt{Simulation} qui agit comme l'orchestrateur, appliquant des chocs sur le réseau et utilisant l'algorithme d'Eisenberg-Noe pour propager les défauts.
+    \item \textbf{Vue}: Constituée des fonctions de visualisation qui produisent les graphiques des résultats.
+\end{itemize}
+
+Notons en l'occurrence que ce choix est très adapté pour ce type de problème, car une simulation par définition est un objet qui prend différents objets et teste des propriétés dessus. Notre simulateur étant le contrôleur, il va prendre un réseau qui est une donnée avec toute sa logique métier, et va appliquer des chocs sur le réseau, ensuite demande à la vue de nous afficher le graphique correspondant.
+
 À ce niveau, on peut déjà se demander si cette approche nous donnera une bonne mesure du risque systémique.
-À quoi ressemblerait cette mesure ?
-\\
-Par la définition du risque systémique, on cherche à savoir pour un choc donné, avec un niveau d'interconnexion connu
-quel proportion de banque font défaut.
-\\\\
-Il nous manque un ingredient pour que cette simulation soit utile, comment mettre à jour le réseau et compter le nombre de defaut après un choc ?\\
-Revenons sur la figure~\ref{fig:network_with_externals}, si la banque 1 fait défaut car on ne lui rembourse plus 150 mais 5, un calcul rapide de sa valeur nette nous montre qu'il
-est en defaut.
-Avec cette perte énorme de capital pour la banque 1, on a un autre problème qui apparait, maintenant que banque 1 à fait défaut, elle ne peut plus rembourser ces dettes en totalité.
-Une méthode utilisé en finance dans ce cas, c'est la liquidation par prorata, rembourser nos créanciers en fonction de la proportion de leurs créances dans nos dettes.
+À quoi ressemblerait cette mesure?
 
-\subsection*{Algorithme du vecteur de payement}\label{subsec:algorithme-du-vecteur-de-payement}
-Ainsi donc on définit une matrice R, qui va représenter la proportion de chaque dette:
-$$[R]_{ij} = \frac{[I]_{ij}}{[I]_{i}}.$$
+Par la définition du risque systémique, on cherche à savoir pour un choc donné, avec un niveau d'interconnexion connu, quelle proportion de banques font défaut.
 
+Il nous manque un ingrédient pour que cette simulation soit utile: comment mettre à jour le réseau et compter le nombre de défauts après un choc? Revenons sur la figure~\ref{fig:network_with_externals}, si la banque 1 fait défaut car on ne lui rembourse plus 150 mais 5, un calcul rapide de sa valeur nette nous montre qu'elle est en défaut.
+
+Avec cette perte énorme de capital pour la banque 1, on a un autre problème qui apparaît: maintenant que la banque 1 a fait défaut, elle ne peut plus rembourser ses dettes en totalité. Une méthode utilisée en finance dans ce cas, c'est la liquidation par prorata, rembourser nos créanciers en fonction de la proportion de leurs créances dans nos dettes.
+
+Dans notre implémentation, ce mécanisme est formalisé par:
+\begin{align*}
+    \Pi_{ij} = \frac{[I]_{ij}}{\sum_{k=1}^{n} [I]_{ik} + b_i}
+\end{align*}
+
+où $\Pi_{ij}$ est la proportion de la dette de $i$ envers $j$ par rapport à sa dette totale.
+
+\subsection{Algorithme du vecteur de payement}\label{subsec:algorithme-du-vecteur-de-payement}
 Reprenons l'exemple~\ref{subsec:exemple-de-reseau}, si Banque 1 ne rembourse que 60 (on arrondit) à la Banque 2, ce qui mène la Banque 2 à également faire défaut, par le même procédé, elle ne remboursera que 49 à la banque 4, ce qui la mène aussi à faire défaut, et de même, la banque 4 rembourse 75 à la banque 3, qui elle aussi se retrouvera en défaut. Mais tout ce calcul n'a été effectué en supposant que la banque 3 rembourse la totalité de sa dette à la banque 1, ainsi on voit ici un problème de paiements.
 
 Le vecteur de paiement qui nous permet d'avoir le vecteur de paiement d'équilibre est un point fixe d'une transformation définie dans le papier~\cite{eisenberg2001systemic} et reformulée par Noe dans \cite{peyton2016contagion}. On rappelle cette transformation notée $\phi(P)$, avec P un vecteur de paiement. Notons $\bar{P} \in \mathbb{R}^N$ défini tel que:
 $$\bar{P}_i = [I]_i.$$
 
 Avant de donner la formule, on peut l'intuiter économiquement : pour une banque i, elle ne va pas rembourser plus qu'elle devait de base, de plus elle ne peut pas rembourser une somme qu'elle ne possède pas. Ainsi on en déduit la formule:
-$$\phi(P) = \min(\bar{P}, \max(0, R^{T}P + c)).$$
+$$\phi(P) = \min(\bar{P}, \max(0, \Pi^{T}P + c)).$$
 
 Ainsi le vecteur de paiement d'équilibre est une solution du problème de point fixe $\phi(P) = P$.
 
-Pour calculer ce vecteur d'équilibre, Eisenberg et Noe proposent un algorithme itératif, parfois appelé \textit{algorithme des défauts fictifs} \cite{eisenberg2001systemic}. Le principe est de construire une séquence de vecteurs de paiement qui converge vers la solution. On commence avec $P^0 = \bar{P}$, qui correspond au cas où toutes les banques remboursent intégralement leurs dettes. Puis on construit itérativement:
+Pour calculer ce vecteur d'équilibre, Eisenberg et Noe proposent un algorithme itératif, parfois appelé \textit{algorithme des défauts fictifs} \cite{eisenberg2001systemic}.
+Le principe est de construire une séquence de vecteurs de paiement qui converge vers la solution.
+On commence avec $P^0 = \bar{P}$, qui correspond au cas où toutes les banques remboursent intégralement leurs dettes.
+Puis on construit itérativement:
 $$P^1 = \phi(P^0), P^2 = \phi(P^1), P^3 = \phi(P^2), \ldots$$
 
-Eisenberg et Noe démontrent que cette séquence est monotone décroissante: $P^0 \geq P^1 \geq P^2 \geq \ldots$, ce qui signifie qu'à chaque itération, les paiements estimés diminuent ou restent constants. Comme cette séquence est bornée inférieurement par le vecteur nul (les paiements ne peuvent pas être négatifs), elle converge nécessairement vers une limite $P' = \lim_{k \to \infty} P^k$.
+Eisenberg et Noe démontrent que cette séquence est monotone décroissante: $P^0 \geq P^1 \geq P^2 \geq \ldots$, ce qui signifie qu'à chaque itération, les paiements estimés diminuent ou restent constants.
+Comme cette séquence est bornée inférieurement par le vecteur nul (les paiements ne peuvent pas être négatifs), elle converge nécessairement vers une limite $P' = \lim_{k \to \infty} P^k$.
 
 La continuité de la fonction $\phi$ garantit que $P'$ est un point fixe de $\phi$, c'est-à-dire $\phi(P') = P'$.
 Ce point fixe constitue le vecteur de paiement d'équilibre recherché.

@@ -1,6 +1,6 @@
 Dans cette section, nous présentons et analysons les résultats de nos simulations sur la propagation des défauts dans les réseaux financiers d'Erdös-Rényi.
 
-\subsection*{Observation d'un seuil critique dans la propagation des défauts}\label{subsec:observation-d'un-seuil-critique-dans-la-propagation-des-defauts}
+\subsection{Observation d'un seuil critique dans la propagation des défauts}\label{subsec:observation-d'un-seuil-critique-dans-la-propagation-des-defauts}
 
 Nos simulations mettent en évidence un phénomène intéressant à analyser : lorsque l'amplitude du choc atteint environ 50\% de la valeur totale des actifs extérieurs du système ($S \approx 0.5 \times \sum(c_i)$), on observe une augmentation significative du taux de défaut dans le réseau.
 Ce seuil semble persister pour différentes tailles de réseau et différentes densités de connexion, comme l'illustre la Figure~\ref{fig:default_vs_shock}.
@@ -27,7 +27,7 @@ De plus, ces courbes reflètent bien ce qu'on attend intuitevement lorsque la me
     \label{fig:variation_default}
 \end{figure}
 
-\subsection*{Hypothèses d'interprétation}\label{subsec:hypotheses-d'interpretation}
+\subsection{Hypothèses d'interprétation}\label{subsec:hypotheses-d'interpretation}
 
 Si l'on compare ce phénomène avec les transitions de phase classiques dans les graphes d'Erdős-Rényi, on constate une différence fondamentale : alors que la théorie établie des graphes aléatoires s'intéresse à l'émergence d'une composante géante en fonction de la probabilité de connexion ($p \approx 1/N$), notre observation concerne un seuil critique par rapport à l'amplitude du choc exogène.
 
@@ -43,7 +43,7 @@ Plusieurs hypothèses peuvent être avancées pour tenter d'expliquer ce phénom
 
 Il est important de noter que ces hypothèses restent à vérifier par des analyses plus approfondies et ne constituent pas des conclusions définitives.
 
-\subsection*{Influence de la densité du réseau}\label{subsec:influence-de-la-densite-du-reseau}
+\subsection{Influence de la densité du réseau}\label{subsec:influence-de-la-densite-du-reseau}
 
 Notre étude visait initialement à déterminer l'influence de la densité du réseau sur sa résilience face aux chocs.
 La Figure \ref{fig:3d_density_shock} présente la relation entre la probabilité de connexion, l'amplitude du choc, et la proportion de défauts.
@@ -58,13 +58,18 @@ La Figure \ref{fig:3d_density_shock} présente la relation entre la probabilité
 L'analyse de cette visualisation montre que les réseaux moins connectés apparaissent plus résistants aux chocs exogènes que les réseaux densément connectés dans notre modèle.
 Ce résultat peut sembler paradoxal au regard de la théorie de diversification des risques défendue par~\cite{peyton2016contagion}, mais il est important de distinguer deux types de risques bancaires :
 
-1. Le risque idiosyncratique (ou spécifique) : propre à chaque institution, il bénéficie effectivement de la diversification par l'interconnexion. Face à ce type de risque, un réseau plus dense permet à chaque banque de répartir ses expositions, réduisant ainsi sa vulnérabilité aux défaillances isolées.
+1. Le risque idiosyncratique (ou spécifique):
+propre à chaque institution, il bénéficie effectivement de la diversification par l'interconnexion.
+Face à ce type de risque, un réseau plus dense permet à chaque banque de répartir ses expositions,
+réduisant ainsi sa vulnérabilité aux défaillances isolées.
 
-2. Le risque systémique (ou global) : affectant simultanément plusieurs parties du système, il peut au contraire être amplifié par l'interconnexion. Dans ce cas, les liens entre institutions deviennent des canaux de contagion plutôt que des mécanismes de dilution.
+2. Le risque systémique (ou global) :
+affectant simultanément plusieurs parties du système, il peut au contraire être amplifié par l'interconnexion.
+Dans ce cas, les liens entre institutions deviennent des canaux de contagion plutôt que des mécanismes de dilution.
 
 Notre étude se concentre précisément sur la propagation de chocs exogènes à travers le système, correspondant au deuxième type de risque. Il est donc cohérent d'observer qu'un réseau moins connecté présente moins de canaux de contagion et se montre plus résistant dans ce contexte spécifique, sans pour autant contredire les bénéfices de la diversification contre les risques idiosyncratiques.
 
-\subsection*{Effet de l'échelle du réseau}\label{subsec:effet-de-l'echelle-du-reseau}
+\subsection{Effet de l'échelle du réseau}\label{subsec:effet-de-l'echelle-du-reseau}
 
 Nous avons également examiné l'influence du nombre de banques sur la dynamique de propagation des défauts, comme illustré dans la Figure \ref{fig:3d_banks_shock}.
 
@@ -77,14 +82,12 @@ Nous avons également examiné l'influence du nombre de banques sur la dynamique
 
 Ce graphique confirme la persistance du seuil critique autour de $S \approx 0.5$ indépendamment de la taille du réseau, renforçant l'hypothèse d'une propriété structurelle plutôt que d'un artefact lié à l'échelle du système.
 
-\subsection*{Limites de l'approche actuelle}\label{subsec:limites-de-l'approche-actuelle}
+\subsection{Limites de l'approche actuelle}\label{subsec:limites-de-l'approche-actuelle}
 
 Notre analyse présente plusieurs limites qui doivent être soulignées :
 
 \begin{enumerate}
     \item \textbf{Difficulté à isoler l'effet de diversification} : Notre modèle actuel, basé sur des chocs exogènes proportionnels aux actifs extérieurs, ne permet pas de distinguer clairement entre l'effet de dilution du risque par la diversification et l'effet du simple volume de capital.
-
-    \item \textbf{Résultats contre-intuitifs sur la densité} : Nos graphiques 3D suggèrent que les réseaux moins connectés seraient plus résistants, ce qui va à l'encontre de l'intuition financière sur les bénéfices de la diversification.
 
     \item \textbf{Complexité des mécanismes sous-jacents} : L'identification d'un seuil à 0.5 est intrigante mais pourrait résulter de la structure particulière de notre modèle plutôt que d'une propriété fondamentale des réseaux financiers.
 \end{enumerate}

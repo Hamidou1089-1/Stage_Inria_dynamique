@@ -9,7 +9,7 @@ from model import RandomNetwork
 from controller import Simulation
 
 # Paramètres de la simulation (réduits pour un temps d'exécution plus court)
-bank_counts = [50, 100, 200, 300]  # Différentes tailles de réseau
+bank_counts = [50, 100, 300, 400]  # Différentes tailles de réseau
 probabilities = np.arange(0.1, 1.1, 0.1)  # Espacées pour plus de clarté
 shock_steps = 101  # Nombre de pas pour la mesure du choc (de 0 à 1)
 
@@ -65,7 +65,7 @@ for num_banks in bank_counts:
 fig1 = go.Figure()
 
 # Pour une probabilité spécifique (par exemple 0.5)
-selected_prob = 0.5
+selected_prob = 0.8
 colorscale = 'Viridis'
 
 # Création des données pour la surface
@@ -92,9 +92,9 @@ fig1.add_trace(go.Mesh3d(
 
 # Ajout d'un plan à z=0.5 pour visualiser le seuil
 x_plane = np.linspace(min(bank_counts)-10, max(bank_counts)+10, 10)
-y_plane = np.linspace(0, 1, 10)
-x_plane, y_plane = np.meshgrid(x_plane, y_plane)
-z_plane = np.ones(x_plane.shape) * 0.5
+z_plane = np.linspace(0, 1, 10)
+x_plane, z_plane = np.meshgrid(x_plane, z_plane)
+y_plane = np.ones(x_plane.shape) * 0.5
 
 fig1.add_trace(go.Surface(
     x=x_plane,
@@ -108,7 +108,7 @@ fig1.add_trace(go.Surface(
 
 # Configuration de la disposition
 fig1.update_layout(
-    title='Relation 3D entre Taille du Réseau, Choc et Défauts (p=0.5)',
+    title='Relation 3D entre Taille du Réseau, Choc et Défauts (p=0.7)',
     scene=dict(
         xaxis_title='Nombre de Banques',
         yaxis_title='Mesure du Choc',
@@ -117,8 +117,8 @@ fig1.update_layout(
         yaxis=dict(range=[0, 1]),
         zaxis=dict(range=[0, 1]),
     ),
-    width=900,
-    height=700
+    width=1900,
+    height=1200
 )
 
 # Enregistrement de la figure en HTML pour interaction
