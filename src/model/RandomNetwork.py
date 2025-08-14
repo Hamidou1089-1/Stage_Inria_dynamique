@@ -58,21 +58,16 @@ class RandomNetwork(Network):
         self.vector_outside_liabilities = np.array([0]*n)
         self.vector_outside_asset = np.array([0]*n)
         self.matrix_obligation = np.zeros((n, n))
-        proba_liabilities = np.random.random(n) < self.probability_of_linking
 
         for i in range(n):
             if np.random.random() < self.probability_of_linking:
                 self.vector_outside_liabilities[i] = stats.gamma.rvs(a=150)
             for j in range(n):
                 if np.random.random() < self.probability_of_linking:
-                    if i == j or self.matrix_obligation[j][i] > 0:
+                    if i == j:
                         self.matrix_obligation[i][j] = 0
                         continue
-                    elif np.random.random() < 0.5:
-                        self.matrix_obligation[i][j] = stats.gamma.rvs(a=150)
-                    else:
-                        self.matrix_obligation[j][i] = stats.gamma.rvs(a=150)
-
+                    self.matrix_obligation[i][j] = stats.gamma.rvs(a=150)
 
 
         je_dois = np.sum(self.matrix_obligation, axis=1)
@@ -80,9 +75,9 @@ class RandomNetwork(Network):
 
         for i in range(n):
             if on_me_doit[i] < je_dois[i] + self.vector_outside_liabilities[i]:
-                self.vector_outside_asset[i] = je_dois[i] + self.vector_outside_liabilities[i] - on_me_doit[i] + stats.gamma.rvs(a=200)
+                self.vector_outside_asset[i] = je_dois[i] + self.vector_outside_liabilities[i] - on_me_doit[i] + 10
             else:
-                self.vector_outside_asset[i] = stats.gamma.rvs(a=200)
+                self.vector_outside_asset[i] = 10
 
 
 

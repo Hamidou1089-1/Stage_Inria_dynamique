@@ -1,0 +1,634 @@
+\documentclass[12pt,a4paper,twoside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{a4wide} 
+\usepackage{amsmath}
+\usepackage{amssymb} 
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancybox}
+\usepackage{moreverb}
+\usepackage{hangcaption}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{geometry}
+
+% Configuration des marges
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+\title{Rapport de stage Assistant Ingénieur}
+\author{Hamidou Diallo}
+\date{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Rapport de stage AI - H. Diallo}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+\lstset{ numbers=left, tabsize=3, frame=single, numberstyle=\ttfamily, basicstyle=\footnotesize} 
+\thispagestyle{empty}
+
+\begin{center}
+\includegraphics[scale=0.2]{logo_ensimag}
+\\[0.5cm]
+Grenoble INP -- ENSIMAG\\
+École Nationale Supérieure d'Informatique et de Mathématiques Appliquées\\
+\vspace{3cm}
+{\LARGE Rapport de stage Assistant Ingénieur}\\
+\vspace{1cm}
+Effectué à l'INRIA Grenoble Rhône-Alpes\\
+\vspace{2cm}
+\shadowbox{
+\begin{minipage}{1\textwidth}
+\begin{center}
+{\Huge Analyse du risque systémique dans les réseaux financiers : de la simulation statique aux dynamiques stochastiques}\\
+\end{center}
+\end{minipage}
+}\\
+\vspace{3cm}
+Hamidou Diallo\\
+3e année -- Option ISI\\
+\vspace{3mm}
+11 février 2025 -- 01 août 2025\\
+\vspace{4cm}
+\begin{tabular}{p{7cm}p{7cm}}
+{\bf INRIA Grenoble Rhône-Alpes}                & {\bf Tuteurs entreprise}\\
+{\footnotesize 655 Avenue de l'Europe}          & ~~~Nicolas Gast (POLARIS)\\
+{\footnotesize 38330 Montbonnot-Saint-Martin}   & ~~~Paolo Frasca (DANCE)\\
+{\footnotesize France}                          & ~~~Federica Garin (DANCE)\\
+                                                & {\bf Tuteur de l'école}\\
+                                                & ~~~Christophe Dutang\\
+\end{tabular}
+\end{center}
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+Le risque systémique dans les réseaux financiers constitue l'un des défis majeurs de la finance moderne, comme l'ont dramatiquement illustré les crises financières de 2007-2008 et la récente pandémie de COVID-19. La propagation des défaillances à travers les interconnexions bancaires transforme des chocs initialement localisés en crises systémiques d'ampleur mondiale, remettant en question les fondements même de la stabilité financière.
+
+Cette problématique soulève une question fondamentale qui guide l'ensemble de mon travail : comment la structure des réseaux interbancaires influence-t-elle la stabilité du système financier ? Plus spécifiquement, les interconnexions entre institutions financières constituent-elles un facteur de stabilisation par la diversification des risques, ou au contraire un mécanisme d'amplification des chocs par effet de contagion ?
+
+Ce stage, effectué au sein des équipes POLARIS et DANCE de l'INRIA Grenoble du 11 février au 1er août 2025, explore cette question à travers une approche méthodologique évolutive. J'ai d'abord développé une simulation statique basée sur l'algorithme d'Eisenberg-Noe (2001), puis évolué vers une modélisation dynamique inspirée des travaux de Battiston et al. (2009) sur les équations différentielles stochastiques couplées.
+
+L'objectif principal de cette recherche est d'analyser la non-monotonicité de la relation entre connectivité du réseau et risque systémique, phénomène crucial pour comprendre pourquoi la diversification financière peut parfois amplifier plutôt que diluer les risques. Cette investigation s'inscrit dans une démarche interdisciplinaire associant théorie des graphes, finance quantitative et physique statistique.
+
+\section{Contexte et problématique}
+
+\subsection{Contexte scientifique et collaboration}
+
+Cette étude s'inscrit dans le cadre d'un projet d'Introduction à la Recherche Laboratoire (IRL) en collaboration avec deux équipes complémentaires de l'INRIA Grenoble. L'équipe POLARIS, dirigée par Nicolas Gast, travaille sur l'analyse des performances des très grands systèmes distribués, tandis que l'équipe DANCE, avec Paolo Frasca et Federica Garin, se concentre sur l'étude des dynamiques sur les réseaux.
+
+Cette collaboration interdisciplinaire s'est révélée particulièrement fructueuse car elle m'a permis d'aborder la question du risque systémique avec des outils et perspectives complémentaires. L'expertise de POLARIS en matière de systèmes complexes et de théorie des files d'attente a enrichi ma compréhension des mécanismes de propagation, tandis que l'approche de DANCE sur les dynamiques de réseaux a fourni le cadre théorique nécessaire à la modélisation des phénomènes de contagion financière.
+
+\subsection{Motivation et enjeux}
+
+L'étude des réseaux financiers trouve ses racines dans l'observation empirique que les crises financières présentent des patterns de propagation similaires à ceux observés dans d'autres systèmes complexes. La crise de 2007-2008 a particulièrement illustré comment la défaillance d'institutions apparemment isolées peut déclencher des cascades de défauts à travers tout le système financier.
+
+Le cas de Lehman Brothers, quatrième plus grande banque d'investissement américaine, est emblématique. Selon la description de Soramäki et al. (2006) du réseau interbancaire américain, cette institution faisait partie du "core" de banques fortement interconnectées. Sa faillite a provoqué une cascade de défauts qui s'est propagée bien au-delà du système bancaire américain, illustrant la dimension systémique du risque dans les réseaux financiers modernes.
+
+\subsection{Questions de recherche}
+
+Mon travail s'articule autour de plusieurs questions fondamentales identifiées au cours de mes lectures et formalisées dans mes journaux de stage :
+
+\begin{enumerate}
+\item Comment caractériser et mesurer le risque systémique dans un réseau interbancaire ?
+\item Quel est le rôle de la structure topologique du réseau dans l'amplification ou la dilution des chocs ?
+\item Pourquoi la connectivité présente-t-elle une relation non-monotone avec le risque systémique ?
+\item Quels mécanismes macroéconomiques expliquent cette non-monotonicité ?
+\item Comment ces insights peuvent-ils informer la régulation des systèmes financiers ?
+\end{enumerate}
+
+Ces questions m'ont guidé tout au long du stage et ont orienté l'évolution de mon approche méthodologique, de la simulation empirique vers la modélisation théorique.
+
+\section{État de l'art et positionnement théorique}
+
+\subsection{Évolution historique de la recherche}
+
+Mon analyse approfondie de la littérature, documentée dans mes journaux de lecture de février à juin 2025, révèle une évolution conceptuelle majeure de la recherche sur les réseaux financiers depuis 2000.
+
+\subsubsection{Phase pionnière (2000-2007)}
+
+Les travaux fondateurs d'Allen et Gale (2000) établissent le cadre théorique initial avec leur modèle de "contagion financière". Leur conclusion principale suggère une relation monotone décroissante entre connectivité et risque systémique : plus le réseau est dense, plus les chocs se diluent par effet de diversification. Cette approche optimiste domine la littérature pré-crise.
+
+L'algorithme d'Eisenberg et Noe (2001) complète ce cadre en proposant une méthode de calcul des vecteurs de paiement d'équilibre dans les réseaux de dettes interbancaires. Leur mécanisme de compensation (*clearing mechanism*) devient rapidement la référence pour l'analyse statique des cascades de défaut.
+
+\subsubsection{Remise en question post-crise (2008-2015)}
+
+La crise de 2007-2008 révèle brutalement les limites de cette approche. Comme le souligne Martin Summer (2013) dans son analyse rétrospective : "Tous les papiers discutés ici ont été écrits avant la crise financière, et aucun des modèles n'a prédit la crise avec son ampleur et sa profondeur réelles."
+
+Cette période voit émerger une critique fondamentale des modèles de réseaux existants. Glasserman et Young (2016) identifient le problème central : "La faible connexion entre les modèles de réseaux financiers et les modèles d'échange de marché et de tarification est la raison pour laquelle les modèles de réseaux ont joué jusqu'à présent un rôle mineur dans l'analyse économique de la récente crise financière."
+
+\subsubsection{Renaissance conceptuelle (2009-présent)}
+
+L'émergence des modèles dynamiques intégrant l'accélérateur financier marque un tournant décisif. Le travail de Battiston et al. (2009) "Liaisons Dangereuses" introduit pour la première fois la non-monotonicité théorique de la relation connectivité-risque grâce à la modélisation des équations différentielles stochastiques couplées.
+
+\subsection{Mécanismes fondamentaux}
+
+Mes lectures ont permis d'identifier trois mécanismes fondamentaux gouvernant la propagation du risque systémique :
+
+\subsubsection{L'interdépendance spatiale}
+
+Ce mécanisme, largement étudié depuis Allen et Gale, modélise comment la condition financière d'une institution affecte celle de ses contreparties. Si la banque A prête à la banque B, la fragilité de B affecte la valeur des actifs de A. Cette interdépendance crée des canaux de propagation à travers l'espace du réseau.
+
+\subsubsection{L'accélérateur financier}
+
+Mécanisme crucial négligé par les premiers modèles, l'accélérateur financier capture la rétroaction temporelle de la fragilité financière sur elle-même. Quand une banque subit un choc aujourd'hui, ses créanciers durcissent les conditions de crédit demain, aggravant sa situation. Ce mécanisme, documenté empiriquement par Bernanke et al. (1999), explique la procyclicité du levier financier.
+
+\subsubsection{Les cascades de défaut}
+
+Lorsqu'une institution fait défaut, elle ne peut rembourser intégralement ses dettes, provoquant des pertes chez ses créanciers qui peuvent à leur tour faire défaut. Ce processus discret crée des "effets domino" à travers le réseau.
+
+\subsection{Innovations méthodologiques récentes}
+
+La littérature récente a introduit plusieurs innovations importantes :
+
+\textbf{La mesure DebtRank} (Battiston et al., 2012) généralise les mesures de centralité classiques pour quantifier l'importance systémique des institutions. Cette mesure capture les effets de rétroaction souvent négligés par les métriques traditionnelles.
+
+\textbf{Les réseaux multicouches} (Bargigli et al., 2015) reconnaissent que les institutions sont connectées par différents types de relations : prêts, dérivés, participations croisées. Cette approche permet une modélisation plus réaliste de la complexité des interconnexions financières modernes.
+
+\textbf{L'analyse sans topologie complète} (Glasserman et Young, 2014) propose des bornes sur la probabilité de contagion sans connaissance détaillée de la structure du réseau, approche particulièrement pertinente pour les régulateurs disposant d'informations limitées.
+
+\section{Première approche : simulation statique}
+
+\subsection{Architecture et implémentation}
+
+Pour explorer empiriquement ces questions théoriques, j'ai développé un simulateur en Python suivant une architecture Modèle-Vue-Contrôleur (MVC). Cette architecture modulaire s'est révélée particulièrement adaptée à l'évolution itérative de mon approche méthodologique.
+
+\subsubsection{Modèle : représentation du réseau interbancaire}
+
+Le modèle encapsule la représentation mathématique du réseau financier comme un quadruplet $(R, I, c, b)$ où :
+\begin{itemize}
+\item $R$ : graphe d'Erdős-Rényi orienté de paramètre $p$ (probabilité de connexion)
+\item $I$ : matrice d'exposition interbancaire de dimension $n \times n$
+\item $c \in \mathbb{R}^n$ : vecteur des actifs extérieurs
+\item $b \in \mathbb{R}^n$ : vecteur des passifs extérieurs
+\end{itemize}
+
+La génération de la matrice d'exposition $I$ suit une approche probabiliste :
+$$[I]_{ij} = X \cdot \mathbf{1}_{Y_{ij}=1} \cdot \mathbf{1}_{Z_{ij}=1}$$
+où $X \sim \Gamma(150,1)$, $Y_{ij} \sim \mathcal{B}(p)$, et $Z_{ij} \sim \mathcal{B}(0.5)$ pour éviter les dettes bidirectionnelles.
+
+Les vecteurs d'actifs et passifs extérieurs sont construits pour garantir une capitalisation positive initiale :
+$$c_i = \max\left(\sum_j [I]_{ij} + b_i - \sum_j [I]_{ji} + \hat{V}, \hat{V}\right)$$
+avec $\hat{V} \sim \Gamma(200,1)$.
+
+\subsubsection{Contrôleur : algorithme de simulation}
+
+Le contrôleur implémente l'algorithme itératif d'Eisenberg-Noe pour calculer le vecteur de paiement d'équilibre. Partant de $P^0 = \bar{P}$ (paiements nominaux), l'algorithme construit la séquence :
+$$P^{k+1} = \phi(P^k) = \min(\bar{P}, \max(0, \Pi^T P^k + c))$$
+où $\Pi$ est la matrice des proportions de dette.
+
+La convergence monotone de cette séquence vers le point fixe est garantie par les résultats d'Eisenberg et Noe, permettant un calcul stable du nombre de défauts après application d'un choc exogène.
+
+\subsection{Modélisation des chocs exogènes}
+
+J'ai modélisé les chocs exogènes comme des réductions des actifs extérieurs $x \in [0,c]$, avec une mesure de gravité normalisée :
+$$g = \frac{\|x\|_1}{\|c\|_1} \in [0,1]$$
+
+Cette normalisation permet de comparer l'impact relatif des chocs indépendamment de la taille absolue du système, facilitant l'analyse comparative entre différentes configurations de réseau.
+
+\subsection{Résultats empiriques}
+
+\subsubsection{Identification d'un seuil critique}
+
+Mes simulations révèlent un phénomène remarquable : l'existence d'un seuil critique autour de $g \approx 0.5$ où la proportion de défauts augmente significativement. Ce seuil persiste indépendamment de la taille du réseau (testée pour $n \in \{50, 100, 200\}$) et pour différentes densités de connexion.
+
+Cette observation se caractérise par trois aspects :
+\begin{enumerate}
+\item Une inflexion notable de la courbe de défauts autour de ce seuil
+\item Un pic dans la dérivée de la proportion de défauts
+\item Une stabilisation relative après ce pic, suggérant un changement de régime
+\end{enumerate}
+
+\subsubsection{Impact de la densité du réseau}
+
+L'analyse de l'influence de la densité révèle un résultat contre-intuitif : les réseaux moins connectés présentent une meilleure résistance aux chocs exogènes. Cette observation, illustrée par mes visualisations 3D, suggère que dans le contexte des chocs externes, les interconnexions deviennent des canaux de contagion plutôt que des mécanismes de dilution.
+
+Ce résultat ne contredit pas les bénéfices de la diversification pour les risques idiosyncratiques, mais souligne la distinction fondamentale entre risque spécifique et risque systémique.
+
+\subsection{Limitations de l'approche statique}
+
+Cette première approche, bien qu'instructive, présente plusieurs limitations fondamentales :
+
+\textbf{Absence de mécanismes d'amplification temporelle :} L'algorithme d'Eisenberg-Noe capture la propagation instantanée mais néglige les effets de rétroaction dans le temps.
+
+\textbf{Modélisation simplifiée des chocs :} Les chocs proportionnels aux actifs extérieurs ne reflètent pas la complexité des crises réelles.
+
+\textbf{Impossibilité de distinguer volume et diversification :} Le modèle ne permet pas de séparer l'effet du simple volume de capital de l'effet de la diversification des expositions.
+
+Ces limitations m'ont conduit à explorer une approche dynamique plus sophistiquée.
+
+\section{Évolution vers les dynamiques stochastiques}
+
+\subsection{Motivation théorique}
+
+L'étude approfondie du papier de Battiston et al. (2009) "Liaisons Dangereuses", analysée dans mes journaux de juin, a révélé l'importance cruciale de l'accélérateur financier pour comprendre la non-monotonicité du risque systémique. Cette découverte a orienté la seconde phase de mon stage vers la modélisation dynamique.
+
+L'accélérateur financier formalise un mécanisme économique bien documenté : lorsqu'une banque subit une dégradation de sa situation financière, ses partenaires durcissent les conditions de crédit, créant une spirale déflationniste. Ce mécanisme, absent des modèles statiques, s'avère crucial pour comprendre l'amplification des chocs dans les réseaux financiers.
+
+\subsection{Formalisation mathématique}
+
+Le modèle de Battiston et al. utilise des équations différentielles stochastiques couplées pour décrire l'évolution de la robustesse financière $\rho_i(t) \in [0,1]$ de chaque banque $i$ :
+
+$$d\rho_i = \left[\sum_j W_{ij}\rho_j(t) - \rho_i(t) + h(\rho(t),\rho(t'))\right]dt + \frac{\sigma}{\sqrt{k}}dz_i$$
+
+où :
+\begin{itemize}
+\item $\rho_i = 0$ indique la faillite de la banque $i$
+\item $W_{ij}$ pondère l'exposition de $i$ envers $j$
+\item $h < 0$ modélise l'accélérateur financier
+\item $\sigma/\sqrt{k}$ représente l'amplitude des chocs idiosyncratiques
+\item $k$ mesure le degré de diversification
+\end{itemize}
+
+\subsubsection{Mécanisme de l'accélérateur financier}
+
+L'accélérateur financier est modélisé par :
+$$h(\rho(t),\rho(t-dt)) = \begin{cases}
+-\alpha & \text{si } \rho_i(t) - \rho_i(t-dt) < -\epsilon\frac{\sigma}{\sqrt{k}}dt \\
+0 & \text{sinon}
+\end{cases}$$
+
+Ce mécanisme capture la réaction des partenaires financiers : ils durcissent les conditions ($-\alpha$) lorsque la dégradation dépasse un seuil de sensibilité $\epsilon\frac{\sigma}{\sqrt{k}}$.
+
+\subsubsection{Hypersensibilité compensatoire}
+
+Un aspect crucial du modèle réside dans la dépendance du seuil de sensibilité en $1/\sqrt{k}$. Pour un réseau dense, les banques deviennent hypersensibles aux signaux de détresse pour compenser la dilution de l'information dans le réseau. Cette hypersensibilité crée un mécanisme d'amplification paradoxal.
+
+\subsection{Résultat central : non-monotonicité}
+
+Le corollaire fondamental de Battiston et al. (2009) énonce :
+
+\begin{quote}
+\textit{"En présence d'accélérateur financier, lorsque la diversification du risque k dans le réseau de crédit augmente, le risque systémique n'est pas monotoniquement décroissant. Il existe un niveau optimal de diversification du risque."}
+\end{quote}
+
+Ce résultat révolutionnaire explique pourquoi la connectivité financière peut devenir délétère au-delà d'un certain seuil.
+
+\subsection{Mécanisme de la non-monotonicité}
+
+L'analyse révèle une tension fondamentale entre deux effets opposés :
+
+\subsubsection{Effet positif de la connectivité}
+
+L'augmentation de $k$ permet une meilleure diversification des risques idiosyncratiques. Les chocs affectant une banque individuelle se diluent parmi ses $k$ partenaires, réduisant la probabilité de défaut individuel selon $\sigma^2/k$.
+
+\subsubsection{Effet négatif : amplification par l'accélérateur}
+
+Paradoxalement, l'augmentation de $k$ réduit le seuil de réaction $\epsilon\frac{\sigma}{\sqrt{k}}$, rendant les banques hypersensibles aux signaux de détresse. Cette hypersensibilité amplifie la propagation des chocs à travers le réseau.
+
+La probabilité d'activation de l'accélérateur financier s'exprime comme :
+$$q(k) = \frac{\Phi(-\epsilon)}{1 - \Phi(\alpha\sqrt{k}/\sigma - \epsilon) + \Phi(-\epsilon)}$$
+
+où $\Phi$ est la fonction de répartition gaussienne.
+
+\subsection{Approximation en champ moyen}
+
+Pour analyser les propriétés asymptotiques, Battiston et al. utilisent une approximation en champ moyen où chaque banque interagit avec un "agent moyen" représentatif plutôt qu'avec des voisins spécifiques. Cette approximation, justifiée pour les réseaux denses, permet de dériver analytiquement la probabilité de défaut :
+
+$$P_f(k) = \frac{\alpha q(k)}{1 + \frac{\sigma^2}{2k\alpha q(k)}\left(\exp\left(-\frac{2k\alpha q(k)}{\sigma^2}\right) - 1\right)}$$
+
+Cette expression révèle l'existence d'un minimum pour certaines valeurs des paramètres, confirmant théoriquement la non-monotonicité observée.
+
+\section{Résultats et analyse comparative}
+
+\subsection{Convergence des approches}
+
+Bien que développées indépendamment, mes deux approches convergent vers la même conclusion fondamentale : l'existence d'un optimum de connectivité au-delà duquel les interconnexions deviennent délétères pour la stabilité systémique.
+
+\subsubsection{Validation empirique vs théorique}
+
+L'approche statique fournit une validation empirique directe de la non-monotonicité à travers l'identification du seuil critique à $g \approx 0.5$. Cette observation empirique trouve sa justification théorique dans le modèle dynamique de Battiston et al., qui démontre rigoureusement l'existence de tels optima.
+
+\subsubsection{Mécanismes complémentaires}
+
+Les deux approches capturent des aspects complémentaires du risque systémique :
+\begin{itemize}
+\item Le modèle statique illustre la propagation spatiale des défauts par cascades
+\item Le modèle dynamique formalise l'amplification temporelle par l'accélérateur financier
+\end{itemize}
+
+\subsection{Rôle des topologies de réseau}
+
+Mes recherches confirment l'importance cruciale de la structure topologique :
+
+\subsubsection{Réseaux d'Erdős-Rényi}
+
+Ces réseaux aléatoires présentent une propagation relativement homogène et prévisible. Ils constituent un benchmark utile mais ne reflètent pas la structure hiérarchique des systèmes financiers réels.
+
+\subsubsection{Réseaux small-world}
+
+Mentionnés dans l'ouverture de Battiston et al., ces réseaux présentent des propriétés d'amplification particulières dues aux hubs fortement connectés. La présence de chemins courts entre tous les nœuds facilite la propagation rapide des chocs.
+
+\subsubsection{Structures core-periphery}
+
+Observées empiriquement par Soramäki et al. (2006) dans le système Fedwire, ces structures concentrent le risque dans le cœur du système. Les banques du core, fortement interconnectées, peuvent amplifier massivement les chocs initiaux.
+
+\subsection{Implications pour les différents types de risque}
+
+L'analyse comparative révèle une distinction fondamentale entre deux types de risque :
+
+\subsubsection{Risque idiosyncratique}
+
+Pour les chocs affectant des institutions individuelles, la diversification reste bénéfique. L'augmentation de la connectivité dilue efficacement ces risques spécifiques.
+
+\subsubsection{Risque systémique}
+
+Pour les chocs affectant simultanément plusieurs parties du système, les interconnexions peuvent devenir des amplificateurs. L'accélérateur financier transforme les canaux de diversification en canaux de contagion.
+
+Cette distinction explique pourquoi mes résultats ne contredisent pas les bénéfices établis de la diversification tout en révélant ses limites dans un contexte systémique.
+
+\section{Discussion et perspectives}
+
+\subsection{Contribution scientifique}
+
+Ce travail apporte plusieurs contributions à la compréhension du risque systémique :
+
+\subsubsection{Validation empirique de la théorie}
+
+Mes simulations fournissent une validation empirique directe de la non-monotonicité théorique prédite par Battiston et al. L'identification du seuil critique à 50\% constitue une observation quantitative nouvelle.
+
+\subsubsection{Comparaison méthodologique}
+
+La confrontation entre approches statiques et dynamiques révèle leurs complémentarités et limites respectives. Cette comparaison guide le choix méthodologique selon les objectifs de recherche.
+
+\subsubsection{Identification des mécanismes clés}
+
+L'accélérateur financier émerge comme le mécanisme explicatif central de la non-monotonicité. Cette identification oriente les recherches futures vers la quantification empirique de ce phénomène.
+
+\subsection{Implications réglementaires}
+
+Les résultats suggèrent que la régulation optimale des systèmes financiers nécessite un équilibre délicat :
+
+\subsubsection{Favoriser la diversification sélective}
+
+Les régulateurs doivent encourager la diversification pour les risques idiosyncratiques tout en surveillant les mécanismes d'amplification systémique.
+
+\subsubsection{Monitoring de l'accélérateur financier}
+
+La procyclicité du levier financier, manifestation empirique de l'accélérateur, devrait faire l'objet d'une surveillance renforcée. Les mesures macroprudentielles peuvent limiter cette procyclicité.
+
+\subsubsection{Gestion de la topologie}
+
+La structure du réseau financier elle-même devient un objet de politique publique. Les régulateurs pourraient limiter certaines formes d'interconnexion excessive.
+
+\subsection{Limitations et défis}
+
+Plusieurs limitations importantes doivent être soulignées :
+
+\subsubsection{Simplification des bilans bancaires}
+
+Mes modèles utilisent des bilans simplifiés qui ne reflètent pas la complexité des institutions financières réelles. L'intégration de l'hétérogénéité des banques constitue un défi majeur.
+
+\subsubsection{Modélisation des chocs}
+
+Les chocs exogènes modélisés restent stylisés par rapport aux crises observées empiriquement. Une modélisation plus réaliste des sources de choc améliorerait la pertinence des résultats.
+
+\subsubsection{Validation empirique limitée}
+
+Faute d'accès aux données confidentielles des réseaux interbancaires réels, la validation reste largement théorique. Cette limitation constitue un défi majeur pour la recherche dans ce domaine.
+
+\subsection{Perspectives de recherche}
+
+Mes journaux de stage identifient plusieurs axes prometteurs :
+
+\subsubsection{Extension aux réseaux multicouches}
+
+L'intégration de différents types d'instruments financiers (prêts, dérivés, participations) dans un modèle multicouche permettrait une représentation plus fidèle de la complexité moderne.
+
+\subsubsection{Modélisation stochastique avancée}
+
+L'introduction de distributions plus sophistiquées pour les chocs exogènes et l'intégration de corrélations temporelles enrichiraient significativement les modèles.
+
+\subsubsection{Intelligence artificielle et apprentissage}
+
+Les techniques d'apprentissage par renforcement pourraient explorer l'espace des paramètres plus efficacement et identifier des configurations optimales de réseau.
+
+\subsubsection{Application aux données réelles}
+
+Le développement de partenariats avec les banques centrales pourrait permettre l'accès aux données nécessaires à une validation empirique complète.
+
+\section{Bilan personnel}
+
+\subsection{Compétences techniques acquises}
+
+Ce stage m'a permis de développer plusieurs compétences techniques essentielles :
+
+\subsubsection{Programmation et architecture logicielle}
+
+Le développement du simulateur en Python m'a familiarisé avec l'architecture MVC et les bonnes pratiques de développement modulaire. L'implémentation de l'algorithme d'Eisenberg-Noe m'a sensibilisé aux défis computationnels des systèmes de grande taille.
+
+\subsubsection{Modélisation mathématique}
+
+La transition des modèles statiques vers les équations différentielles stochastiques a considérablement enrichi ma compréhension des systèmes dynamiques. La maîtrise de concepts comme l'approximation en champ moyen et l'analyse de point fixe s'avère précieuse pour la suite de mon cursus.
+
+\subsubsection{Analyse de données et visualisation}
+
+Le développement de visualisations 3D et l'analyse de surfaces de réponse ont renforcé mes compétences en science des données. Ces outils s'avèrent essentiels pour communiquer des résultats complexes.
+
+\subsection{Méthodologie de recherche}
+
+\subsubsection{Lecture critique de la littérature}
+
+La tenue de journaux de lecture détaillés m'a appris à structurer l'analyse de la littérature scientifique. Cette méthode de travail, initialement suggérée par mes tuteurs, s'est révélée cruciale pour naviguer dans un domaine aussi vaste.
+
+\subsubsection{Évolution itérative de l'approche}
+
+L'évolution de ma méthodologie, des simulations empiriques vers la modélisation théorique, illustre l'importance de l'adaptabilité en recherche. Cette expérience m'a sensibilisé aux défis de l'exploration scientifique en terrain inconnu.
+
+\subsubsection{Collaboration interdisciplinaire}
+
+Le travail avec deux équipes aux expertises complémentaires m'a appris l'importance du dialogue interdisciplinaire. Cette expérience sera précieuse pour mes futurs projets de recherche.
+
+\subsection{Obstacles rencontrés et solutions apportées}
+
+\subsubsection{Complexité théorique initiale}
+
+La littérature sur les réseaux financiers présente une complexité théorique intimidante pour un étudiant en informatique. J'ai surmonté cette difficulté en adoptant une approche progressive, partant de modèles simples vers des formalisations plus sophistiquées.
+
+\subsubsection{Limitations computationnelles}
+
+Les simulations Monte Carlo sur des réseaux de grande taille posent des défis computationnels significatifs. J'ai résolu ce problème en optimisant les algorithmes et en parallélisant les calculs lorsque possible.
+
+\subsubsection{Interprétation des résultats}
+
+L'interprétation économique des résultats mathématiques nécessite une compréhension approfondie des mécanismes financiers. Les discussions régulières avec mes tuteurs ont été essentielles pour développer cette intuition.
+
+\subsection{Apports professionnels et personnels}
+
+Ce stage a considérablement enrichi ma vision de la recherche en informatique appliquée. La découverte de l'intersection entre informatique, mathématiques et économie ouvre des perspectives de carrière que je n'avais pas envisagées.
+
+L'expérience de la collaboration avec des chercheurs confirmés m'a également donné confiance en mes capacités d'adaptation et d'apprentissage autonome, compétences essentielles pour une éventuelle poursuite en doctorat.
+
+\section{Conclusion}
+
+Ce stage m'a permis d'explorer en profondeur la question fondamentale du rôle des interconnexions dans la stabilité financière. Partant d'une interrogation sur les mécanismes de régulation des systèmes interbancaires, j'ai développé une approche comparative associant simulation empirique et modélisation théorique.
+
+\subsection{Synthèse des résultats}
+
+Mes principaux résultats confirment l'existence d'une relation non-monotone entre connectivité et risque systémique, phénomène expliqué par la tension entre diversification bénéfique et amplification délétère via l'accélérateur financier.
+
+L'identification empirique d'un seuil critique à 50\% des actifs extérieurs dans mes simulations trouve sa justification théorique dans les travaux de Battiston et al. (2009). Cette convergence entre observation empirique et prédiction théorique renforce la validité des mécanismes identifiés.
+
+\subsection{Contributions scientifiques}
+
+Ce travail apporte plusieurs contributions à la littérature :
+\begin{itemize}
+\item Validation empirique directe de la non-monotonicité théorique
+\item Comparaison méthodologique entre approches statiques et dynamiques  
+\item Identification de l'accélérateur financier comme mécanisme explicatif central
+\item Quantification du seuil critique dans un modèle simplifié
+\end{itemize}
+
+\subsection{Implications pratiques}
+
+Les résultats suggèrent que la régulation optimale des systèmes financiers nécessite un équilibre délicat entre encouragement de la diversification et prévention de l'interconnexion excessive. L'accélérateur financier, manifesté empiriquement par la procyclicité du levier, devrait faire l'objet d'une surveillance renforcée.
+
+\subsection{Perspectives d'approfondissement}
+
+Cette recherche ouvre plusieurs pistes prometteuses :
+\begin{itemize}
+\item Extension aux réseaux multicouches pour capturer la complexité des instruments modernes
+\item Intégration de l'hétérogénéité des institutions financières
+\item Développement de métriques de régulation basées sur la topologie du réseau
+\item Application des techniques d'intelligence artificielle pour l'exploration paramétrique
+\end{itemize}
+
+\subsection{Impact personnel et professionnel}
+
+Au-delà des résultats techniques, ce stage m'a sensibilisé aux enjeux sociétaux de la recherche en finance quantitative. Comprendre les mécanismes du risque systémique constitue un prérequis pour concevoir des systèmes financiers plus résilients, enjeu crucial dans un monde économique de plus en plus interconnecté.
+
+L'expérience de collaboration interdisciplinaire avec les équipes POLARIS et DANCE a été particulièrement enrichissante. Elle m'a appris l'importance du dialogue entre disciplines pour aborder des problèmes complexes nécessitant des expertises complémentaires.
+
+Cette recherche a également confirmé mon intérêt pour les applications pratiques des mathématiques et de l'informatique à des problèmes sociétaux concrets. Les perspectives ouvertes par cette étude, notamment l'extension aux réseaux multicouches et l'intégration de données réelles, constituent des pistes prometteuses pour de futurs travaux de recherche.
+
+\subsection{Remerciements}
+
+Je tiens à remercier chaleureusement mes tuteurs Nicolas Gast, Paolo Frasca et Federica Garin pour leur encadrement bienveillant et leurs conseils précieux. Leurs expertises complémentaires ont été essentielles pour naviguer dans la complexité de ce domaine interdisciplinaire.
+
+Je remercie également Christophe Dutang pour son suivi en tant que tuteur école, ainsi que l'ensemble des équipes POLARIS et DANCE de l'INRIA Grenoble pour leur accueil et les discussions enrichissantes tout au long de ce stage.
+
+Enfin, cette expérience confirme mon souhait de poursuivre dans la recherche, potentiellement dans le cadre d'une thèse doctorale explorant plus avant les questions soulevées par ce travail initial.
+
+\newpage
+
+\section{Références}
+
+Allen, F., \& Gale, D. (2000). Financial contagion. \textit{Journal of Political Economy}, 108(1), 1-33.
+
+Bargigli, L., di Iasio, G., Infante, L., Lillo, F., \& Pierobon, F. (2015). The multiplex structure of interbank networks. \textit{Quantitative Finance}, 15(4), 673-691.
+
+Battiston, S., Delli Gatti, D., Gallegati, M., Greenwald, B., \& Stiglitz, J.E. (2009). Liaisons Dangereuses: Increasing Connectivity, Risk Sharing, and Systemic Risk. \textit{NBER Working Paper} 15611.
+
+Battiston, S., Puliga, M., Kaushik, R., Tasca, P., \& Caldarelli, G. (2012). DebtRank: Too central to fail? Financial networks, the FED and systemic risk. \textit{Scientific Reports}, 2, 541.
+
+Bernanke, B., Gertler, M., \& Gilchrist, S. (1999). The financial accelerator in a quantitative business cycle framework. In \textit{Handbook of Macroeconomics} (Vol. 1, pp. 1341-1393). North-Holland.
+
+Boss, M., Elsinger, H., Summer, M., \& Thurner, S. (2004). Network topology of the interbank market. \textit{Quantitative Finance}, 4(6), 677-684.
+
+Diamond, D.W., \& Dybvig, P.H. (1983). Bank runs, deposit insurance, and liquidity. \textit{Journal of Political Economy}, 91(3), 401-419.
+
+Eisenberg, L., \& Noe, T.H. (2001). Systemic risk in financial systems. \textit{Management Science}, 47(2), 236-249.
+
+Gai, P., \& Kapadia, S. (2010). Contagion in financial networks. \textit{Proceedings of the Royal Society A}, 466(2120), 2401-2423.
+
+Glasserman, P., \& Young, H.P. (2014). How Likely is Contagion in Financial Networks? \textit{Journal of Banking \& Finance}, 50, 383-399.
+
+Glasserman, P., \& Young, H.P. (2016). Contagion in Financial Networks. \textit{Journal of Economic Literature}, 54(3), 779-831.
+
+Haldane, A.G. (2009). Rethinking the financial network. Speech at the Financial Student Association, Amsterdam.
+
+Haldane, A.G., \& May, R.M. (2011). Systemic risk in banking ecosystems. \textit{Nature}, 469(7330), 351-355.
+
+Jackson, M.O., \& Pernoud, A. (2021). Systemic Risk in Financial Networks: A Survey. \textit{Annual Review of Economics}, 13, 171-202.
+
+Nier, E., Yang, J., Yorulmazer, T., \& Alentorn, A. (2008). Network models and financial stability. \textit{Bank of England Working Paper} 346.
+
+Soramäki, K., Bech, M.L., Arnold, J., Glass, R.J., \& Beyeler, W.E. (2007). The topology of interbank payment flows. \textit{Physica A: Statistical Mechanics and its Applications}, 379(1), 317-333.
+
+Summer, M. (2013). Financial contagion and network analysis. \textit{Annual Review of Financial Economics}, 5(1), 277-297.
+
+\newpage
+
+\section*{Annexes}
+
+\subsection*{Annexe A : Architecture du simulateur}
+
+Le simulateur développé suit une architecture modulaire permettant l'extensibilité future :
+
+\begin{lstlisting}[language=Python, caption=Structure principale du simulateur]
+class InterBankNetwork:
+    """Classe de base pour les reseaux interbancaires"""
+    def __init__(self, n_banks, **params):
+        self.n_banks = n_banks
+        self.adjacency_matrix = None
+        self.exposure_matrix = None
+        self.external_assets = None
+        self.external_liabilities = None
+    
+    def apply_shock(self, shock_vector):
+        """Applique un choc exogene au reseau"""
+        pass
+    
+    def compute_equilibrium(self):
+        """Calcule le vecteur de paiement d'equilibre"""
+        pass
+
+class ErdosRenyiNetwork(InterBankNetwork):
+    """Implementation pour les reseaux d'Erdos-Renyi"""
+    def __init__(self, n_banks, p_connection, **params):
+        super().__init__(n_banks, **params)
+        self.p_connection = p_connection
+        self.generate_network()
+
+class Simulation:
+    """Controleur pour les simulations"""
+    def __init__(self, network):
+        self.network = network
+        self.results = []
+    
+    def run_monte_carlo(self, n_iterations, shock_range):
+        """Execute les simulations Monte Carlo"""
+        pass
+\end{lstlisting}
+
+\subsection*{Annexe B : Paramètres de simulation}
+
+Les simulations ont été menées avec les paramètres suivants :
+
+\begin{itemize}
+\item Nombre de banques : $n \in \{50, 100, 200\}$
+\item Probabilité de connexion : $p \in [0.1, 0.9]$ par pas de 0.1
+\item Distribution des expositions : $\Gamma(150, 1)$
+\item Nombre d'itérations Monte Carlo : 1000 par configuration
+\item Plage des chocs : $g \in [0, 1]$ par pas de 0.05
+\end{itemize}
+
+\subsection*{Annexe C : Métriques de validation}
+
+Pour valider la robustesse des résultats, plusieurs métriques ont été calculées :
+
+\begin{itemize}
+\item Proportion de défaut moyenne et écart-type
+\item Temps de convergence de l'algorithme d'Eisenberg-Noe
+\item Coefficient de corrélation entre densité et résilience
+\item Statistiques de robustesse (percentiles 5\%, 25\%, 75\%, 95\%)
+\end{itemize}
+
+\end{document}
+
+\
